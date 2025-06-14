@@ -40,29 +40,24 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
-  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<Quiz | null>(null);
   const [userInstructions, setUserInstructions] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  const [mixedAnswers, setMixedAnswers] = useState<string[] | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
   async function fetchOpenAi() {
-    // setIsLoading(true);
     setData(null);
     setQuizResults({ responses: [] });
     setGameState("loading");
 
     await sleep(1000); // Simulate loading delay
-    // setIsLoading(false);
     setData(sampleQuestionsData);
     setGameState("playing");
   }
 
   // temp disabled
-  async function fetchOpenAi() {
-    setIsLoading(true);
+  async function fetchOpenAiX() {
     setData(null);
     setQuizResults({ responses: [] });
     setGameState("loading");
@@ -120,8 +115,6 @@ function App() {
       console.error(error);
     }
 
-    setIsLoading(false);
-
     console.log("Response data :", data);
 
     if (!data) {
@@ -129,10 +122,6 @@ function App() {
       return;
     }
   }
-
-  /* useEffect(() => {
-    fetchOpenAi();
-  }, []); */
 
   useEffect(() => {
     if (data) {
@@ -146,30 +135,30 @@ function App() {
       <div className="flex min-h-screen w-full flex-col">
         <h1>Quizify</h1>
         {gameState === "setup" && (
-        <form className="flex flex-col gap-2">
-          <label htmlFor="user_instructions">
-            Enter your instructions for the quiz:
-          </label>
-          <textarea
-            name="user_instructions"
-            id="user_instructions"
-            className="w-full rounded p-2"
-            value={userInstructions}
-            onChange={(e) => setUserInstructions(e.target.value)}
-            placeholder="Write your instructions here..."
-            rows={8}
-          ></textarea>
-          <button
-            className="rounded bg-blue-500 p-2 text-white"
-            onClick={(event) => {
-              event.preventDefault();
+          <form className="flex flex-col gap-2">
+            <label htmlFor="user_instructions">
+              Enter your instructions for the quiz:
+            </label>
+            <textarea
+              name="user_instructions"
+              id="user_instructions"
+              className="w-full rounded p-2"
+              value={userInstructions}
+              onChange={(e) => setUserInstructions(e.target.value)}
+              placeholder="Write your instructions here..."
+              rows={8}
+            ></textarea>
+            <button
+              className="rounded bg-blue-500 p-2 text-white"
+              onClick={(event) => {
+                event.preventDefault();
 
-              fetchOpenAi();
-            }}
-          >
-            Fetch
-          </button>
-        </form>
+                fetchOpenAi();
+              }}
+            >
+              Fetch
+            </button>
+          </form>
         )}
 
         {gameState === "loading" && <p>Loading...</p>}
@@ -184,46 +173,45 @@ function App() {
                 currentQuestion.correct_answer,
                 currentQuestion.wrong_answers,
               ).map((answer, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => {
-                        setQuizResults((prevResults) => {
-                          return {
-                            responses: [
-                              ...(prevResults?.responses || []),
-                              {
-                                questionNumber: currentQuestion.question_number,
+                <li key={index}>
+                  <button
+                    onClick={() => {
+                      setQuizResults((prevResults) => {
+                        return {
+                          responses: [
+                            ...(prevResults?.responses || []),
+                            {
+                              questionNumber: currentQuestion.question_number,
                               question: currentQuestion.question,
-                                answer: answer,
-                                correctAnswer: currentQuestion.correct_answer,
-                                isCorrect:
-                                  answer === currentQuestion.correct_answer,
-                              },
-                            ],
-                          };
-                        });
+                              answer: answer,
+                              correctAnswer: currentQuestion.correct_answer,
+                              isCorrect:
+                                answer === currentQuestion.correct_answer,
+                            },
+                          ],
+                        };
+                      });
 
-                        setCurrentQuestionIndex((prevIndex) => {
-                          const nextIndex = prevIndex + 1;
-                          if (nextIndex < data!.questions.length) {
-                            return nextIndex;
-                          } else {
-                            // Reset to the first question if at the end
+                      setCurrentQuestionIndex((prevIndex) => {
+                        const nextIndex = prevIndex + 1;
+                        if (nextIndex < data!.questions.length) {
+                          return nextIndex;
+                        } else {
                           setGameState("finished");
-                            return 0;
-                          }
-                        });
-                      }}
-                    >
-                      {answer}
-                    </button>
-                  </li>
-                ))}
+                          return 0;
+                        }
+                      });
+                    }}
+                  >
+                    {answer}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         )}
         {gameState === "finished" && (
-        <pre>{JSON.stringify(quizResults, null, 2)}</pre>
+          <pre>{JSON.stringify(quizResults, null, 2)}</pre>
         )}
       </div>
     </>
