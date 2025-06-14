@@ -28,6 +28,16 @@ type QuizResults = {
   responses: UserAnswer[];
 };
 
+function getShuffledAnswers(
+  correctAnswer: string,
+  wrongAnswers: string[],
+): string[] {
+  const answers = [correctAnswer, ...wrongAnswers];
+  return answers.sort(() => Math.random() - 0.5);
+}
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [isLoading, setIsLoading] = useState(false);
@@ -128,15 +138,6 @@ function App() {
     if (data) {
       const currentQuestion = data.questions[currentQuestionIndex];
       setCurrentQuestion(currentQuestion);
-
-      const unmixedAnswers = [
-        currentQuestion.correct_answer,
-        ...currentQuestion.wrong_answers,
-      ];
-
-      // Shuffle the answers
-      const shuffledAnswers = unmixedAnswers.sort(() => Math.random() - 0.5);
-      setMixedAnswers(shuffledAnswers);
     }
   }, [data, currentQuestionIndex]);
 
@@ -179,8 +180,10 @@ function App() {
             </h2>
             <p>{currentQuestion.question}</p>
             <ul className="list-disc pl-5">
-              {mixedAnswers &&
-                mixedAnswers.map((answer, index) => (
+              {getShuffledAnswers(
+                currentQuestion.correct_answer,
+                currentQuestion.wrong_answers,
+              ).map((answer, index) => (
                   <li key={index}>
                     <button
                       onClick={() => {
