@@ -18,6 +18,7 @@ type Quiz = {
 
 type UserAnswer = {
   questionNumber: number;
+  question: string;
   answer: string;
   correctAnswer: string;
   isCorrect: boolean;
@@ -189,6 +190,7 @@ function App() {
                               ...(prevResults?.responses || []),
                               {
                                 questionNumber: currentQuestion.question_number,
+                              question: currentQuestion.question,
                                 answer: answer,
                                 correctAnswer: currentQuestion.correct_answer,
                                 isCorrect:
