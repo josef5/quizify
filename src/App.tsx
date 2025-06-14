@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import sampleQuestionsData from "../test/sample-questions.json";
 import "./App.css";
 
+type GameState = "setup" | "loading" | "playing" | "finished";
+
 type Question = {
   question_number: number;
   question: string;
@@ -26,6 +28,7 @@ type QuizResults = {
 };
 
 function App() {
+  const [gameState, setGameState] = useState<GameState>("setup");
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<Quiz | null>(null);
   const [userInstructions, setUserInstructions] = useState("");
@@ -34,14 +37,24 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
-  /* async function fetchOpenAiX() {
+  async function fetchOpenAi() {
+    // setIsLoading(true);
+    setData(null);
+    setQuizResults({ responses: [] });
+    setGameState("loading");
+
+    await sleep(1000); // Simulate loading delay
+    // setIsLoading(false);
     setData(sampleQuestionsData);
-  } */
+    setGameState("playing");
+  }
 
   // temp disabled
   async function fetchOpenAi() {
     setIsLoading(true);
     setData(null);
+    setQuizResults({ responses: [] });
+    setGameState("loading");
 
     try {
       const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
@@ -91,6 +104,7 @@ function App() {
       );
 
       setData(responseContent);
+      setGameState("playing");
     } catch (error) {
       console.error(error);
     }
@@ -129,6 +143,7 @@ function App() {
     <>
       <div className="flex min-h-screen w-full flex-col">
         <h1>Quizify</h1>
+        {gameState === "setup" && (
         <form className="flex flex-col gap-2">
           <label htmlFor="user_instructions">
             Enter your instructions for the quiz:
@@ -153,12 +168,10 @@ function App() {
             Fetch
           </button>
         </form>
+        )}
 
-        {isLoading && <p>Loading...</p>}
-        {!isLoading && !data && <p>Click the button to fetch data.</p>}
-        {!isLoading && data && <p>Data fetched successfully!</p>}
-        {/* <pre>{data}</pre> */}
-        {currentQuestion && (
+        {gameState === "loading" && <p>Loading...</p>}
+        {currentQuestion && gameState === "playing" && (
           <div className="mt-4">
             <h2 className="text-xl font-bold">
               Question {currentQuestion.question_number}:
@@ -191,6 +204,7 @@ function App() {
                             return nextIndex;
                           } else {
                             // Reset to the first question if at the end
+                          setGameState("finished");
                             return 0;
                           }
                         });
@@ -203,7 +217,9 @@ function App() {
             </ul>
           </div>
         )}
+        {gameState === "finished" && (
         <pre>{JSON.stringify(quizResults, null, 2)}</pre>
+        )}
       </div>
     </>
   );
