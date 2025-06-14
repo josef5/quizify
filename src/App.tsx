@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import "./App.css";
 import { OpenAI } from "openai";
+import { useEffect, useState } from "react";
 import sampleQuestionsData from "../test/sample-questions.json";
+import "./App.css";
 
 type Question = {
   question_number: number;
@@ -14,19 +14,32 @@ type Quiz = {
   questions: Question[];
 };
 
+type UserAnswer = {
+  questionNumber: number;
+  answer: string;
+  correctAnswer: string;
+  isCorrect: boolean;
+};
+
+type QuizResults = {
+  responses: UserAnswer[];
+};
+
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<Quiz | null>(null);
   const [userInstructions, setUserInstructions] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  // const [questions, setQuestions] = useState(null);
+  const [mixedAnswers, setMixedAnswers] = useState<string[] | null>(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
-  async function fetchOpenAi() {
+  /* async function fetchOpenAiX() {
     setData(sampleQuestionsData);
-  }
+  } */
 
   // temp disabled
-  async function fetchOpenAiX() {
+  async function fetchOpenAi() {
     setIsLoading(true);
     setData(null);
 
@@ -47,7 +60,7 @@ function App() {
           },
           {
             role: "system",
-            content: `The quiz should have 10 questions, each with 4 options. The questions should be diverse and cover different aspects of the presidents' lives and terms.`,
+            content: `The quiz should be a multiple choice quiz and have 10 questions, each with 1 correct answer and 3 wrong answers.`,
           },
           {
             role: "system",
@@ -68,21 +81,14 @@ function App() {
             }
             `,
           },
-          // {
-          //   role: "user",
-          //   content: `Return a JSON array of American Presidents from 1 - 10,  in this format:
-          //     {"name": "<name here>",
-          //     "year of term": "<year of term here>",
-          //     "party": "<party here>"
-          //     "description": "<One sentence about tenure here. For example, 'Led the country during the Great Depression and World War II.'>"
-          //     }`,
-          // },
         ],
         temperature: 0.7,
         model: "gpt-4o-mini",
       });
 
-      const responseContent = chatCompletion.choices[0].message.content;
+      const responseContent = JSON.parse(
+        chatCompletion.choices[0].message.content ?? "",
+      );
 
       setData(responseContent);
     } catch (error) {
@@ -105,9 +111,19 @@ function App() {
 
   useEffect(() => {
     if (data) {
-      setCurrentQuestion(data.questions[0]);
+      const currentQuestion = data.questions[currentQuestionIndex];
+      setCurrentQuestion(currentQuestion);
+
+      const unmixedAnswers = [
+        currentQuestion.correct_answer,
+        ...currentQuestion.wrong_answers,
+      ];
+
+      // Shuffle the answers
+      const shuffledAnswers = unmixedAnswers.sort(() => Math.random() - 0.5);
+      setMixedAnswers(shuffledAnswers);
     }
-  }, [data]);
+  }, [data, currentQuestionIndex]);
 
   return (
     <>
@@ -149,13 +165,45 @@ function App() {
             </h2>
             <p>{currentQuestion.question}</p>
             <ul className="list-disc pl-5">
-              {currentQuestion.wrong_answers.map((answer, index) => (
-                <li key={index}>{answer}</li>
-              ))}
-              <li className="font-bold">{currentQuestion.correct_answer}</li>
+              {mixedAnswers &&
+                mixedAnswers.map((answer, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => {
+                        setQuizResults((prevResults) => {
+                          return {
+                            responses: [
+                              ...(prevResults?.responses || []),
+                              {
+                                questionNumber: currentQuestion.question_number,
+                                answer: answer,
+                                correctAnswer: currentQuestion.correct_answer,
+                                isCorrect:
+                                  answer === currentQuestion.correct_answer,
+                              },
+                            ],
+                          };
+                        });
+
+                        setCurrentQuestionIndex((prevIndex) => {
+                          const nextIndex = prevIndex + 1;
+                          if (nextIndex < data!.questions.length) {
+                            return nextIndex;
+                          } else {
+                            // Reset to the first question if at the end
+                            return 0;
+                          }
+                        });
+                      }}
+                    >
+                      {answer}
+                    </button>
+                  </li>
+                ))}
             </ul>
           </div>
         )}
+        <pre>{JSON.stringify(quizResults, null, 2)}</pre>
       </div>
     </>
   );
