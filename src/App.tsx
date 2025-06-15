@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 import { useEffect, useState } from "react";
-import sampleQuestionsData from "../test/sample-questions.json";
+import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 
 type GameState = "setup" | "loading" | "playing" | "finished";
@@ -75,8 +75,8 @@ function App() {
     await sleep(1000); // Simulate loading delay
 
     setData({
-      ...sampleQuestionsData,
-      questions: sampleQuestionsData.questions.slice(0, questionCount),
+      ...sampleQuestions,
+      questions: sampleQuestions.questions.slice(0, questionCount),
     });
 
     transitionTo("playing");
