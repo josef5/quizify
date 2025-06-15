@@ -42,6 +42,7 @@ function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [data, setData] = useState<Quiz | null>(null);
   const [userInstructions, setUserInstructions] = useState("");
+  const [questionCount, setQuestionCount] = useState<5 | 10 | 15 | 20>(5);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
@@ -52,7 +53,12 @@ function App() {
     setGameState("loading");
 
     await sleep(1000); // Simulate loading delay
-    setData(sampleQuestionsData);
+
+    setData({
+      ...sampleQuestionsData,
+      questions: sampleQuestionsData.questions.slice(0, questionCount),
+    });
+
     setGameState("playing");
   }
 
@@ -79,7 +85,7 @@ function App() {
           },
           {
             role: "system",
-            content: `The quiz should be a multiple choice quiz and have 10 questions, each with 1 correct answer and 3 wrong answers.`,
+            content: `The quiz should be a multiple choice quiz and have ${questionCount} questions, each with 1 correct answer and 3 wrong answers.`,
           },
           {
             role: "system",
@@ -148,6 +154,20 @@ function App() {
               placeholder="Write your instructions here..."
               rows={8}
             ></textarea>
+            <label htmlFor="question-count">Select number of questions:</label>
+            <select
+              name="question_count"
+              id="question-count"
+              value={questionCount}
+              onChange={(e) =>
+                setQuestionCount(Number(e.target.value) as 5 | 10 | 15 | 20)
+              }
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
             <button
               className="rounded bg-blue-500 p-2 text-white"
               onClick={(event) => {
