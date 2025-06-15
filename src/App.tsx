@@ -140,7 +140,7 @@ function App() {
     <>
       <div className="flex min-h-screen w-full flex-col">
         <h1>Quizify</h1>
-        {gameState === "setup" && (
+        {(gameState === "setup" || gameState === "loading") && (
           <form className="flex flex-col gap-2">
             <label htmlFor="user_instructions">
               Enter your instructions for the quiz:
@@ -169,12 +169,15 @@ function App() {
               <option value="20">20</option>
             </select>
             <button
-              className="rounded bg-blue-500 p-2 text-white"
+              className="rounded bg-blue-500 p-2 text-white disabled:opacity-50"
               onClick={(event) => {
                 event.preventDefault();
 
                 fetchOpenAi();
               }}
+              disabled={
+                /* !userInstructions.trim() ||  */ gameState === "loading"
+              }
             >
               Fetch
             </button>
