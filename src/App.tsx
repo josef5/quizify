@@ -142,12 +142,12 @@ function App() {
         <h1>Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <form className="flex flex-col gap-2">
-            <label htmlFor="user_instructions">
+            <label htmlFor="user-instructions">
               Enter your instructions for the quiz:
             </label>
             <textarea
-              name="user_instructions"
-              id="user_instructions"
+              name="userInstructions"
+              id="user-instructions"
               className="w-full rounded p-2"
               value={userInstructions}
               onChange={(e) => setUserInstructions(e.target.value)}
@@ -156,7 +156,7 @@ function App() {
             ></textarea>
             <label htmlFor="question-count">Select number of questions:</label>
             <select
-              name="question_count"
+              name="questionCount"
               id="question-count"
               value={questionCount}
               onChange={(e) =>
