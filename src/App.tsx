@@ -231,7 +231,31 @@ function App() {
           </div>
         )}
         {gameState === "finished" && (
-          <pre>{JSON.stringify(quizResults, null, 2)}</pre>
+          <>
+            <p>{`Score: ${quizResults?.responses.filter((response) => response.isCorrect).length}/${quizResults?.responses.length}`}</p>
+            {quizResults &&
+              quizResults.responses.map((response) => (
+                <div key={response.questionNumber} className="mt-4">
+                  <p>{`${response.questionNumber}. ${response.question}`}</p>
+                  <p
+                    className={`${response.isCorrect ? "text-green-500" : "text-red-500"}`}
+                  >{`Your answer: ${response.answer}`}</p>
+                  {!response.isCorrect && (
+                    <p>{`Correct Answer: ${response.correctAnswer}`}</p>
+                  )}
+                </div>
+              ))}
+            <button
+              className="mt-4 rounded bg-blue-500 p-2 text-white"
+              onClick={() => {
+                setGameState("setup");
+                setCurrentQuestionIndex(0);
+                setQuizResults({ responses: [] });
+              }}
+            >
+              Start Over
+            </button>
+          </>
         )}
       </div>
     </>
