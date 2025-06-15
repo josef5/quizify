@@ -6,10 +6,10 @@ import "./App.css";
 type GameState = "setup" | "loading" | "playing" | "finished";
 
 type Question = {
-  question_number: number;
+  questionNumber: number;
   question: string;
-  correct_answer: string;
-  wrong_answers: string[];
+  correctAnswer: string;
+  wrongAnswers: string[];
 };
 
 type Quiz = {
@@ -111,10 +111,10 @@ function App() {
             {
               questions: [
                 {
-                  "question_number": "<question number here>",
+                  "questionNumber": "<question number here>",
                   "question": "<question here>",
-                  "correct_answer": "<correct answer here>",
-                  "wrong_answers": [
+                  "correctAnswer": "<correct answer here>",
+                  "wrongAnswers": [
                     "<wrong answer 1 here>",
                     "<wrong answer 2 here>",
                     "<wrong answer 3 here>"
@@ -210,13 +210,13 @@ function App() {
         {currentQuestion && gameState === "playing" && (
           <div className="mt-4">
             <h2 className="text-xl font-bold">
-              Question {currentQuestion.question_number}:
+              Question {currentQuestion.questionNumber}:
             </h2>
             <p>{currentQuestion.question}</p>
             <ul className="list-disc pl-5">
               {getShuffledAnswers(
-                currentQuestion.correct_answer,
-                currentQuestion.wrong_answers,
+                currentQuestion.correctAnswer,
+                currentQuestion.wrongAnswers,
               ).map((answer, index) => (
                 <li key={index}>
                   <button
@@ -226,12 +226,12 @@ function App() {
                           responses: [
                             ...(prevResults?.responses || []),
                             {
-                              questionNumber: currentQuestion.question_number,
+                              questionNumber: currentQuestion.questionNumber,
                               question: currentQuestion.question,
                               answer: answer,
-                              correctAnswer: currentQuestion.correct_answer,
+                              correctAnswer: currentQuestion.correctAnswer,
                               isCorrect:
-                                answer === currentQuestion.correct_answer,
+                                answer === currentQuestion.correctAnswer,
                             },
                           ],
                         };

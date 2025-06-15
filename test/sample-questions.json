@@ -1,64 +1,64 @@
 {
   "questions": [
     {
-      "question_number": 1,
+      "questionNumber": 1,
       "question": "Who was the first King of England?",
-      "correct_answer": "Egbert",
-      "wrong_answers": ["Alfred the Great", "William the Conqueror", "Henry II"]
+      "correctAnswer": "Egbert",
+      "wrongAnswers": ["Alfred the Great", "William the Conqueror", "Henry II"]
     },
     {
-      "question_number": 2,
+      "questionNumber": 2,
       "question": "Which king signed the Magna Carta in 1215?",
-      "correct_answer": "King John",
-      "wrong_answers": ["Henry III", "Richard the Lionheart", "Edward I"]
+      "correctAnswer": "King John",
+      "wrongAnswers": ["Henry III", "Richard the Lionheart", "Edward I"]
     },
     {
-      "question_number": 3,
+      "questionNumber": 3,
       "question": "Who was known as the 'Merry Monarch'?",
-      "correct_answer": "Charles II",
-      "wrong_answers": ["James I", "George IV", "Henry VIII"]
+      "correctAnswer": "Charles II",
+      "wrongAnswers": ["James I", "George IV", "Henry VIII"]
     },
     {
-      "question_number": 4,
+      "questionNumber": 4,
       "question": "Which king was executed during the English Civil War?",
-      "correct_answer": "Charles I",
-      "wrong_answers": ["James II", "Henry VI", "Richard III"]
+      "correctAnswer": "Charles I",
+      "wrongAnswers": ["James II", "Henry VI", "Richard III"]
     },
     {
-      "question_number": 5,
+      "questionNumber": 5,
       "question": "Which monarch was the last of the Tudor dynasty?",
-      "correct_answer": "Elizabeth I",
-      "wrong_answers": ["Mary I", "Henry VIII", "Edward VI"]
+      "correctAnswer": "Elizabeth I",
+      "wrongAnswers": ["Mary I", "Henry VIII", "Edward VI"]
     },
     {
-      "question_number": 6,
+      "questionNumber": 6,
       "question": "Who was the first monarch of the House of Windsor?",
-      "correct_answer": "George V",
-      "wrong_answers": ["Edward VII", "George VI", "Victoria"]
+      "correctAnswer": "George V",
+      "wrongAnswers": ["Edward VII", "George VI", "Victoria"]
     },
     {
-      "question_number": 7,
+      "questionNumber": 7,
       "question": "Which king was known for his six marriages?",
-      "correct_answer": "Henry VIII",
-      "wrong_answers": ["Edward IV", "George III", "James I"]
+      "correctAnswer": "Henry VIII",
+      "wrongAnswers": ["Edward IV", "George III", "James I"]
     },
     {
-      "question_number": 8,
+      "questionNumber": 8,
       "question": "Which king led the country during World War II?",
-      "correct_answer": "George VI",
-      "wrong_answers": ["Edward VIII", "William IV", "Henry VII"]
+      "correctAnswer": "George VI",
+      "wrongAnswers": ["Edward VIII", "William IV", "Henry VII"]
     },
     {
-      "question_number": 9,
+      "questionNumber": 9,
       "question": "Who was the king during the Great Plague of London in 1665?",
-      "correct_answer": "Charles II",
-      "wrong_answers": ["Charles I", "James II", "George II"]
+      "correctAnswer": "Charles II",
+      "wrongAnswers": ["Charles I", "James II", "George II"]
     },
     {
-      "question_number": 10,
+      "questionNumber": 10,
       "question": "Which king was known for his attempts to unify England and Scotland?",
-      "correct_answer": "James I",
-      "wrong_answers": ["Henry V", "Charles II", "Edmund I"]
+      "correctAnswer": "James I",
+      "wrongAnswers": ["Henry V", "Charles II", "Edmund I"]
     }
   ]
 }
