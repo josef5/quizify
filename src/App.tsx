@@ -47,10 +47,30 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
+  function transitionTo(nextState: GameState) {
+    switch (nextState) {
+      case "setup":
+        setUserInstructions("");
+        setCurrentQuestionIndex(0);
+        setQuizResults({ responses: [] });
+        break;
+      case "loading":
+        setData(null);
+        setQuizResults({ responses: [] });
+        break;
+      case "playing":
+        // Optionally reset question index or other state if needed
+        break;
+      case "finished":
+        // Any cleanup if needed
+        break;
+    }
+
+    setGameState(nextState);
+  }
+
   async function fetchOpenAi() {
-    setData(null);
-    setQuizResults({ responses: [] });
-    setGameState("loading");
+    transitionTo("loading");
 
     await sleep(1000); // Simulate loading delay
 
@@ -59,14 +79,12 @@ function App() {
       questions: sampleQuestionsData.questions.slice(0, questionCount),
     });
 
-    setGameState("playing");
+    transitionTo("playing");
   }
 
   // temp disabled
   async function fetchOpenAiX() {
-    setData(null);
-    setQuizResults({ responses: [] });
-    setGameState("loading");
+    transitionTo("loading");
 
     try {
       const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
@@ -116,7 +134,7 @@ function App() {
       );
 
       setData(responseContent);
-      setGameState("playing");
+      transitionTo("playing");
     } catch (error) {
       console.error(error);
     }
@@ -135,6 +153,10 @@ function App() {
       setCurrentQuestion(currentQuestion);
     }
   }, [data, currentQuestionIndex]);
+
+  useEffect(() => {
+    transitionTo("setup");
+  }, []);
 
   return (
     <>
@@ -220,7 +242,8 @@ function App() {
                         if (nextIndex < data!.questions.length) {
                           return nextIndex;
                         } else {
-                          setGameState("finished");
+                          transitionTo("finished");
+                          // setGameState("finished");
                           return 0;
                         }
                       });
@@ -251,12 +274,10 @@ function App() {
             <button
               className="mt-4 rounded bg-blue-500 p-2 text-white"
               onClick={() => {
-                setGameState("setup");
-                setCurrentQuestionIndex(0);
-                setQuizResults({ responses: [] });
+                transitionTo("setup");
               }}
             >
-              Start Over
+              Start Again
             </button>
           </>
         )}
