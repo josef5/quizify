@@ -206,7 +206,7 @@ function App() {
             <textarea
               name="userInstructions"
               id="user-instructions"
-              className="w-full rounded p-2"
+              className="w-full rounded-sm p-2"
               value={userInstructions}
               onChange={(e) => setUserInstructions(e.target.value)}
               placeholder="Write your instructions here..."
@@ -329,7 +329,7 @@ function App() {
             )}
 
             <button
-              className="mt-4 rounded bg-blue-500 p-2 text-white"
+              className="mt-4 rounded-sm bg-blue-500 p-2 text-white"
               onClick={() => {
                 transitionTo("setup");
               }}
