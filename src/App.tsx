@@ -42,8 +42,7 @@ function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [data, setData] = useState<Quiz | null>(null);
   const [userInstructions, setUserInstructions] = useState("");
-  const [questionCount, setQuestionCount] = useState<5 | 10 | 15 | 20>(5);
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [questionCount, setQuestionCount] = useState<1 | 5 | 10 | 15 | 20>(5);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
@@ -147,16 +146,32 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    if (data) {
-      const currentQuestion = data.questions[currentQuestionIndex];
-      setCurrentQuestion(currentQuestion);
+  function getCurrentQuestion(): Question | null {
+    if (!data || currentQuestionIndex >= data.questions.length) {
+      return null;
     }
-  }, [data, currentQuestionIndex]);
+    return data.questions[currentQuestionIndex];
+  }
+
+  function startNextTurn() {
+    const nextIndex = currentQuestionIndex + 1;
+
+    if (nextIndex < data!.questions.length) {
+      setCurrentQuestionIndex(nextIndex);
+    } else {
+      transitionTo("finished");
+    }
+  }
+
+  function getScore(responses: UserAnswer[]) {
+    return `${responses.filter((response) => response.isCorrect).length}/${responses.length}`;
+  }
 
   useEffect(() => {
     transitionTo("setup");
   }, []);
+
+  const currentQuestion = getCurrentQuestion();
 
   return (
     <>
@@ -237,16 +252,7 @@ function App() {
                         };
                       });
 
-                      setCurrentQuestionIndex((prevIndex) => {
-                        const nextIndex = prevIndex + 1;
-                        if (nextIndex < data!.questions.length) {
-                          return nextIndex;
-                        } else {
-                          transitionTo("finished");
-                          // setGameState("finished");
-                          return 0;
-                        }
-                      });
+                      startNextTurn();
                     }}
                   >
                     {answer}
@@ -258,9 +264,10 @@ function App() {
         )}
         {gameState === "finished" && (
           <>
-            <p>{`Score: ${quizResults?.responses.filter((response) => response.isCorrect).length}/${quizResults?.responses.length}`}</p>
-            {quizResults &&
-              quizResults.responses.map((response) => (
+            {quizResults && (
+              <>
+                <p>{`Score: ${getScore(quizResults.responses)}`}</p>
+                {quizResults.responses.map((response) => (
                 <div key={response.questionNumber} className="mt-4">
                   <p>{`${response.questionNumber}. ${response.question}`}</p>
                   <p
@@ -271,6 +278,9 @@ function App() {
                   )}
                 </div>
               ))}
+              </>
+            )}
+
             <button
               className="mt-4 rounded bg-blue-500 p-2 text-white"
               onClick={() => {
