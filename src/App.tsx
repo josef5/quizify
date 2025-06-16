@@ -45,6 +45,10 @@ function App() {
   const [questionCount, setQuestionCount] = useState<1 | 5 | 10 | 15 | 20>(5);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
+  const [promptStore, setPromptStore] = useState<string[]>(() => {
+    const storedPrompts = localStorage.getItem("quizify_prompts");
+    return storedPrompts ? JSON.parse(storedPrompts) : [];
+  });
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -68,10 +72,23 @@ function App() {
     setGameState(nextState);
   }
 
-  async function fetchOpenAi() {
+  function updatePromptStore(prompt: string) {
+    if (!promptStore.includes(prompt)) {
+      setPromptStore((prev) => [...prev, prompt]);
+
+      localStorage.setItem(
+        "quizify_prompts",
+        JSON.stringify([...promptStore, prompt]),
+      );
+    }
+  }
+
+  async function fetchQuizTemp() {
     transitionTo("loading");
 
-    await sleep(1000); // Simulate loading delay
+    await sleep(500); // Simulate loading delay
+
+    updatePromptStore(userInstructions);
 
     setData({
       ...sampleQuestions,
@@ -82,7 +99,7 @@ function App() {
   }
 
   // temp disabled
-  async function fetchOpenAiX() {
+  async function fetchQuiz() {
     transitionTo("loading");
 
     try {
@@ -133,6 +150,10 @@ function App() {
       );
 
       setData(responseContent);
+
+      // Check if the prompt store already contains the user instructions
+      updatePromptStore(userInstructions);
+
       transitionTo("playing");
     } catch (error) {
       console.error(error);
@@ -176,7 +197,7 @@ function App() {
   return (
     <>
       <div className="flex min-h-screen w-full flex-col">
-        <h1>Quizify</h1>
+        <h1 className="text-2xl font-bold">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <form className="flex flex-col gap-2">
             <label htmlFor="user-instructions">
@@ -210,18 +231,44 @@ function App() {
               onClick={(event) => {
                 event.preventDefault();
 
-                fetchOpenAi();
+                //*
+                fetchQuizTemp();
+                /*/
+                fetchQuiz();
+                //*/
               }}
               disabled={
-                /* !userInstructions.trim() ||  */ gameState === "loading"
+                /* !userInstructions.trim() ||  */ gameState !== "setup"
               }
             >
-              Fetch
+              Quizify
             </button>
+
+            {promptStore.length > 0 && (
+              <div className="mt-4">
+                <h2 className="text-lg font-bold">Previous Prompts:</h2>
+                <ul className="list-disc pl-5">
+                  {promptStore.map((prompt, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={(event) => {
+                          event.preventDefault();
+
+                          setUserInstructions(prompt);
+                        }}
+                      >
+                        {prompt}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </form>
         )}
 
         {gameState === "loading" && <p>Loading...</p>}
+
         {currentQuestion && gameState === "playing" && (
           <div className="mt-4">
             <h2 className="text-xl font-bold">
@@ -268,16 +315,16 @@ function App() {
               <>
                 <p>{`Score: ${getScore(quizResults.responses)}`}</p>
                 {quizResults.responses.map((response) => (
-                <div key={response.questionNumber} className="mt-4">
-                  <p>{`${response.questionNumber}. ${response.question}`}</p>
-                  <p
-                    className={`${response.isCorrect ? "text-green-500" : "text-red-500"}`}
-                  >{`Your answer: ${response.answer}`}</p>
-                  {!response.isCorrect && (
-                    <p>{`Correct Answer: ${response.correctAnswer}`}</p>
-                  )}
-                </div>
-              ))}
+                  <div key={response.questionNumber} className="mt-4">
+                    <p>{`${response.questionNumber}. ${response.question}`}</p>
+                    <p
+                      className={`${response.isCorrect ? "text-green-500" : "text-red-500"}`}
+                    >{`Your answer: ${response.answer}`}</p>
+                    {!response.isCorrect && (
+                      <p>{`Correct Answer: ${response.correctAnswer}`}</p>
+                    )}
+                  </div>
+                ))}
               </>
             )}
 
