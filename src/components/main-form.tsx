@@ -20,7 +20,13 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
+function MainForm({
+  onSubmit,
+  isLoading,
+}: {
+  onSubmit: (data: MainFormValues) => void;
+  isLoading?: boolean;
+}) {
   const form = useForm<MainFormValues>({
     resolver: zodResolver(mainFormSchema),
     // mode: "onChange",
@@ -34,7 +40,7 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
 
   const {
     control,
-    // formState: { isValid },
+    formState: { isValid },
   } = form;
 
   function handleSubmit(data: MainFormValues) {
@@ -178,7 +184,8 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
           </div>
           <Button
             type="submit"
-            /* disabled={!isValid} */ className="w-full cursor-pointer bg-blue-500 text-white hover:bg-blue-600"
+            disabled={!isValid || isLoading}
+            className="w-full cursor-pointer bg-blue-500 text-white hover:bg-blue-600"
           >
             Quizify
           </Button>
