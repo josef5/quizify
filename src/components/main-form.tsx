@@ -62,7 +62,7 @@ function MainForm({
             render={({ field: { ref, ...field } }) => {
               return (
                 <FormItem className="flex flex-col gap-1">
-                  <FormLabel className="flex text-xs">
+                  <FormLabel className="flex text-xs font-normal">
                     Quiz Subject
                     <FormMessage className="text-xs" />
                   </FormLabel>
@@ -174,7 +174,7 @@ function MainForm({
                         onChange={(event) =>
                           field.onChange(Number(event.target.value))
                         }
-                        className="dark:bg-input/50 dark:hover:bg-input/50 h-6 w-full rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
+                        className="dark:bg-input/60 dark:hover:bg-input/60 h-6 w-full rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
                       />
                     </FormControl>
                   </div>
