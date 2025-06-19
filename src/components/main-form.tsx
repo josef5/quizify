@@ -62,7 +62,7 @@ function MainForm({
             render={({ field: { ref, ...field } }) => {
               return (
                 <FormItem className="flex flex-col gap-1">
-                  <FormLabel className="flex text-xs font-normal">
+                  <FormLabel className="mb-2 flex text-xs font-normal">
                     Quiz Subject
                     <FormMessage className="text-xs" />
                   </FormLabel>
@@ -71,7 +71,7 @@ function MainForm({
                       {...field}
                       placeholder="e.g. Roman Emperors"
                       rows={10}
-                      className="border-none"
+                      className="h-36 border-none font-normal md:text-xl"
                     />
                   </FormControl>
                 </FormItem>
