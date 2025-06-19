@@ -174,7 +174,7 @@ function MainForm({
                         onChange={(event) =>
                           field.onChange(Number(event.target.value))
                         }
-                        className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
+                        className="dark:bg-input/50 dark:hover:bg-input/50 h-6 w-full rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
                       />
                     </FormControl>
                   </div>
