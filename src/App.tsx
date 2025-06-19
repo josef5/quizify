@@ -2,6 +2,8 @@ import { OpenAI } from "openai";
 import { useEffect, useState } from "react";
 import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
+import MainForm from "./components/main-form";
+import { MainFormValues } from "./lib/schemas/form-schema";
 
 type GameState = "setup" | "loading" | "playing" | "finished";
 
@@ -41,8 +43,6 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [data, setData] = useState<Quiz | null>(null);
-  const [userInstructions, setUserInstructions] = useState("");
-  const [questionCount, setQuestionCount] = useState<1 | 5 | 10 | 15 | 20>(5);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const [promptStore, setPromptStore] = useState<string[]>(() => {
@@ -53,7 +53,6 @@ function App() {
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
-        setUserInstructions("");
         setCurrentQuestionIndex(0);
         setQuizResults({ responses: [] });
         break;
@@ -83,12 +82,12 @@ function App() {
     }
   }
 
-  async function fetchQuizTemp() {
+  async function fetchQuizTemp({ questionCount }: MainFormValues) {
     transitionTo("loading");
 
     await sleep(500); // Simulate loading delay
 
-    updatePromptStore(userInstructions);
+    // updatePromptStore(prompt);
 
     setData({
       ...sampleQuestions,
@@ -99,7 +98,12 @@ function App() {
   }
 
   // temp disabled
-  async function fetchQuiz() {
+  async function fetchQuiz({
+    prompt,
+    questionCount,
+    model,
+    temperature,
+  }: MainFormValues) {
     transitionTo("loading");
 
     try {
@@ -115,7 +119,7 @@ function App() {
           },
           {
             role: "user",
-            content: userInstructions,
+            content: prompt,
           },
           {
             role: "system",
@@ -141,8 +145,8 @@ function App() {
             `,
           },
         ],
-        temperature: 0.7,
-        model: "gpt-4o-mini",
+        temperature,
+        model,
       });
 
       const responseContent = JSON.parse(
@@ -152,7 +156,7 @@ function App() {
       setData(responseContent);
 
       // Check if the prompt store already contains the user instructions
-      updatePromptStore(userInstructions);
+      updatePromptStore(prompt);
 
       transitionTo("playing");
     } catch (error) {
@@ -199,75 +203,17 @@ function App() {
       <div className="flex min-h-screen w-full flex-col">
         <h1 className="text-2xl font-bold">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
-          <form className="flex flex-col gap-2">
-            <label htmlFor="user-instructions">
-              Enter your instructions for the quiz:
-            </label>
-            <textarea
-              name="userInstructions"
-              id="user-instructions"
-              className="w-full rounded-sm p-2"
-              value={userInstructions}
-              onChange={(e) => setUserInstructions(e.target.value)}
-              placeholder="Write your instructions here..."
-              rows={8}
-            ></textarea>
-            <label htmlFor="question-count">Select number of questions:</label>
-            <select
-              name="questionCount"
-              id="question-count"
-              value={questionCount}
-              onChange={(e) =>
-                setQuestionCount(Number(e.target.value) as 5 | 10 | 15 | 20)
-              }
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </select>
-            <button
-              className="rounded bg-blue-500 p-2 text-white disabled:opacity-50"
-              onClick={(event) => {
-                event.preventDefault();
-
-                //*
-                fetchQuizTemp();
-                /*/
-                fetchQuiz();
-                //*/
-              }}
-              disabled={
-                /* !userInstructions.trim() ||  */ gameState !== "setup"
-              }
-            >
-              Quizify
-            </button>
-
-            {promptStore.length > 0 && (
-              <div className="mt-4">
-                <h2 className="text-lg font-bold">Previous Prompts:</h2>
-                <ul className="list-disc pl-5">
-                  {promptStore.map((prompt, index) => (
-                    <li key={index}>
-                      <button
-                        onClick={(event) => {
-                          event.preventDefault();
-
-                          setUserInstructions(prompt);
-                        }}
-                      >
-                        {prompt}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </form>
+          <MainForm
+            isLoading={gameState === "loading"}
+            onSubmit={(data: MainFormValues) => {
+              //*
+              fetchQuizTemp(data);
+              /*/
+              fetchQuiz(data);
+              //*/
+            }}
+          />
         )}
-
-        {gameState === "loading" && <p>Loading...</p>}
 
         {currentQuestion && gameState === "playing" && (
           <div className="mt-4">
