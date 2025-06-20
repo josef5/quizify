@@ -83,9 +83,7 @@ function MainForm({
           <FormField
             control={control}
             name="prompt"
-            // TODO: fix ref type error
-            // TODO: Upgrade to React 19
-            render={({ field: { ref, ...field } }) => {
+            render={({ field }) => {
               return (
                 <FormItem className="flex flex-col gap-1">
                   <FormLabel className="mb-2 flex text-xs font-normal">
@@ -181,7 +179,7 @@ function MainForm({
             <FormField
               control={control}
               name="temperature"
-              render={({ field: { ref, ...field }, formState: { errors } }) => (
+              render={({ field, formState: { errors } }) => (
                 <FormItem className="flex gap-1">
                   <FormLabel className="flex text-xs font-normal">
                     Temperature
