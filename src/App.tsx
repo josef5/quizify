@@ -5,6 +5,7 @@ import "./App.css";
 import MainForm from "./components/main-form";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import type { Question } from "./types";
+import QuizQuestions from "./components/quiz-questions";
 
 type GameState = "setup" | "loading" | "playing" | "finished";
 
@@ -23,14 +24,6 @@ type UserAnswer = {
 type QuizResults = {
   responses: UserAnswer[];
 };
-
-function getShuffledAnswers(
-  correctAnswer: string,
-  wrongAnswers: string[],
-): string[] {
-  const answers = [correctAnswer, ...wrongAnswers];
-  return answers.sort(() => Math.random() - 0.5);
-}
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -166,16 +159,39 @@ function App() {
     return `${responses.filter((response) => response.isCorrect).length}/${responses.length}`;
   }
 
+  const currentQuestion = getCurrentQuestion();
+
+  async function handleAnswer(answer: string) {
+    setQuizResults((prevResults) => {
+      if (!currentQuestion) {
+        return prevResults;
+      }
+
+      return {
+        responses: [
+          ...(prevResults?.responses || []),
+          {
+            questionNumber: currentQuestion.questionNumber,
+            question: currentQuestion.question,
+            answer: answer,
+            correctAnswer: currentQuestion.correctAnswer,
+            isCorrect: answer === currentQuestion.correctAnswer,
+          },
+        ],
+      };
+    });
+
+    startNextTurn();
+  }
+
   useEffect(() => {
     transitionTo("setup");
   }, []);
 
-  const currentQuestion = getCurrentQuestion();
-
   return (
     <>
       <div className="flex min-h-screen w-full flex-col">
-        <h1 className="my-12 text-[20px] font-normal">Quizify</h1>
+        <h1 className="my-12 text-xl font-normal">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <MainForm
             isLoading={gameState === "loading"}
@@ -190,44 +206,10 @@ function App() {
         )}
 
         {currentQuestion && gameState === "playing" && (
-          <div className="mt-4">
-            <h2 className="text-xl font-bold">
-              Question {currentQuestion.questionNumber}:
-            </h2>
-            <p>{currentQuestion.question}</p>
-            <ul className="list-disc pl-5">
-              {getShuffledAnswers(
-                currentQuestion.correctAnswer,
-                currentQuestion.wrongAnswers,
-              ).map((answer, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => {
-                      setQuizResults((prevResults) => {
-                        return {
-                          responses: [
-                            ...(prevResults?.responses || []),
-                            {
-                              questionNumber: currentQuestion.questionNumber,
-                              question: currentQuestion.question,
-                              answer: answer,
-                              correctAnswer: currentQuestion.correctAnswer,
-                              isCorrect:
-                                answer === currentQuestion.correctAnswer,
-                            },
-                          ],
-                        };
-                      });
-
-                      startNextTurn();
-                    }}
-                  >
-                    {answer}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <QuizQuestions
+            currentQuestion={currentQuestion}
+            onAnswer={handleAnswer}
+          />
         )}
         {gameState === "finished" && (
           <>

@@ -219,7 +219,7 @@ function MainForm({
           </Button>
 
           {promptStore.length > 0 && (
-            <div className="mt-8">
+            <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
                 Previous Quiz Subjects:
               </h2>
