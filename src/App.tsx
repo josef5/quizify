@@ -45,10 +45,6 @@ function App() {
   const [data, setData] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
-  const [promptStore, setPromptStore] = useState<string[]>(() => {
-    const storedPrompts = localStorage.getItem("quizify_prompts");
-    return storedPrompts ? JSON.parse(storedPrompts) : [];
-  });
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -71,23 +67,10 @@ function App() {
     setGameState(nextState);
   }
 
-  function updatePromptStore(prompt: string) {
-    if (!promptStore.includes(prompt)) {
-      setPromptStore((prev) => [...prev, prompt]);
-
-      localStorage.setItem(
-        "quizify_prompts",
-        JSON.stringify([...promptStore, prompt]),
-      );
-    }
-  }
-
   async function fetchQuizTemp({ questionCount }: MainFormValues) {
     transitionTo("loading");
 
     await sleep(500); // Simulate loading delay
-
-    // updatePromptStore(prompt);
 
     setData({
       ...sampleQuestions,
@@ -155,9 +138,6 @@ function App() {
 
       setData(responseContent);
 
-      // Check if the prompt store already contains the user instructions
-      updatePromptStore(prompt);
-
       transitionTo("playing");
     } catch (error) {
       console.error(error);
@@ -201,7 +181,7 @@ function App() {
   return (
     <>
       <div className="flex min-h-screen w-full flex-col">
-        <h1 className="text-2xl font-bold">Quizify</h1>
+        <h1 className="my-12 text-[20px] font-normal">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <MainForm
             isLoading={gameState === "loading"}

@@ -19,6 +19,8 @@ import {
 } from "./ui/select";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { useState } from "react";
+import { Badge } from "./ui/badge";
 import { CircleX, LoaderCircle } from "lucide-react";
 
 function MainForm({
@@ -42,15 +44,38 @@ function MainForm({
   const {
     control,
     formState: { isValid },
+    setValue,
   } = form;
-
-  function handleSubmit(data: MainFormValues) {
-    onSubmit(data);
-  }
 
   const models = mainFormSchema.shape.model._def.values;
   const questionCount = [5, 10, 15, 20].map((count) => count.toString());
+  const LOCAL_STORAGE_KEY = "quizifyPrompts"; // TODO: Move to better place
 
+  // Initialize promptStore from localStorage or empty array
+  // Use a function to avoid re-initialization on every render
+  const [promptStore, setPromptStore] = useState<string[]>(() => {
+    const storedPrompts = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return storedPrompts ? JSON.parse(storedPrompts) : [];
+  });
+
+  function updatePromptStore(prompt: string) {
+    if (!promptStore.includes(prompt)) {
+      setPromptStore((prev) => [...prev, prompt]);
+
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify([...promptStore, prompt]),
+      );
+    }
+  }
+
+  function handleSubmit(data: MainFormValues) {
+    updatePromptStore(data.prompt);
+
+    onSubmit(data);
+  }
+
+  // TODO: Consolidate colours
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -194,6 +219,53 @@ function MainForm({
               {isLoading && <LoaderCircle size={16} className="animate-spin" />}
             </div>
           </Button>
+
+          {promptStore.length > 0 && (
+            <div className="mt-8">
+              <h2 className="mb-2 text-xs font-normal">
+                Previous Quiz Subjects:
+              </h2>
+              <ul className="pl-0">
+                {promptStore.map((prompt, index) => (
+                  <li key={index} className="list-none">
+                    <Badge
+                      variant="secondary"
+                      className="bg-input dark:bg-input mb-1 cursor-pointer rounded-[3px] px-1 text-white"
+                      onClick={(event) => {
+                        event.preventDefault();
+
+                        setValue("prompt", prompt, { shouldValidate: true });
+                      }}
+                    >
+                      {prompt}
+                      <div
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+
+                          setPromptStore((prev) =>
+                            prev.filter((p) => p !== prompt),
+                          );
+
+                          localStorage.setItem(
+                            LOCAL_STORAGE_KEY,
+                            JSON.stringify(
+                              promptStore.filter((p) => p !== prompt),
+                            ),
+                          );
+                        }}
+                      >
+                        <CircleX
+                          size={12}
+                          className="text-gray-400 hover:text-gray-200"
+                        />
+                      </div>
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </form>
       </Form>
     </FormProvider>
