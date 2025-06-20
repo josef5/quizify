@@ -4,15 +4,9 @@ import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 import MainForm from "./components/main-form";
 import { MainFormValues } from "./lib/schemas/form-schema";
+import type { Question } from "./types";
 
 type GameState = "setup" | "loading" | "playing" | "finished";
-
-type Question = {
-  questionNumber: number;
-  question: string;
-  correctAnswer: string;
-  wrongAnswers: string[];
-};
 
 type Quiz = {
   questions: Question[];
