@@ -19,6 +19,7 @@ import {
 } from "./ui/select";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { CircleX, LoaderCircle } from "lucide-react";
 
 function MainForm({
   onSubmit,
@@ -187,12 +188,14 @@ function MainForm({
             disabled={!isValid || isLoading}
             className="w-full cursor-pointer bg-blue-500 text-white hover:bg-blue-600"
           >
+            <div className="w-4"></div>
             Quizify
+            <div className="ml-1 w-4">
+              {isLoading && <LoaderCircle size={16} className="animate-spin" />}
+            </div>
           </Button>
         </form>
       </Form>
-      {/* TODO: add spinner */}
-      {isLoading && <p>Loading...</p>}
     </FormProvider>
   );
 }
