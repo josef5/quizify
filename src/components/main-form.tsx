@@ -209,7 +209,7 @@ function MainForm({
           <Button
             type="submit"
             disabled={!isValid || isLoading}
-            className="w-full cursor-pointer bg-blue-500 text-white hover:bg-blue-600"
+            className="h-12 w-full cursor-pointer rounded-sm bg-blue-500 text-white hover:bg-blue-600"
           >
             <div className="w-4"></div>
             Quizify

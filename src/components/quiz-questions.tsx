@@ -95,7 +95,7 @@ function QuizQuestions({
             <li key={answer}>
               <Button
                 variant={"secondary"}
-                className={`bg-input hover:bg-input my-1 cursor-pointer rounded-sm text-white ${selectedClass}`}
+                className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 ${selectedClass}`}
                 onClick={async () => {
                   setSelectedAnswer(answer);
 
