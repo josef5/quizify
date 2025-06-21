@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 import MainForm from "./components/main-form";
+import QuizQuestions from "./components/quiz-questions";
+import Results from "./components/results";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import type { Question } from "./types";
 import QuizQuestions from "./components/quiz-questions";
@@ -155,10 +157,6 @@ function App() {
     }
   }
 
-  function getScore(responses: UserAnswer[]) {
-    return `${responses.filter((response) => response.isCorrect).length}/${responses.length}`;
-  }
-
   const currentQuestion = getCurrentQuestion();
 
   async function handleAnswer(answer: string) {
@@ -182,6 +180,10 @@ function App() {
     });
 
     startNextTurn();
+  }
+
+  function handleRestart() {
+    transitionTo("setup");
   }
 
   useEffect(() => {
@@ -211,34 +213,11 @@ function App() {
             onAnswer={handleAnswer}
           />
         )}
-        {gameState === "finished" && (
-          <>
-            {quizResults && (
-              <>
-                <p>{`Score: ${getScore(quizResults.responses)}`}</p>
-                {quizResults.responses.map((response) => (
-                  <div key={response.questionNumber} className="mt-4">
-                    <p>{`${response.questionNumber}. ${response.question}`}</p>
-                    <p
-                      className={`${response.isCorrect ? "text-green-500" : "text-red-500"}`}
-                    >{`Your answer: ${response.answer}`}</p>
-                    {!response.isCorrect && (
-                      <p>{`Correct Answer: ${response.correctAnswer}`}</p>
-                    )}
-                  </div>
-                ))}
-              </>
-            )}
-
-            <button
-              className="mt-4 rounded-sm bg-blue-500 p-2 text-white"
-              onClick={() => {
-                transitionTo("setup");
-              }}
-            >
-              Start Again
-            </button>
-          </>
+        {gameState === "finished" && quizResults && (
+          <Results
+            responses={quizResults.responses}
+            onRestart={handleRestart}
+          />
         )}
       </div>
     </>
