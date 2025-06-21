@@ -6,28 +6,8 @@ import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import { MainFormValues } from "./lib/schemas/form-schema";
-import type { Question } from "./types";
-import QuizQuestions from "./components/quiz-questions";
-
-type GameState = "setup" | "loading" | "playing" | "finished";
-
-type Quiz = {
-  questions: Question[];
-};
-
-type UserAnswer = {
-  questionNumber: number;
-  question: string;
-  answer: string;
-  correctAnswer: string;
-  isCorrect: boolean;
-};
-
-type QuizResults = {
-  responses: UserAnswer[];
-};
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { sleep } from "./lib/utils";
+import type { GameState, Question, Quiz, QuizResults } from "./types";
 
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
@@ -165,15 +145,17 @@ function App() {
         return prevResults;
       }
 
+      const { questionNumber, question, correctAnswer } = currentQuestion;
+
       return {
         responses: [
           ...(prevResults?.responses || []),
           {
-            questionNumber: currentQuestion.questionNumber,
-            question: currentQuestion.question,
-            answer: answer,
-            correctAnswer: currentQuestion.correctAnswer,
-            isCorrect: answer === currentQuestion.correctAnswer,
+            questionNumber,
+            question,
+            answer,
+            correctAnswer,
+            isCorrect: answer === correctAnswer,
           },
         ],
       };
