@@ -15,7 +15,7 @@ function QuizQuestions({
   currentQuestion?: Question | null;
   onAnswer: (answer: string) => void;
 }) {
-  const component = useRef<HTMLElement>();
+  const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -52,7 +52,29 @@ function QuizQuestions({
     },
     {
       dependencies: [currentQuestion?.question],
-      scope: component.current,
+      scope: containerRef,
+    },
+  );
+
+  // Animate the container in when the question changes
+  useGSAP(
+    () => {
+      setSelectedAnswer(null);
+
+      if (!containerRef.current) return;
+
+      gsap.timeline().to(
+        containerRef.current,
+        {
+          opacity: 1,
+          duration: 0.25,
+        },
+        0.25,
+      );
+    },
+    {
+      dependencies: [currentQuestion],
+      scope: containerRef,
     },
   );
 
@@ -78,7 +100,7 @@ function QuizQuestions({
   }
 
   return (
-    <div>
+    <div ref={containerRef}>
       {/* TODO: Add progress bar */}
       <p className="mb-2 flex text-xs font-normal">
         Question {currentQuestion.questionNumber}
@@ -99,16 +121,24 @@ function QuizQuestions({
             <li key={answer}>
               <Button
                 variant={"secondary"}
-                className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 ${selectedClass}`}
+                className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 disabled:opacity-100 ${selectedClass}`}
+                disabled={selectedAnswer !== null}
                 onClick={async () => {
                   setSelectedAnswer(answer);
 
                   // TODO: Set as constant
                   await sleep(1000); // Wait for the animation to finish
 
-                  if (onAnswer) {
-                    onAnswer(answer);
-                  }
+                  // Animate the container out
+                  gsap.timeline().to(containerRef.current, {
+                    opacity: 0,
+                    duration: 0.25,
+                    onComplete: () => {
+                      if (onAnswer) {
+                        onAnswer(answer);
+                      }
+                    },
+                  });
                 }}
               >
                 {answer}
