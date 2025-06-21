@@ -31,11 +31,15 @@ function QuizQuestions({
       // Animate the question text then the answers
       gsap
         .timeline()
-        .from(split.chars, {
-          duration: 0.05,
-          opacity: 0,
-          stagger: 0.025,
-        })
+        .from(
+          split.chars,
+          {
+            duration: 0.05,
+            opacity: 0,
+            stagger: 0.025,
+          },
+          "+=0.5",
+        )
         .from(
           gsap.utils.selector(answersRef.current)("li"),
           {
