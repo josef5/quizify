@@ -52,7 +52,7 @@ const Results = ({
         type="submit"
         variant={"secondary"}
         onClick={onRestart}
-        className="bg-input hover:bg-input my-1 h-12 w-full cursor-pointer rounded-sm text-white"
+        className="bg-input hover:bg-input mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm text-white"
       >
         Start Again
       </Button>
