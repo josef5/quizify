@@ -173,36 +173,32 @@ function App() {
   }, []);
 
   return (
-    <>
-      <div className="flex min-h-screen w-full flex-col">
-        <h1 className="my-12 text-xl font-normal">Quizify</h1>
-        {(gameState === "setup" || gameState === "loading") && (
-          <MainForm
-            isLoading={gameState === "loading"}
-            onSubmit={(data: MainFormValues) => {
-              //*
-              fetchQuizTemp(data);
-              /*/
-              fetchQuiz(data);
-              //*/
-            }}
-          />
-        )}
+    <div className="flex min-h-screen w-full flex-col">
+      <h1 className="my-12 text-xl font-normal">Quizify</h1>
+      {(gameState === "setup" || gameState === "loading") && (
+        <MainForm
+          isLoading={gameState === "loading"}
+          onSubmit={(data: MainFormValues) => {
+            //*
+            fetchQuizTemp(data);
+            /*/
+            fetchQuiz(data);
+            //*/
+          }}
+        />
+      )}
 
-        {currentQuestion && gameState === "playing" && (
-          <QuizQuestions
-            currentQuestion={currentQuestion}
-            onAnswer={handleAnswer}
-          />
-        )}
-        {gameState === "finished" && quizResults && (
-          <Results
-            responses={quizResults.responses}
-            onRestart={handleRestart}
-          />
-        )}
-      </div>
-    </>
+      {currentQuestion && gameState === "playing" && (
+        <QuizQuestions
+          currentQuestion={currentQuestion}
+          questionCount={data?.questions.length ?? 0}
+          onAnswer={handleAnswer}
+        />
+      )}
+      {gameState === "finished" && quizResults && (
+        <Results responses={quizResults.responses} onRestart={handleRestart} />
+      )}
+    </div>
   );
 }
 

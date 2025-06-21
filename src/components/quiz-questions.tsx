@@ -5,20 +5,26 @@ import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import { sleep } from "@/lib/utils";
+import { Progress } from "./ui/progress";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
 function QuizQuestions({
   currentQuestion,
+  questionCount,
   onAnswer,
 }: {
   currentQuestion?: Question | null;
+  questionCount: number;
   onAnswer: (answer: string) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [progressCount, setProgressCount] = useState(
+    (currentQuestion?.questionNumber ?? 0) - 1,
+  );
 
   useGSAP(
     () => {
@@ -100,54 +106,60 @@ function QuizQuestions({
   }
 
   return (
-    <div ref={containerRef}>
-      {/* TODO: Add progress bar */}
-      <p className="mb-2 flex text-xs font-normal">
-        Question {currentQuestion.questionNumber}
-      </p>
-      <h2 className="my-2 text-xl" ref={questionRef}>
-        {currentQuestion.question}
-      </h2>
-      <ul className="list-none pl-0" ref={answersRef}>
-        {shuffledAnswers.map((answer) => {
-          const isSelected = selectedAnswer === answer;
-          const isCorrect = answer === currentQuestion.correctAnswer;
-          const answerClass = isCorrect
-            ? "ring-2 ring-green-500"
-            : "ring-2 ring-red-500";
-          const selectedClass = isSelected ? answerClass : "";
+    <>
+      <Progress
+        value={Math.round((progressCount / questionCount) * 100)}
+        className="1 mb-8 h-0.5 w-full"
+      />
+      <div ref={containerRef}>
+        <p className="mb-2 flex text-xs font-normal">
+          Question {currentQuestion.questionNumber}
+        </p>
+        <h2 className="my-2 text-xl" ref={questionRef}>
+          {currentQuestion.question}
+        </h2>
+        <ul className="list-none pl-0" ref={answersRef}>
+          {shuffledAnswers.map((answer) => {
+            const isSelected = selectedAnswer === answer;
+            const isCorrect = answer === currentQuestion.correctAnswer;
+            const answerClass = isCorrect
+              ? "ring-2 ring-green-500"
+              : "ring-2 ring-red-500";
+            const selectedClass = isSelected ? answerClass : "";
 
-          return (
-            <li key={answer}>
-              <Button
-                variant={"secondary"}
-                className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 disabled:opacity-100 ${selectedClass}`}
-                disabled={selectedAnswer !== null}
-                onClick={async () => {
-                  setSelectedAnswer(answer);
+            return (
+              <li key={answer}>
+                <Button
+                  variant={"secondary"}
+                  className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 disabled:opacity-100 ${selectedClass}`}
+                  disabled={selectedAnswer !== null}
+                  onClick={async () => {
+                    setSelectedAnswer(answer);
+                    setProgressCount((prev) => prev + 1);
 
-                  // TODO: Set as constant
-                  await sleep(1000); // Wait for the animation to finish
+                    // TODO: Set as constant
+                    await sleep(1000); // Wait for the animation to finish
 
-                  // Animate the container out
-                  gsap.timeline().to(containerRef.current, {
-                    opacity: 0,
-                    duration: 0.25,
-                    onComplete: () => {
-                      if (onAnswer) {
-                        onAnswer(answer);
-                      }
-                    },
-                  });
-                }}
-              >
-                {answer}
-              </Button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+                    // Animate the container out
+                    gsap.timeline().to(containerRef.current, {
+                      opacity: 0,
+                      duration: 0.25,
+                      onComplete: () => {
+                        if (onAnswer) {
+                          onAnswer(answer);
+                        }
+                      },
+                    });
+                  }}
+                >
+                  {answer}
+                </Button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </>
   );
 }
 
