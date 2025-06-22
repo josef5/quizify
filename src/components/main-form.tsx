@@ -95,7 +95,7 @@ function MainForm({
                       {...field}
                       placeholder="e.g. Roman Emperors"
                       rows={10}
-                      className="h-36 border-none font-normal md:text-xl"
+                      className="h-36 border-none p-4 font-normal md:text-xl"
                     />
                   </FormControl>
                 </FormItem>
