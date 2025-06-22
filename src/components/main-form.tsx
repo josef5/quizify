@@ -209,7 +209,7 @@ function MainForm({
           <Button
             type="submit"
             disabled={!isValid || isLoading}
-            className="h-12 w-full cursor-pointer rounded-sm bg-blue-500 font-bold text-white hover:bg-blue-600"
+            className="my-4 h-12 w-full cursor-pointer rounded-sm bg-blue-500 font-bold text-white hover:bg-blue-600"
           >
             <div className="w-4">{/* Balance other side */}</div>
             Quizify
