@@ -223,12 +223,12 @@ function MainForm({
               <h2 className="mb-2 text-xs font-normal">
                 Previous Quiz Subjects:
               </h2>
-              <ul className="pl-0">
+              <ul className="flex flex-wrap gap-2 pl-0">
                 {promptStore.map((prompt, index) => (
                   <li key={index} className="list-none">
                     <Badge
                       variant="secondary"
-                      className="bg-input dark:bg-input mb-1 cursor-pointer rounded-[3px] px-1 text-white"
+                      className="bg-input dark:bg-input cursor-pointer rounded-[3px] px-1 text-white"
                       onClick={(event) => {
                         event.preventDefault();
 
