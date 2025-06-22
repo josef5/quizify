@@ -25,5 +25,5 @@ export type UserAnswer = {
 };
 
 export type QuizResults = {
-  responses: UserAnswer[];
+  userAnswers: UserAnswer[];
 };

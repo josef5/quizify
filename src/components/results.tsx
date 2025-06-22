@@ -5,24 +5,24 @@ import type { QuizResults, UserAnswer } from "../types";
 import { Button } from "./ui/button";
 
 const Results = ({
-  responses,
+  userAnswers,
   onRestart,
 }: QuizResults & { onRestart: () => void }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  function getScore(responses: UserAnswer[]) {
-    const correctCount = responses.filter(
+  function getScore(userAnswers: UserAnswer[]) {
+    const correctCount = userAnswers.filter(
       (response) => response.isCorrect,
     ).length;
 
     return {
-      questionsCount: responses.length,
+      questionsCount: userAnswers.length,
       correctCount,
-      text: `${correctCount}/${responses.length}`,
+      text: `${correctCount}/${userAnswers.length}`,
     };
   }
 
-  const score = getScore(responses);
+  const score = getScore(userAnswers);
 
   useGSAP(
     () => {
@@ -51,7 +51,7 @@ const Results = ({
         {score.questionsCount}
       </h2>
       <ol className="mb-18 list-none">
-        {responses.map(
+        {userAnswers.map(
           ({ questionNumber, question, answer, correctAnswer, isCorrect }) => (
             <li key={questionNumber} className="mt-4 text-base font-normal">
               <p className="font-bold">

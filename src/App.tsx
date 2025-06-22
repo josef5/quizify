@@ -19,11 +19,11 @@ function App() {
     switch (nextState) {
       case "setup":
         setCurrentQuestionIndex(0);
-        setQuizResults({ responses: [] });
+        setQuizResults({ userAnswers: [] });
         break;
       case "loading":
         setData(null);
-        setQuizResults({ responses: [] });
+        setQuizResults({ userAnswers: [] });
         break;
       case "playing":
         // Optionally reset question index or other state if needed
@@ -148,8 +148,8 @@ function App() {
       const { questionNumber, question, correctAnswer } = currentQuestion;
 
       return {
-        responses: [
-          ...(prevResults?.responses || []),
+        userAnswers: [
+          ...(prevResults?.userAnswers || []),
           {
             questionNumber,
             question,
@@ -196,7 +196,10 @@ function App() {
         />
       )}
       {gameState === "finished" && quizResults && (
-        <Results responses={quizResults.responses} onRestart={handleRestart} />
+        <Results
+          userAnswers={quizResults.userAnswers}
+          onRestart={handleRestart}
+        />
       )}
     </div>
   );
