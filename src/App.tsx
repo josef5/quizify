@@ -174,7 +174,7 @@ function App() {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <h1 className="my-12 text-xl font-normal">Quizify</h1>
+      <h1 className="my-12 text-xl font-black">Quizify</h1>
       {(gameState === "setup" || gameState === "loading") && (
         <MainForm
           isLoading={gameState === "loading"}

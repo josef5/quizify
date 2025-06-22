@@ -22,26 +22,27 @@ const Results = ({
   return (
     <div className="flex flex-col">
       <h2 className="mb-4 self-end text-base">
-        <span className="text-7xl">{score.correctCount}</span>/
+        <span className="text-7xl font-black">{score.correctCount}</span>/
         {score.questionsCount}
       </h2>
-      <ol className="mb-18 list-decimal">
+      <ol className="mb-18 list-none">
         {responses.map(
           ({ questionNumber, question, answer, correctAnswer, isCorrect }) => (
-            <li key={questionNumber} className="mt-4">
-              <p>{question}</p>
-              <p className="text-sm font-light">
+            <li key={questionNumber} className="mt-4 text-base font-normal">
+              <p className="font-bold">
+                {questionNumber}. {question}
+              </p>
+              <p className="">
                 Your answer:{" "}
                 <span
-                  className={`text-base font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}
+                  className={`font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}
                 >
                   {answer}
                 </span>
               </p>
               {!isCorrect && (
-                <p className="text-sm font-light">
-                  Correct Answer:{" "}
-                  <span className="text-base font-bold">{correctAnswer}</span>
+                <p className="">
+                  Correct Answer: <span className="">{correctAnswer}</span>
                 </p>
               )}
             </li>

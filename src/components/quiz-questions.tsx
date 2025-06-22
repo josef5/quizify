@@ -115,7 +115,7 @@ function QuizQuestions({
         <p className="mb-2 flex text-xs font-normal">
           Question {currentQuestion.questionNumber}
         </p>
-        <h2 className="my-2 text-xl" ref={questionRef}>
+        <h2 className="my-2 mb-8 text-xl font-bold" ref={questionRef}>
           {currentQuestion.question}
         </h2>
         <ul className="list-none pl-0" ref={answersRef}>
