@@ -1,3 +1,6 @@
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { useRef } from "react";
 import type { QuizResults, UserAnswer } from "../types";
 import { Button } from "./ui/button";
 
@@ -5,6 +8,8 @@ const Results = ({
   responses,
   onRestart,
 }: QuizResults & { onRestart: () => void }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   function getScore(responses: UserAnswer[]) {
     const correctCount = responses.filter(
       (response) => response.isCorrect,
@@ -19,8 +24,28 @@ const Results = ({
 
   const score = getScore(responses);
 
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      gsap.timeline().from(
+        containerRef.current,
+        {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        0.75,
+      );
+    },
+    {
+      dependencies: [],
+      scope: containerRef,
+    },
+  );
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" ref={containerRef}>
       <h2 className="mb-4 self-end text-base">
         <span className="text-7xl font-black">{score.correctCount}</span>/
         {score.questionsCount}
