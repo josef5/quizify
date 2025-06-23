@@ -1,4 +1,5 @@
 import { OpenAI } from "openai";
+import { zodTextFormat } from "openai/helpers/zod";
 import { useEffect, useState } from "react";
 import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
@@ -6,6 +7,7 @@ import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import { MainFormValues } from "./lib/schemas/form-schema";
+import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
@@ -62,61 +64,25 @@ function App() {
       const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
       const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
 
-      const chatCompletion = await openai.chat.completions.create({
-        response_format: { type: "json_object" },
-        messages: [
-          {
-            role: "system",
-            content: `You are a expert in multiple choice quiz writing.`,
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-          {
-            role: "system",
-            content: `The quiz should be a multiple choice quiz and have ${questionCount} questions, each with 1 correct answer and 3 wrong answers.`,
-          },
-          {
-            role: "system",
-            content: `Return the quiz in JSON format in this format:
-            {
-              questions: [
-                {
-                  "questionNumber": "<question number here>",
-                  "question": "<question here>",
-                  "correctAnswer": "<correct answer here>",
-                  "wrongAnswers": [
-                    "<wrong answer 1 here>",
-                    "<wrong answer 2 here>",
-                    "<wrong answer 3 here>"
-                  ]
-                }
-              ]
-            }
-            `,
-          },
-        ],
-        temperature,
+      const response = await openai.responses.parse({
         model,
+        temperature,
+        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. Return the quiz in json format`,
+        input: prompt,
+        text: {
+          format: zodTextFormat(ResponseDataSchema, "event"),
+        },
       });
 
-      const responseContent = JSON.parse(
-        chatCompletion.choices[0].message.content ?? "",
-      );
+      if (!response.output_parsed) {
+        throw new Error("No quiz data returned from OpenAI API");
+      }
 
-      setData(responseContent);
+      setQuizData(response.output_parsed as Quiz);
 
       transitionTo("playing");
     } catch (error) {
       console.error(error);
-    }
-
-    console.log("Response data :", data);
-
-    if (!data) {
-      console.error("API response is empty");
-      return;
     }
   }
 
