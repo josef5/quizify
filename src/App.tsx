@@ -13,7 +13,7 @@ import type { GameState, Question, Quiz, QuizResults } from "./types";
 
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
-  const [data, setData] = useState<Quiz | null>(null);
+  const [quizData, setQuizData] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
 
@@ -24,7 +24,7 @@ function App() {
         setQuizResults({ userAnswers: [] });
         break;
       case "loading":
-        setData(null);
+        setQuizData(null);
         setQuizResults({ userAnswers: [] });
         break;
       case "playing":
@@ -43,7 +43,7 @@ function App() {
 
     await sleep(500); // Simulate loading delay
 
-    setData({
+    setQuizData({
       ...sampleQuestions,
       questions: sampleQuestions.questions.slice(0, questionCount),
     });
@@ -87,16 +87,17 @@ function App() {
   }
 
   function getCurrentQuestion(): Question | null {
-    if (!data || currentQuestionIndex >= data.questions.length) {
+    if (!quizData || currentQuestionIndex >= quizData.questions.length) {
       return null;
     }
-    return data.questions[currentQuestionIndex];
+
+    return quizData.questions[currentQuestionIndex];
   }
 
   function startNextTurn() {
     const nextIndex = currentQuestionIndex + 1;
 
-    if (nextIndex < data!.questions.length) {
+    if (nextIndex < (quizData?.questions.length ?? 0)) {
       setCurrentQuestionIndex(nextIndex);
     } else {
       transitionTo("finished");
@@ -157,7 +158,7 @@ function App() {
       {currentQuestion && gameState === "playing" && (
         <QuizQuestions
           currentQuestion={currentQuestion}
-          questionCount={data?.questions.length ?? 0}
+          questionCount={quizData?.questions.length ?? 0}
           onAnswer={handleAnswer}
         />
       )}
