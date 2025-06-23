@@ -1,4 +1,4 @@
-import { type MainFormValues, mainFormSchema } from "@/lib/schemas/form-schema";
+import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import {
@@ -31,7 +31,7 @@ function MainForm({
   isLoading?: boolean;
 }) {
   const form = useForm<MainFormValues>({
-    resolver: zodResolver(mainFormSchema),
+    resolver: zodResolver(MainFormSchema),
     defaultValues: {
       prompt: "",
       questionCount: 5,
@@ -46,7 +46,7 @@ function MainForm({
     setValue,
   } = form;
 
-  const models = mainFormSchema.shape.model._def.values;
+  const models = MainFormSchema.shape.model._def.values;
   const questionCount = [5, 10, 15, 20].map((count) => count.toString());
   const LOCAL_STORAGE_KEY = "quizifyPrompts"; // TODO: Move to better place
 

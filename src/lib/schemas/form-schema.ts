@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const mainFormSchema = z.object({
+export const MainFormSchema = z.object({
   prompt: z.string().min(1, "Prompt is required"),
   questionCount: z.union([
     z.literal(5),
@@ -15,4 +15,4 @@ export const mainFormSchema = z.object({
     .max(2, { message: "Enter a value between 0 and 2.0" }),
 });
 
-export type MainFormValues = z.infer<typeof mainFormSchema>;
+export type MainFormValues = z.infer<typeof MainFormSchema>;
