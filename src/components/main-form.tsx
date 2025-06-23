@@ -32,7 +32,6 @@ function MainForm({
 }) {
   const form = useForm<MainFormValues>({
     resolver: zodResolver(mainFormSchema),
-    // mode: "onChange",
     defaultValues: {
       prompt: "",
       questionCount: 5,
@@ -93,7 +92,7 @@ function MainForm({
                   <FormControl>
                     <Textarea
                       {...field}
-                      placeholder="e.g. Roman Emperors"
+                      placeholder="e.g. Capital cities"
                       rows={10}
                       className="h-36 border-none p-4 font-normal md:text-xl"
                     />
@@ -117,7 +116,6 @@ function MainForm({
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(Number(value))}
-                        // Convert number to string for the Select component
                         value={field.value.toString()}
                         defaultValue={field.value.toString()}
                       >
@@ -153,7 +151,6 @@ function MainForm({
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(Number(value))}
-                        // Convert number to string for the Select component
                         value={field.value.toString()}
                         defaultValue={field.value.toString()}
                       >
@@ -211,7 +208,9 @@ function MainForm({
             disabled={!isValid || isLoading}
             className="my-4 h-12 w-full cursor-pointer rounded-sm bg-blue-500 font-bold text-white hover:bg-blue-600"
           >
-            <div className="w-4">{/* Balance other side */}</div>
+            <div className="w-4">
+              {/* Balance spinner on other side of label */}
+            </div>
             Quizify
             <div className="ml-1 w-4">
               {isLoading && <LoaderCircle size={16} className="animate-spin" />}
