@@ -47,6 +47,7 @@ const Results = ({
   return (
     <div className="flex flex-col" ref={containerRef}>
       <h2 className="mb-4 self-end text-base">
+        {/* TODO: Enhance the score */}
         <span className="text-7xl font-black">{score.correctCount}</span>/
         {score.questionsCount}
       </h2>

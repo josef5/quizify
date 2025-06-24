@@ -11,6 +11,9 @@ import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
+// TODO: Mobile layout
+// TODO: Accessibility
+// TODO: Lightmode
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
