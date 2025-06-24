@@ -1,10 +1,10 @@
+import { sleep } from "@/lib/utils";
 import type { Question } from "@/types";
-import { Button } from "./ui/button";
-import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
-import { sleep } from "@/lib/utils";
+import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 
 gsap.registerPlugin(useGSAP, SplitText);
