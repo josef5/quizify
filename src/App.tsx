@@ -151,9 +151,9 @@ function App() {
   return (
     <>
       <div
-        className={`overflow-hidden bg-neutral-600 ${isSettingsOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-2px_15px_5px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
+        className={`overflow-hidden bg-neutral-600 ${isSettingsOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
       >
-        <div className="flex items-center gap-2 pt-2 shadow-[0_-1px_0_0_rgba(0,0,0,0.25)]">
+        <div className="flex items-center gap-2 pt-2">
           <FormItem className="flex flex-1 items-center gap-2">
             <Label className="flex-shrink-0 text-xs">OpenAI API Key</Label>
             <Input
