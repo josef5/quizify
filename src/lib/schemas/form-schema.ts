@@ -16,3 +16,9 @@ export const MainFormSchema = z.object({
 });
 
 export type MainFormValues = z.infer<typeof MainFormSchema>;
+
+export const SettingsFormSchema = z.object({
+  apiKey: z.string().min(1, "OpenAI API Key is required"),
+});
+
+export type SettingsFormValues = z.infer<typeof SettingsFormSchema>;
