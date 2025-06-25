@@ -1,3 +1,4 @@
+import { Settings2 as SettingsIcon } from "lucide-react";
 import { OpenAI } from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { useEffect, useState } from "react";
@@ -6,15 +7,12 @@ import "./App.css";
 import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
+import Settings from "./components/settings";
+import { Button } from "./components/ui/button";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
-import { Moon, Settings2, Sun, SunMedium, X } from "lucide-react";
-import { Button } from "./components/ui/button";
-import { Label } from "@radix-ui/react-label";
-import { Input } from "./components/ui/input";
-import { FormField, FormItem } from "./components/ui/form";
 
 // TODO: Mobile layout
 // TODO: Accessibility
@@ -152,64 +150,7 @@ function App() {
 
   return (
     <>
-      <div
-        className={`overflow-hidden bg-neutral-600 ${isSettingsOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
-      >
-        <div className="flex items-center gap-2 pt-2">
-          <FormItem className="flex flex-1 items-center gap-2">
-            <Label className="flex-shrink-0 text-xs">OpenAI API Key</Label>
-            <Input
-              type="text"
-              placeholder="abc123..."
-              // {...field}
-              // onChange={(event) => field.onChange(Number(event.target.value))}
-              className="dark:bg-input/60 dark:hover:bg-input/60 h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
-            />
-          </FormItem>
-          <Button
-            variant="secondary"
-            size={"sm"}
-            className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
-            onClick={() => {
-              setIsSettingsOpen(false);
-            }}
-          >
-            Use now
-          </Button>
-          <Button
-            variant="secondary"
-            size={"sm"}
-            className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
-            onClick={() => {
-              setIsSettingsOpen(false);
-            }}
-          >
-            Save
-          </Button>
-          <Button
-            variant="ghost"
-            size={"sm"}
-            className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
-            onClick={() => {
-              setIsSettingsOpen(false);
-            }}
-          >
-            <Sun />
-            {/* <Moon /> */}
-          </Button>
-          <Button
-            variant="ghost"
-            size={"sm"}
-            className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-white"
-            onClick={() => {
-              setIsSettingsOpen(false);
-            }}
-          >
-            <X />
-          </Button>
-        </div>
-      </div>
-      {/* <div className="h-0 bg-red-600 shadow-[0_0px_5px_10px_black]"></div> */}
+      <Settings isOpen={isSettingsOpen} />
       <div className="relative mx-auto flex w-full max-w-[560px] flex-col">
         <Button
           variant={"ghost"}
@@ -218,7 +159,7 @@ function App() {
             setIsSettingsOpen((prev) => !prev);
           }}
         >
-          <Settings2 size={20} />
+          <SettingsIcon size={20} />
         </Button>
         <h1 className="my-12 text-xl font-black">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (

@@ -23,6 +23,8 @@ import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { CircleX, LoaderCircle } from "lucide-react";
 
+// TODO: Error handling
+
 function MainForm({
   onSubmit,
   isLoading,

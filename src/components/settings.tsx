@@ -1,0 +1,128 @@
+import { Moon, Sun, SunMedium, X } from "lucide-react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { useEffect, useState } from "react";
+import {
+  SettingsFormValues,
+  SettingsFormSchema,
+} from "@/lib/schemas/form-schema";
+
+function Settings({ isOpen = false }: { isOpen?: boolean }) {
+  const form = useForm<SettingsFormValues>({
+    resolver: zodResolver(SettingsFormSchema),
+    defaultValues: {
+      apiKey: "",
+    },
+  });
+
+  const {
+    control,
+    formState: { isValid },
+  } = form;
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(isOpen);
+
+  function handleSubmit(data: SettingsFormValues) {}
+
+  useEffect(() => {
+    setIsSettingsOpen(isOpen);
+  }, [isOpen]);
+
+  return (
+    <div
+      className={`overflow-hidden bg-neutral-600 ${isSettingsOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
+    >
+      <div className="flex items-center gap-2 pt-2">
+        <FormProvider {...form}>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="flex flex-1 items-center gap-2"
+            >
+              <FormField
+                control={control}
+                name="apiKey"
+                render={({ field }) => {
+                  return (
+                    <FormItem className="flex flex-1 items-center gap-2">
+                      <FormLabel className="flex-shrink-0 text-xs">
+                        OpenAI API Key
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="abc123..."
+                          {...field}
+                          onChange={(event) =>
+                            field.onChange(event.target.value)
+                          }
+                          className="dark:bg-input/60 dark:hover:bg-input/60 h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  );
+                }}
+              />
+              <Button
+                variant="secondary"
+                size={"sm"}
+                className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
+                onClick={() => {
+                  setIsSettingsOpen(false);
+                }}
+                disabled={!isValid}
+              >
+                Use now
+              </Button>
+              <Button
+                variant="secondary"
+                size={"sm"}
+                className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
+                onClick={() => {
+                  setIsSettingsOpen(false);
+                }}
+                type="submit"
+                disabled={!isValid}
+              >
+                Save
+              </Button>
+              <Button
+                variant="ghost"
+                size={"sm"}
+                className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
+                onClick={() => {
+                  setIsSettingsOpen(false);
+                }}
+              >
+                <Sun />
+                {/* <Moon /> */}
+              </Button>
+              <Button
+                variant="ghost"
+                size={"sm"}
+                className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-white"
+                onClick={() => {
+                  setIsSettingsOpen(false);
+                }}
+              >
+                <X />
+              </Button>
+            </form>
+          </Form>
+        </FormProvider>
+      </div>
+    </div>
+  );
+}
+
+export default Settings;
