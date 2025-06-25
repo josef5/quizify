@@ -10,7 +10,7 @@ import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
-import { Settings2 } from "lucide-react";
+import { Moon, Settings2, Sun, SunMedium, X } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "./components/ui/input";
@@ -19,6 +19,8 @@ import { FormField, FormItem } from "./components/ui/form";
 // TODO: Mobile layout
 // TODO: Accessibility
 // TODO: Lightmode
+// TODO: Set difficulty, replace temperature
+// TODO: Testing
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
@@ -172,7 +174,38 @@ function App() {
               setIsSettingsOpen(false);
             }}
           >
+            Use now
+          </Button>
+          <Button
+            variant="secondary"
+            size={"sm"}
+            className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
+            onClick={() => {
+              setIsSettingsOpen(false);
+            }}
+          >
             Save
+          </Button>
+          <Button
+            variant="ghost"
+            size={"sm"}
+            className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
+            onClick={() => {
+              setIsSettingsOpen(false);
+            }}
+          >
+            <Sun />
+            {/* <Moon /> */}
+          </Button>
+          <Button
+            variant="ghost"
+            size={"sm"}
+            className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-white"
+            onClick={() => {
+              setIsSettingsOpen(false);
+            }}
+          >
+            <X />
           </Button>
         </div>
       </div>
@@ -195,8 +228,8 @@ function App() {
               //*
               fetchQuizTemp(data);
               /*/
-            fetchQuiz(data);
-            //*/
+              fetchQuiz(data);
+              //*/
             }}
           />
         )}
