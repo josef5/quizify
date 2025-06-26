@@ -11,17 +11,22 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useEffect, useState } from "react";
 import {
   SettingsFormValues,
   SettingsFormSchema,
 } from "@/lib/schemas/form-schema";
+import { useStore } from "../store/useStore";
 
-function Settings({ isOpen = false }: { isOpen?: boolean }) {
+function Settings() {
+  const apiKey = useStore((state) => state.apiKey);
+  const setApiKey = useStore((state) => state.setApiKey);
+  const isOpen = useStore((state) => state.isSettingsOpen);
+  const setIsOpen = useStore((state) => state.setIsSettingsOpen);
+
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
     defaultValues: {
-      apiKey: "",
+      apiKey,
     },
   });
 
@@ -30,17 +35,14 @@ function Settings({ isOpen = false }: { isOpen?: boolean }) {
     formState: { isValid },
   } = form;
 
-  const [isSettingsOpen, setIsSettingsOpen] = useState(isOpen);
-
-  function handleSubmit(data: SettingsFormValues) {}
-
-  useEffect(() => {
-    setIsSettingsOpen(isOpen);
-  }, [isOpen]);
+  function handleSubmit(data: SettingsFormValues) {
+    setApiKey(data.apiKey);
+    setIsOpen(false);
+  }
 
   return (
     <div
-      className={`overflow-hidden bg-neutral-600 ${isSettingsOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
+      className={`overflow-hidden bg-neutral-600 ${isOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
     >
       <div className="flex items-center gap-2 pt-2">
         <FormProvider {...form}>
@@ -78,7 +80,7 @@ function Settings({ isOpen = false }: { isOpen?: boolean }) {
                 size={"sm"}
                 className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
                 onClick={() => {
-                  setIsSettingsOpen(false);
+                  setIsOpen(false);
                 }}
                 disabled={!isValid}
               >
@@ -89,7 +91,7 @@ function Settings({ isOpen = false }: { isOpen?: boolean }) {
                 size={"sm"}
                 className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
                 onClick={() => {
-                  setIsSettingsOpen(false);
+                  setIsOpen(false);
                 }}
                 type="submit"
                 disabled={!isValid}
@@ -101,7 +103,7 @@ function Settings({ isOpen = false }: { isOpen?: boolean }) {
                 size={"sm"}
                 className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
                 onClick={() => {
-                  setIsSettingsOpen(false);
+                  setIsOpen(false);
                 }}
               >
                 <Sun />
@@ -112,7 +114,7 @@ function Settings({ isOpen = false }: { isOpen?: boolean }) {
                 size={"sm"}
                 className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-white"
                 onClick={() => {
-                  setIsSettingsOpen(false);
+                  setIsOpen(false);
                 }}
               >
                 <X />

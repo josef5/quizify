@@ -13,6 +13,7 @@ import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
+import { useStore } from "./store/useStore";
 
 // TODO: Mobile layout
 // TODO: Accessibility
@@ -24,7 +25,8 @@ function App() {
   const [quizData, setQuizData] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
+  const apiKey = useStore((state) => state.apiKey);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -150,13 +152,13 @@ function App() {
 
   return (
     <>
-      <Settings isOpen={isSettingsOpen} />
+      <Settings />
       <div className="relative mx-auto flex w-full max-w-[560px] flex-col">
         <Button
           variant={"ghost"}
           className="absolute top-5 right-0 cursor-pointer text-neutral-500 has-[>svg]:p-0"
           onClick={() => {
-            setIsSettingsOpen((prev) => !prev);
+            toggleIsSettingsOpen();
           }}
         >
           <SettingsIcon size={20} />
