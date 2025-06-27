@@ -16,17 +16,19 @@ import {
   SettingsFormSchema,
 } from "@/lib/schemas/form-schema";
 import { useStore } from "../store/useStore";
+import { useEffect } from "react";
+import { decrypt } from "@/lib/encryption";
 
 function Settings() {
-  const apiKey = useStore((state) => state.apiKey);
-  const setApiKey = useStore((state) => state.setApiKey);
+  const encryptedApiKey = useStore((state) => state.encryptedApiKey);
+  const encryptAndSetApiKey = useStore((state) => state.encryptAndSetApiKey);
   const isOpen = useStore((state) => state.isSettingsOpen);
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
     defaultValues: {
-      apiKey,
+      apiKey: "",
     },
   });
 
@@ -35,10 +37,20 @@ function Settings() {
     formState: { isValid },
   } = form;
 
-  function handleSubmit(data: SettingsFormValues) {
-    setApiKey(data.apiKey);
+  function handleSubmit({ apiKey }: SettingsFormValues) {
+    encryptAndSetApiKey(apiKey);
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    // Decrypt the API key asynchronously when the component mounts
+    decrypt(encryptedApiKey).then((apiKey) => {
+      if (!apiKey) return;
+
+      // Reset the form with the decrypted API key
+      form.reset({ apiKey });
+    });
+  }, [form, encryptedApiKey]);
 
   return (
     <div
