@@ -1,3 +1,4 @@
+import { encrypt } from "@/lib/encryption";
 import { create } from "zustand";
 
 interface Store {
@@ -7,8 +8,8 @@ interface Store {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   setDarkMode: (value: boolean) => void;
-  apiKey: string;
-  setApiKey: (key: string) => void;
+  encryptedApiKey: string;
+  encryptAndSetApiKey: (key: string) => Promise<void>;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -21,9 +22,11 @@ export const useStore = create<Store>((set) => ({
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
   setDarkMode: (value: boolean) => set({ isDarkMode: value }),
 
-  apiKey: localStorage.getItem("apiKey") ?? "",
-  setApiKey: (key: string) => {
-    set({ apiKey: key });
-    localStorage.setItem("apiKey", key);
+  encryptedApiKey: localStorage.getItem("apiKey") ?? "",
+  encryptAndSetApiKey: async (key: string) => {
+    const encryptedApiKey = await encrypt(key);
+
+    localStorage.setItem("apiKey", encryptedApiKey);
+    set({ encryptedApiKey });
   },
 }));
