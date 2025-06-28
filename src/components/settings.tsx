@@ -24,6 +24,8 @@ function Settings() {
   const encryptAndSetApiKey = useStore((state) => state.encryptAndSetApiKey);
   const isOpen = useStore((state) => state.isSettingsOpen);
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
+  const isDarkMode = useStore((state) => state.isDarkMode);
+  const toggleDarkMode = useStore((state) => state.toggleDarkMode);
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
@@ -65,6 +67,15 @@ function Settings() {
       form.reset({ apiKey });
     });
   }, [form, encryptedApiKey]);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
 
   return (
     <div
