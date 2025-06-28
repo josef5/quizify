@@ -37,9 +37,22 @@ function Settings() {
     formState: { isValid },
   } = form;
 
-  function handleSubmit({ apiKey }: SettingsFormValues) {
+  function handleSubmit(
+    { apiKey }: SettingsFormValues,
+    event?: React.BaseSyntheticEvent,
+  ) {
+    const submitter = (event?.nativeEvent as SubmitEvent).submitter;
+    const action = submitter?.getAttribute("data-action");
+
+    if (action === "use-but-dont-save-api-key") {
+      // If the action is to use the API key without saving, just encrypt and set it
     encryptAndSetApiKey(apiKey);
     setIsOpen(false);
+    } else if (action === "save-api-key") {
+      // If the action is to save the API key, encrypt and save it
+      encryptAndSaveApiKey(apiKey);
+      setIsOpen(false);
+    }
   }
 
   useEffect(() => {
@@ -91,10 +104,9 @@ function Settings() {
                 variant="secondary"
                 size={"sm"}
                 className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
-                onClick={() => {
-                  setIsOpen(false);
-                }}
-                disabled={!isValid}
+                  disabled={!isValid || !isDirty}
+                  data-action="use-but-dont-save-api-key"
+                  type="submit"
               >
                 Use now
               </Button>
@@ -102,11 +114,9 @@ function Settings() {
                 variant="secondary"
                 size={"sm"}
                 className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
-                onClick={() => {
-                  setIsOpen(false);
-                }}
                 type="submit"
-                disabled={!isValid}
+                  disabled={!isValid || !isDirty}
+                  data-action="save-api-key"
               >
                 Save
               </Button>
