@@ -9,6 +9,7 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import { Button } from "./components/ui/button";
+import { decrypt } from "./lib/encryption";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
@@ -26,7 +27,7 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
-  const apiKey = useStore((state) => state.apiKey);
+  const encryptedApiKey = useStore((state) => state.encryptedApiKey);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -72,8 +73,12 @@ function App() {
     transitionTo("loading");
 
     try {
-      const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
-      const openai = new OpenAI({ apiKey, dangerouslyAllowBrowser: true });
+      const decryptedApiKey = await decrypt(encryptedApiKey);
+      // const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
+      const openai = new OpenAI({
+        apiKey: decryptedApiKey,
+        dangerouslyAllowBrowser: true,
+      });
 
       const response = await openai.responses.parse({
         model,
