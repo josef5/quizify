@@ -10,6 +10,7 @@ interface Store {
   setDarkMode: (value: boolean) => void;
   encryptedApiKey: string;
   encryptAndSetApiKey: (key: string) => Promise<void>;
+  encryptAndSaveApiKey: (key: string) => Promise<void>;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -24,6 +25,10 @@ export const useStore = create<Store>((set) => ({
 
   encryptedApiKey: localStorage.getItem("apiKey") ?? "",
   encryptAndSetApiKey: async (key: string) => {
+    const encryptedApiKey = await encrypt(key);
+    set({ encryptedApiKey });
+  },
+  encryptAndSaveApiKey: async (key: string) => {
     const encryptedApiKey = await encrypt(key);
 
     localStorage.setItem("apiKey", encryptedApiKey);
