@@ -81,7 +81,7 @@ const Results = ({
         onClick={onRestart}
         className="bg-input hover:bg-input mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm text-white"
       >
-        Start Again
+        Finish
       </Button>
     </div>
   );
