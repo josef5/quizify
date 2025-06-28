@@ -139,20 +139,15 @@ function Settings() {
                 variant="ghost"
                 size={"sm"}
                 className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
-                onClick={() => {
-                  setIsOpen(false);
-                }}
+                onClick={() => toggleDarkMode()}
               >
-                <Sun />
-                {/* <Moon /> */}
+                {isDarkMode ? <Sun /> : <Moon />}
               </Button>
               <Button
                 variant="ghost"
                 size={"sm"}
-                className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-white"
-                onClick={() => {
-                  setIsOpen(false);
-                }}
+                className="hover:bg-input h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300"
+                onClick={() => setIsOpen(false)}
               >
                 <X />
               </Button>
