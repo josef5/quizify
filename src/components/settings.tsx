@@ -1,27 +1,21 @@
-import { Moon, Sun, SunMedium, X } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { FormProvider, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
-import {
-  SettingsFormValues,
-  SettingsFormSchema,
-} from "@/lib/schemas/form-schema";
-import { useStore } from "../store/useStore";
-import { useEffect } from "react";
 import { decrypt } from "@/lib/encryption";
+import {
+  SettingsFormSchema,
+  SettingsFormValues,
+} from "@/lib/schemas/form-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Moon, Sun, X } from "lucide-react";
+import { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useStore } from "../store/useStore";
+import { Button } from "./ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import { Input } from "./ui/input";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
   const encryptAndSetApiKey = useStore((state) => state.encryptAndSetApiKey);
+  const encryptAndSaveApiKey = useStore((state) => state.encryptAndSaveApiKey);
   const isOpen = useStore((state) => state.isSettingsOpen);
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
@@ -49,8 +43,8 @@ function Settings() {
 
     if (action === "use-but-dont-save-api-key") {
       // If the action is to use the API key without saving, just encrypt and set it
-    encryptAndSetApiKey(apiKey);
-    setIsOpen(false);
+      encryptAndSetApiKey(apiKey);
+      setIsOpen(false);
     } else if (action === "save-api-key") {
       // If the action is to save the API key, encrypt and save it
       encryptAndSaveApiKey(apiKey);
@@ -59,7 +53,7 @@ function Settings() {
   }
 
   useEffect(() => {
-    // Decrypt the API key asynchronously when the component mounts
+    // Decrypt the API key asynchronously when store value updates
     decrypt(encryptedApiKey).then((apiKey) => {
       if (!apiKey) return;
 
@@ -88,54 +82,54 @@ function Settings() {
         <FormProvider {...form}>
           <Form {...form}>
             <div className="flex flex-1 items-center gap-2">
-            <form
-              onSubmit={form.handleSubmit(handleSubmit)}
-              className="flex flex-1 items-center gap-2"
-            >
-              <FormField
-                control={control}
-                name="apiKey"
-                render={({ field }) => {
-                  return (
-                    <FormItem className="flex flex-1 items-center gap-2">
-                      <FormLabel className="flex-shrink-0 text-xs">
-                        OpenAI API Key
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="abc123..."
-                          {...field}
-                          onChange={(event) =>
-                            field.onChange(event.target.value)
-                          }
-                          className="dark:bg-input/60 dark:hover:bg-input/60 h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  );
-                }}
-              />
-              <Button
-                variant="secondary"
-                size={"sm"}
-                className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="flex flex-1 items-center gap-2"
+              >
+                <FormField
+                  control={control}
+                  name="apiKey"
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="flex flex-1 items-center gap-2">
+                        <FormLabel className="flex-shrink-0 text-xs">
+                          OpenAI API Key
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="abc123..."
+                            {...field}
+                            onChange={(event) =>
+                              field.onChange(event.target.value)
+                            }
+                            className="dark:bg-input/60 dark:hover:bg-input/60 h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    );
+                  }}
+                />
+                <Button
+                  variant="secondary"
+                  size={"sm"}
+                  className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
                   disabled={!isValid || !isDirty}
                   data-action="use-but-dont-save-api-key"
                   type="submit"
-              >
-                Use now
-              </Button>
-              <Button
-                variant="secondary"
-                size={"sm"}
-                className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
-                type="submit"
+                >
+                  Use now
+                </Button>
+                <Button
+                  variant="secondary"
+                  size={"sm"}
+                  className="bg-input hover:bg-input h-6 cursor-pointer rounded-sm text-xs text-white"
+                  type="submit"
                   disabled={!isValid || !isDirty}
                   data-action="save-api-key"
-              >
-                Save
-              </Button>
+                >
+                  Save
+                </Button>
               </form>
               <Button
                 variant="ghost"
