@@ -27,6 +27,7 @@ function Settings() {
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
+    mode: "onChange",
     defaultValues: {
       apiKey: "",
     },
@@ -34,7 +35,7 @@ function Settings() {
 
   const {
     control,
-    formState: { isValid },
+    formState: { isValid, isDirty },
   } = form;
 
   function handleSubmit(
