@@ -87,6 +87,7 @@ function Settings() {
       <div className="flex items-center gap-2 pt-2">
         <FormProvider {...form}>
           <Form {...form}>
+            <div className="flex flex-1 items-center gap-2">
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
               className="flex flex-1 items-center gap-2"
@@ -135,6 +136,7 @@ function Settings() {
               >
                 Save
               </Button>
+              </form>
               <Button
                 variant="ghost"
                 size={"sm"}
@@ -151,7 +153,7 @@ function Settings() {
               >
                 <X />
               </Button>
-            </form>
+            </div>
           </Form>
         </FormProvider>
       </div>
