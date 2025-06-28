@@ -76,6 +76,9 @@ function Settings() {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [isOpen]);
 
   return (
     <div
