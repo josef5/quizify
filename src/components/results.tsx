@@ -62,7 +62,7 @@ const Results = ({
               <p className="">
                 Your answer:{" "}
                 <span
-                  className={`font-bold ${isCorrect ? "text-green-500" : "text-red-500"}`}
+                  className={`font-bold ${isCorrect ? "text-lime-400" : "text-red-600"}`}
                 >
                   {answer}
                 </span>
