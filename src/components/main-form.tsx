@@ -1,6 +1,14 @@
 import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleX, LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import {
+  DIFFICULTY_LABELS,
+  QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
+} from "./../lib/constants";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -9,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { Textarea } from "./ui/textarea";
 import {
   Select,
   SelectContent,
@@ -17,11 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { useState } from "react";
-import { Badge } from "./ui/badge";
-import { CircleX, LoaderCircle } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 // TODO: Error handling
 
@@ -38,7 +41,8 @@ function MainForm({
       prompt: "",
       questionCount: 5,
       model: "gpt-4o-mini",
-      temperature: 0.7, // Default temperature value
+      // temperature: 0.7,
+      difficulty: "hard",
     },
   });
 
@@ -49,13 +53,13 @@ function MainForm({
   } = form;
 
   const models = MainFormSchema.shape.model._def.values;
+  const diffulties = MainFormSchema.shape.difficulty._def.values;
   const questionCount = [5, 10, 15, 20].map((count) => count.toString());
-  const LOCAL_STORAGE_KEY = "quizifyPrompts"; // TODO: Move to better place
 
   // Initialize promptStore from localStorage or empty array
   // Use a function to avoid re-initialization on every render
   const [promptStore, setPromptStore] = useState<string[]>(() => {
-    const storedPrompts = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const storedPrompts = localStorage.getItem(QUIZ_PROMPTS_LOCAL_STORAGE_KEY);
     return storedPrompts ? JSON.parse(storedPrompts) : [];
   });
 
@@ -64,7 +68,7 @@ function MainForm({
       setPromptStore((prev) => [...prev, prompt]);
 
       localStorage.setItem(
-        LOCAL_STORAGE_KEY,
+        QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
         JSON.stringify([...promptStore, prompt]),
       );
     }
@@ -143,11 +147,10 @@ function MainForm({
             <FormField
               control={control}
               name="model"
-              render={({ field, formState: { errors } }) => (
+              render={({ field }) => (
                 <FormItem className="flex gap-1">
                   <FormLabel className="flex text-xs font-normal">
                     Model
-                    {errors?.model?.message && `. ${errors?.model?.message}`}
                   </FormLabel>
                   <div className="my-4 flex-shrink-0">
                     <FormControl>
@@ -177,28 +180,33 @@ function MainForm({
             />
             <FormField
               control={control}
-              name="temperature"
-              render={({ field, formState: { errors } }) => (
+              name="difficulty"
+              render={({ field }) => (
                 <FormItem className="flex gap-1">
                   <FormLabel className="flex text-xs font-normal">
-                    Temperature
-                    {errors?.temperature?.message &&
-                      `. ${errors?.temperature?.message}`}
+                    Difficulty
                   </FormLabel>
                   <div className="my-4 flex-shrink-0">
                     <FormControl>
-                      <Input
-                        type="number"
-                        step={0.1}
-                        placeholder="0.7"
-                        min={0.0}
-                        max={2.0}
-                        {...field}
-                        onChange={(event) =>
-                          field.onChange(Number(event.target.value))
-                        }
-                        className="dark:bg-input/60 dark:hover:bg-input/60 h-6 w-full rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
-                      />
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger
+                          className="dark:bg-input dark:hover:bg-input ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs"
+                          data-size="custom"
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="w-full">
+                          {diffulties.map((difficulty) => (
+                            <SelectItem key={difficulty} value={difficulty}>
+                              {DIFFICULTY_LABELS[difficulty]}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                   </div>
                 </FormItem>
@@ -247,7 +255,7 @@ function MainForm({
                           );
 
                           localStorage.setItem(
-                            LOCAL_STORAGE_KEY,
+                            QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
                             JSON.stringify(
                               promptStore.filter((p) => p !== prompt),
                             ),

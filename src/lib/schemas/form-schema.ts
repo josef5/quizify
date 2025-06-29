@@ -9,10 +9,7 @@ export const MainFormSchema = z.object({
     z.literal(20),
   ]),
   model: z.enum(["gpt-3.5-turbo", "gpt-4o", "gpt-4o-mini"]),
-  temperature: z
-    .number({ required_error: "Required" })
-    .min(0, { message: "Enter a value between 0 and 2.0" })
-    .max(2, { message: "Enter a value between 0 and 2.0" }),
+  difficulty: z.enum(["easy", "medium", "hard"]),
 });
 
 export type MainFormValues = z.infer<typeof MainFormSchema>;

@@ -19,7 +19,6 @@ import { useStore } from "./store/useStore";
 // TODO: Mobile layout
 // TODO: Accessibility
 // TODO: Lightmode
-// TODO: Set difficulty, replace temperature
 // TODO: Testing
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
