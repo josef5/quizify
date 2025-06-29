@@ -1,3 +1,4 @@
+import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { encrypt } from "@/lib/encryption";
 import { create } from "zustand";
 
@@ -19,11 +20,15 @@ export const useStore = create<Store>((set) => ({
   toggleIsSettingsOpen: () =>
     set((state) => ({ isSettingsOpen: !state.isSettingsOpen })),
 
-  isDarkMode: localStorage.getItem("mode") === "dark" || false,
+  isDarkMode:
+    localStorage.getItem(DARK_MODE_LOCAL_STORAGE_KEY) === "dark" || false,
   toggleDarkMode: () =>
     set((state) => {
       const newMode = !state.isDarkMode;
-      localStorage.setItem("mode", newMode ? "dark" : "light");
+      localStorage.setItem(
+        DARK_MODE_LOCAL_STORAGE_KEY,
+        newMode ? "dark" : "light",
+      );
 
       return { isDarkMode: newMode };
     }),
