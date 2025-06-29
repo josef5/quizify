@@ -216,7 +216,7 @@ function MainForm({
           <Button
             type="submit"
             disabled={!isValid || isLoading}
-            className="my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr from-blue-500 to-blue-600 font-bold text-white hover:from-blue-600"
+            className="my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr from-cyan-600 to-blue-600 font-bold text-white hover:from-cyan-500 hover:to-blue-500"
           >
             <div className="w-4">
               {/* Balance spinner on other side of label */}
