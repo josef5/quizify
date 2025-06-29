@@ -13,8 +13,9 @@ import { decrypt } from "./lib/encryption";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
-import type { GameState, Question, Quiz, QuizResults } from "./types";
 import { useStore } from "./store/useStore";
+import type { GameState, Question, Quiz, QuizResults } from "./types";
+import { DIFFICULTY_SETTINGS } from "./lib/constants";
 
 // TODO: Mobile layout
 // TODO: Accessibility
@@ -67,22 +68,24 @@ function App() {
     prompt,
     questionCount,
     model,
-    temperature,
+    difficulty,
   }: MainFormValues) {
     transitionTo("loading");
 
     try {
       const decryptedApiKey = await decrypt(encryptedApiKey);
-      // const apiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
+
       const openai = new OpenAI({
         apiKey: decryptedApiKey,
         dangerouslyAllowBrowser: true,
       });
 
+      const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
+
       const response = await openai.responses.parse({
         model,
-        temperature,
-        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. Return the quiz in json format`,
+        temperature: difficultySetting.temperature,
+        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. The questions should reflect ${difficultySetting.description}. Return the quiz in json format`,
         input: prompt,
         text: {
           format: zodTextFormat(ResponseDataSchema, "event"),
