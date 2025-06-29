@@ -47,9 +47,10 @@ const Results = ({
   return (
     <div className="flex flex-col" ref={containerRef}>
       <h2 className="mb-4 self-end text-base">
-        {/* TODO: Enhance the score */}
-        <span className="text-7xl font-black">{score.correctCount}</span>/
-        {score.questionsCount}
+        <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-7xl font-black text-transparent">
+          {score.correctCount}
+        </span>
+        /{score.questionsCount}
       </h2>
       <ol className="mb-18 list-none">
         {userAnswers.map(
