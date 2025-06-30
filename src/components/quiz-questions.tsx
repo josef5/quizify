@@ -109,7 +109,7 @@ function QuizQuestions({
     <>
       <Progress
         value={Math.round((progressCount / questionCount) * 100)}
-        className="1 mb-8 h-0.5 w-full"
+        className="mb-8 h-1 w-full"
       />
       <div ref={containerRef}>
         <p className="mb-2 flex text-xs font-normal">
