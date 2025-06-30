@@ -80,7 +80,6 @@ function MainForm({
     onSubmit(data);
   }
 
-  // TODO: Consolidate colours
   return (
     <FormProvider {...form}>
       <Form {...form}>
@@ -216,7 +215,7 @@ function MainForm({
           <Button
             type="submit"
             disabled={!isValid || isLoading}
-            className="my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr from-cyan-600 to-blue-600 font-bold text-white transition-colors duration-200 ease-in-out hover:from-cyan-500 hover:to-blue-500"
+            className="from-brand-1-lite to-brand-2-lite text-primary hover:from-brand-1 hover:to-brand-2 my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr font-bold transition-colors duration-200 ease-in-out"
           >
             <div className="w-4">
               {/* Balance spinner on other side of label */}
@@ -237,7 +236,7 @@ function MainForm({
                   <li key={index} className="list-none">
                     <Badge
                       variant="secondary"
-                      className="bg-input dark:bg-input cursor-pointer rounded-[3px] px-1 text-white"
+                      className="bg-input dark:bg-input text-primary cursor-pointer rounded-[3px] px-1"
                       onClick={(event) => {
                         event.preventDefault();
 

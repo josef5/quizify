@@ -48,7 +48,7 @@ const Results = ({
   return (
     <div className="flex flex-col" ref={containerRef}>
       <h2 className="mb-4 self-end text-base">
-        <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-7xl font-black text-transparent">
+        <span className="from-brand-1 to-brand-2 bg-gradient-to-br bg-clip-text text-7xl font-black text-transparent">
           {score.correctCount}
         </span>
         /{score.questionsCount}
@@ -84,7 +84,7 @@ const Results = ({
         type="submit"
         variant={"secondary"}
         onClick={onRestart}
-        className="bg-input hover:bg-input mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm text-white"
+        className="bg-input hover:bg-input text-primary mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm"
       >
         Finish
       </Button>

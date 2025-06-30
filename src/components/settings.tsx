@@ -113,7 +113,7 @@ function Settings() {
                 <Button
                   variant="secondary"
                   size={"sm"}
-                  className="dark:hover:bg-input/60 bg-input hover:bg-input box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs text-white dark:hover:border-2 dark:hover:border-neutral-400 dark:active:border-blue-400"
+                  className="dark:hover:bg-input/60 bg-input hover:bg-input dark:active:border-brand-1 box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs text-white dark:hover:border-2 dark:hover:border-neutral-400"
                   disabled={!isValid || !isDirty}
                   data-action="use-but-dont-save-api-key"
                   type="submit"
@@ -123,7 +123,7 @@ function Settings() {
                 <Button
                   variant="secondary"
                   size={"sm"}
-                  className="dark:hover:bg-input/60 bg-input hover:bg-input box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs text-white dark:hover:border-2 dark:hover:border-neutral-400 dark:active:border-blue-400"
+                  className="dark:hover:bg-input/60 bg-input hover:bg-input dark:active:border-brand-1 box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs text-white dark:hover:border-2 dark:hover:border-neutral-400"
                   type="submit"
                   disabled={!isValid || !isDirty}
                   data-action="save-api-key"
@@ -134,7 +134,7 @@ function Settings() {
               <Button
                 variant="ghost"
                 size={"sm"}
-                className="h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-transparent dark:active:border-blue-400"
+                className="dark:active:border-brand-1 h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-transparent"
                 onClick={() => toggleDarkMode()}
               >
                 {isDarkMode ? <Sun /> : <Moon />}
@@ -142,7 +142,7 @@ function Settings() {
               <Button
                 variant="ghost"
                 size={"sm"}
-                className="h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-transparent dark:active:border-blue-400"
+                className="dark:active:border-brand-1 h-6.5 cursor-pointer rounded-sm border-2 text-xs text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-transparent"
                 onClick={() => setIsOpen(false)}
               >
                 <X />
