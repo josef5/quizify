@@ -81,10 +81,9 @@ const Results = ({
         )}
       </ol>
       <Button
-        type="submit"
         variant={"secondary"}
         onClick={onRestart}
-        className="bg-input hover:bg-input text-primary mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm"
+        className="bg-input text-primary hover:bg-hover mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm transition-colors duration-200 ease-in-out"
       >
         Finish
       </Button>

@@ -132,7 +132,7 @@ function QuizQuestions({
                 <Button
                   variant={"secondary"}
                   className={cn(
-                    "bg-input text-primary my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces hover:bg-gray-600 disabled:opacity-100",
+                    "bg-input text-primary hover:bg-hover my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces transition-colors duration-200 ease-in-out disabled:opacity-100",
                     selectedClass,
                   )}
                   disabled={selectedAnswer !== null}
