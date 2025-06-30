@@ -123,8 +123,8 @@ function QuizQuestions({
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === currentQuestion.correctAnswer;
             const answerClass = isCorrect
-              ? "ring-2 ring-green-500"
-              : "ring-2 ring-red-500";
+              ? "ring-2 ring-correct"
+              : "ring-2 ring-incorrect";
             const selectedClass = isSelected ? answerClass : "";
 
             return (
