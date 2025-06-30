@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { useRef } from "react";
 import type { QuizResults, UserAnswer } from "@/types";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 const Results = ({
   userAnswers,
@@ -62,7 +63,10 @@ const Results = ({
               <p className="">
                 Your answer:{" "}
                 <span
-                  className={`font-bold ${isCorrect ? "text-lime-400" : "text-red-500"}`}
+                  className={cn(
+                    "font-bold",
+                    isCorrect ? "text-correct" : "text-incorrect",
+                  )}
                 >
                   {answer}
                 </span>

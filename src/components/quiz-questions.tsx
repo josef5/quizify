@@ -1,4 +1,4 @@
-import { sleep } from "@/lib/utils";
+import { cn, sleep } from "@/lib/utils";
 import type { Question } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -131,7 +131,10 @@ function QuizQuestions({
               <li key={answer}>
                 <Button
                   variant={"secondary"}
-                  className={`bg-input my-1 cursor-pointer rounded-sm text-white hover:bg-gray-600 disabled:opacity-100 ${selectedClass}`}
+                  className={cn(
+                    "bg-input my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces text-white hover:bg-gray-600 disabled:opacity-100",
+                    selectedClass,
+                  )}
                   disabled={selectedAnswer !== null}
                   onClick={async () => {
                     setSelectedAnswer(answer);
