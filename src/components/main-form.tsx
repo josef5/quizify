@@ -6,7 +6,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import {
   DIFFICULTY_LABELS,
   QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-} from "./../lib/constants";
+} from "@/lib/constants";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import {

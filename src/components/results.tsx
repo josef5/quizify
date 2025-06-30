@@ -1,7 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useRef } from "react";
-import type { QuizResults, UserAnswer } from "../types";
+import type { QuizResults, UserAnswer } from "@/types";
 import { Button } from "./ui/button";
 
 const Results = ({
