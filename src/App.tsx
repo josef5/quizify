@@ -28,6 +28,7 @@ function App() {
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
+  const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -175,6 +176,8 @@ function App() {
           <MainForm
             isLoading={gameState === "loading"}
             onSubmit={(data: MainFormValues) => {
+              setIsSettingsOpen(false);
+
               //*
               fetchQuizTemp(data);
               /*/
