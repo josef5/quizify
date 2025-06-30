@@ -11,6 +11,7 @@ import { useStore } from "@/store/useStore";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
+import { cn } from "@/lib/utils";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
@@ -76,7 +77,10 @@ function Settings() {
 
   return (
     <div
-      className={`overflow-hidden bg-neutral-600 ${isOpen ? "h-10" : "h-0"} px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out`}
+      className={cn(
+        "bg-settings-1 overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
+        isOpen ? "h-10" : "h-0",
+      )}
     >
       <div className="flex items-center gap-2 pt-2">
         <FormProvider {...form}>
