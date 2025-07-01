@@ -6,6 +6,7 @@ import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
+import { ANSWER_HOLD_DELAY } from "@/lib/constants";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
@@ -140,8 +141,7 @@ function QuizQuestions({
                     setSelectedAnswer(answer);
                     setProgressCount((prev) => prev + 1);
 
-                    // TODO: Set as constant
-                    await sleep(1000); // Wait for the animation to finish
+                    await sleep(ANSWER_HOLD_DELAY); // Wait for the animation to finish
 
                     // Animate the container out
                     gsap.timeline().to(containerRef.current, {

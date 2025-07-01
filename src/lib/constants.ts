@@ -26,3 +26,5 @@ export const DIFFICULTY_SETTINGS: Record<
 
 export const QUIZ_PROMPTS_LOCAL_STORAGE_KEY = "quizifyPrompts";
 export const DARK_MODE_LOCAL_STORAGE_KEY = "mode";
+
+export const ANSWER_HOLD_DELAY = 1000; // Delay before showing the next question after an answer is selected
