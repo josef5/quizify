@@ -41,7 +41,6 @@ function MainForm({
       prompt: "",
       questionCount: 5,
       model: "gpt-4o-mini",
-      // temperature: 0.7,
       difficulty: "hard",
     },
   });
@@ -106,7 +105,7 @@ function MainForm({
               );
             }}
           />
-          <div className="flex items-center justify-end gap-2">
+          <div className="mt-4 flex flex-col items-end justify-end gap-4 sm:flex-row sm:items-center">
             <FormField
               control={control}
               name="questionCount"
@@ -117,7 +116,7 @@ function MainForm({
                     {errors?.questionCount?.message &&
                       `. ${errors?.questionCount?.message}`}
                   </FormLabel>
-                  <div className="my-4 flex-shrink-0">
+                  <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(Number(value))}
@@ -151,7 +150,7 @@ function MainForm({
                   <FormLabel className="flex text-xs font-normal">
                     Model
                   </FormLabel>
-                  <div className="my-4 flex-shrink-0">
+                  <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(Number(value))}
@@ -185,7 +184,7 @@ function MainForm({
                   <FormLabel className="flex text-xs font-normal">
                     Difficulty
                   </FormLabel>
-                  <div className="my-4 flex-shrink-0">
+                  <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
                       <Select
                         onValueChange={(value) => field.onChange(value)}

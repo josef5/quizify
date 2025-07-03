@@ -79,23 +79,23 @@ function Settings() {
     <div
       className={cn(
         "bg-settings-1 overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
-        isOpen ? "h-10" : "h-0",
+        isOpen ? "h-28 sm:h-10" : "h-0",
       )}
     >
-      <div className="flex items-center gap-2 pt-2">
+      <div className="pt-4 sm:pt-2">
         <FormProvider {...form}>
           <Form {...form}>
-            <div className="flex flex-1 items-center gap-2">
+            <div className="flex flex-1 flex-row gap-3 sm:gap-2">
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-1 items-center gap-2"
+                className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
               >
                 <FormField
                   control={control}
                   name="apiKey"
                   render={({ field }) => {
                     return (
-                      <FormItem className="flex flex-1 items-center gap-2">
+                      <FormItem className="flex w-full flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
                         <FormLabel className="flex-shrink-0 text-xs">
                           OpenAI API Key
                         </FormLabel>
@@ -107,50 +107,54 @@ function Settings() {
                             onChange={(event) =>
                               field.onChange(event.target.value)
                             }
-                            className="dark:bg-input/60 h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
+                            className="h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs dark:bg-red-500"
                           />
                         </FormControl>
                       </FormItem>
                     );
                   }}
                 />
-                <Button
-                  variant="secondary"
-                  size={"sm"}
-                  className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs"
-                  disabled={!isValid || !isDirty}
-                  data-action="use-but-dont-save-api-key"
-                  type="submit"
-                >
-                  Use now
-                </Button>
-                <Button
-                  variant="secondary"
-                  size={"sm"}
-                  className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs"
-                  type="submit"
-                  disabled={!isValid || !isDirty}
-                  data-action="save-api-key"
-                >
-                  Save
-                </Button>
+                <div className="mb-0.25 flex w-full flex-row items-center gap-2 sm:mb-0 sm:w-auto">
+                  <Button
+                    variant="secondary"
+                    size={"sm"}
+                    className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
+                    disabled={!isValid || !isDirty}
+                    data-action="use-but-dont-save-api-key"
+                    type="submit"
+                  >
+                    Use
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size={"sm"}
+                    className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
+                    type="submit"
+                    disabled={!isValid || !isDirty}
+                    data-action="save-api-key"
+                  >
+                    Save
+                  </Button>
+                </div>
               </form>
-              <Button
-                variant="ghost"
-                size={"sm"}
-                className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
-                onClick={() => toggleDarkMode()}
-              >
-                {isDarkMode ? <Sun /> : <Moon />}
-              </Button>
-              <Button
-                variant="ghost"
-                size={"sm"}
-                className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
-                onClick={() => setIsOpen(false)}
-              >
-                <X />
-              </Button>
+              <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
+                <Button
+                  variant="ghost"
+                  size={"sm"}
+                  className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 grow cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
+                  onClick={() => toggleDarkMode()}
+                >
+                  {isDarkMode ? <Sun /> : <Moon />}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size={"sm"}
+                  className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 grow cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <X />
+                </Button>
+              </div>
             </div>
           </Form>
         </FormProvider>
