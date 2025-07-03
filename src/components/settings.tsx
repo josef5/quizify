@@ -107,7 +107,7 @@ function Settings() {
                             onChange={(event) =>
                               field.onChange(event.target.value)
                             }
-                            className="h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs dark:bg-red-500"
+                            className="dark:bg-input h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
                           />
                         </FormControl>
                       </FormItem>
