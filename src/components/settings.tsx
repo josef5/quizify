@@ -1,4 +1,4 @@
-import { decrypt } from "@/lib/encryption";
+import { decryptSync } from "@/lib/encryption";
 import {
   SettingsFormSchema,
   SettingsFormValues,
@@ -54,12 +54,12 @@ function Settings() {
   }
 
   useEffect(() => {
-    // Decrypt the API key asynchronously when store value updates
-    decrypt(encryptedApiKey).then((apiKey) => {
-      if (!apiKey) return;
+    const decryptedApiKey = decryptSync(encryptedApiKey);
 
-      // Reset the form with the decrypted API key
-      form.reset({ apiKey });
+    if (!decryptedApiKey) return;
+
+    form.reset({
+      apiKey: decryptedApiKey,
     });
   }, [form, encryptedApiKey]);
 

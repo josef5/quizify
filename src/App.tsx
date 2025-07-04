@@ -9,7 +9,7 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import { Button } from "./components/ui/button";
-import { decrypt } from "./lib/encryption";
+import { decryptSync } from "./lib/encryption";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
@@ -74,7 +74,7 @@ function App() {
     transitionTo("loading");
 
     try {
-      const decryptedApiKey = await decrypt(encryptedApiKey);
+      const decryptedApiKey = decryptSync(encryptedApiKey);
 
       const openai = new OpenAI({
         apiKey: decryptedApiKey,
