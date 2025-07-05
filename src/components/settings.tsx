@@ -114,7 +114,12 @@ function Settings() {
                             onChange={(event) =>
                               field.onChange(event.target.value)
                             }
-                            className="dark:bg-input h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs"
+                            className={cn(
+                              "dark:bg-input h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
+                              form.formState.errors.apiKey
+                                ? "ring-destructive ring-2 ring-offset-0"
+                                : "",
+                            )}
                           />
                         </FormControl>
                       </FormItem>
