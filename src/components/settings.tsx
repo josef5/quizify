@@ -54,6 +54,8 @@ function Settings() {
   }
 
   useEffect(() => {
+    if (!encryptedApiKey) return;
+
     const decryptedApiKey = decryptSync(encryptedApiKey);
 
     if (!decryptedApiKey) return;

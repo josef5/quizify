@@ -17,10 +17,11 @@ import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 import { DIFFICULTY_SETTINGS } from "./lib/constants";
 
-// TODO: Mobile layout
+// TODO: Add Toast notifications for api errors
 // TODO: Accessibility
 // TODO: Lightmode
 // TODO: Testing
+
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
@@ -51,6 +52,7 @@ function App() {
     setGameState(nextState);
   }
 
+  // TODO: Decompose fetching to dedicated file
   async function fetchQuizTemp({ questionCount }: MainFormValues) {
     transitionTo("loading");
 
@@ -74,6 +76,13 @@ function App() {
     transitionTo("loading");
 
     try {
+      if (!encryptedApiKey) {
+        transitionTo("setup");
+        setIsSettingsOpen(true);
+
+        throw new Error("API key is not set");
+      }
+
       const decryptedApiKey = decryptSync(encryptedApiKey);
 
       const openai = new OpenAI({
