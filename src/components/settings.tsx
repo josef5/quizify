@@ -33,6 +33,7 @@ function Settings() {
   const {
     control,
     formState: { isValid, isDirty },
+    trigger,
   } = form;
 
   function handleSubmit(
@@ -54,7 +55,10 @@ function Settings() {
   }
 
   useEffect(() => {
-    if (!encryptedApiKey) return;
+    if (!encryptedApiKey) {
+      trigger("apiKey");
+      return;
+    }
 
     const decryptedApiKey = decryptSync(encryptedApiKey);
 
@@ -63,8 +67,9 @@ function Settings() {
     form.reset({
       apiKey: decryptedApiKey,
     });
-  }, [form, encryptedApiKey]);
+  }, [form, encryptedApiKey, trigger]);
 
+  // TODO: Move to App component
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
