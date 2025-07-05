@@ -39,7 +39,7 @@ export async function decrypt(data: string): Promise<string> {
   });
 }
 
-export function decryptSync(data: string): string {
+export function decryptSync(data: string) {
   const bytes = CryptoJS.AES.decrypt(data, import.meta.env.VITE_ENCRYPTION_KEY);
 
   const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
