@@ -73,18 +73,16 @@ function App() {
     model,
     difficulty,
   }: MainFormValues) {
-    transitionTo("loading");
-
     try {
       if (!encryptedApiKey) {
-        transitionTo("setup");
         setIsSettingsOpen(true);
 
         throw new Error("API key is not set");
       }
 
-      const decryptedApiKey = decryptSync(encryptedApiKey);
+      transitionTo("loading");
 
+      const decryptedApiKey = decryptSync(encryptedApiKey);
       const openai = new OpenAI({
         apiKey: decryptedApiKey,
         dangerouslyAllowBrowser: true,
