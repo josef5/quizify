@@ -79,15 +79,6 @@ function Settings() {
     }
   }, [form, encryptedApiKey, trigger]);
 
-  // TODO: Move to App component
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDarkMode]);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [isOpen]);

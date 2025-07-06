@@ -18,11 +18,9 @@ import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
-// TODO: Add Toast notifications for api errors
-// TODO: Accessibility
 // TODO: Lightmode
+// TODO: Accessibility
 // TODO: Testing
-
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
@@ -31,6 +29,7 @@ function App() {
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
+  const isDarkMode = useStore((state) => state.isDarkMode);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -172,6 +171,14 @@ function App() {
   function handleRestart() {
     transitionTo("setup");
   }
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     transitionTo("setup");
