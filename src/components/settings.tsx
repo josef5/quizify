@@ -121,6 +121,9 @@ function Settings() {
                                 ? "ring-destructive ring-2 ring-offset-0"
                                 : "",
                             )}
+                            autoComplete="off"
+                            autoCorrect="off"
+                            spellCheck="false"
                           />
                         </FormControl>
                       </FormItem>
