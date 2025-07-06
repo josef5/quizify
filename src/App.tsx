@@ -1,8 +1,6 @@
 import { Settings2 as SettingsIcon } from "lucide-react";
-import { OpenAI } from "openai";
-import { zodTextFormat } from "openai/helpers/zod";
 import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 import MainForm from "./components/main-form";
@@ -10,10 +8,8 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import { Button } from "./components/ui/button";
-import { DIFFICULTY_SETTINGS, TOAST_OPTIONS } from "./lib/constants";
-import { decryptSync } from "./lib/encryption";
+import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
-import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
@@ -21,13 +17,13 @@ import type { GameState, Question, Quiz, QuizResults } from "./types";
 // TODO: Lightmode
 // TODO: Accessibility
 // TODO: Testing
+// TODO: Add Storybook
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
-  const encryptedApiKey = useStore((state) => state.encryptedApiKey);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
 
@@ -66,60 +62,19 @@ function App() {
     transitionTo("playing");
   }
 
-  // temp disabled
-  async function fetchQuiz({
-    prompt,
-    questionCount,
-    model,
-    difficulty,
-  }: MainFormValues) {
-    try {
-      if (!encryptedApiKey) {
-        setIsSettingsOpen(true);
+  const { fetchQuiz } = useFetchQuiz();
 
-        throw new Error("API key is not set");
-      }
+  async function handleFetchQuiz(data: MainFormValues) {
+    transitionTo("loading");
 
-      transitionTo("loading");
+    const quizData = await fetchQuiz(data);
 
-      const decryptedApiKey = decryptSync(encryptedApiKey);
-      const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
-
-      if (!decryptedApiKey) {
-        throw new Error("Decrypted API key is empty");
-      }
-
-      const openai = new OpenAI({
-        apiKey: decryptedApiKey,
-        dangerouslyAllowBrowser: true,
-      });
-
-      const response = await openai.responses.parse({
-        model,
-        temperature: difficultySetting.temperature,
-        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. The questions should reflect ${difficultySetting.description}. Return the quiz in json format`,
-        input: prompt,
-        text: {
-          format: zodTextFormat(ResponseDataSchema, "event"),
-        },
-      });
-
-      if (!response.output_parsed) {
-        throw new Error("No quiz data returned from OpenAI API");
-      }
-
-      setQuizData(response.output_parsed as Quiz);
-
+    if (quizData) {
+      setQuizData(quizData);
       transitionTo("playing");
-    } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "An error occurred while fetching the quiz.",
-        TOAST_OPTIONS.error,
-      );
-
-      console.error(error);
+    } else {
+      // Error handling is already done in the hook
+      transitionTo("setup");
     }
   }
 
@@ -207,7 +162,7 @@ function App() {
               //*
               fetchQuizTemp(data);
               /*/
-              fetchQuiz(data);
+              handleFetchQuiz(data);
               //*/
             }}
           />
