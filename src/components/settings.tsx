@@ -1,17 +1,19 @@
+import { TOAST_OPTIONS } from "@/lib/constants";
 import { decryptSync } from "@/lib/encryption";
 import {
   SettingsFormSchema,
   SettingsFormValues,
 } from "@/lib/schemas/form-schema";
+import { cn } from "@/lib/utils";
+import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Moon, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useStore } from "@/store/useStore";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
@@ -59,16 +61,22 @@ function Settings() {
       trigger("apiKey");
       return;
     }
-
-    const decryptedApiKey = decryptSync(encryptedApiKey);
+    try {
+      const decryptedApiKey = decryptSync(encryptedApiKey);
 
       if (!decryptedApiKey) {
         throw new Error("Decrypted API key is empty");
       }
 
-    form.reset({
-      apiKey: decryptedApiKey,
-    });
+      form.reset({
+        apiKey: decryptedApiKey,
+      });
+    } catch (error) {
+      const errorMessage = `Failed to decrypt API key: ${error instanceof Error ? error.message : "Unknown error"}`;
+
+      console.error(errorMessage);
+      toast.error(errorMessage, TOAST_OPTIONS.error);
+    }
   }, [form, encryptedApiKey, trigger]);
 
   // TODO: Move to App component

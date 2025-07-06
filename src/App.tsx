@@ -2,6 +2,7 @@ import { Settings2 as SettingsIcon } from "lucide-react";
 import { OpenAI } from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
 import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 import MainForm from "./components/main-form";
@@ -9,13 +10,13 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import { Button } from "./components/ui/button";
+import { DIFFICULTY_SETTINGS, TOAST_OPTIONS } from "./lib/constants";
 import { decryptSync } from "./lib/encryption";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { ResponseDataSchema } from "./lib/schemas/response-schema";
 import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
-import { DIFFICULTY_SETTINGS } from "./lib/constants";
 
 // TODO: Add Toast notifications for api errors
 // TODO: Accessibility
@@ -112,6 +113,13 @@ function App() {
 
       transitionTo("playing");
     } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An error occurred while fetching the quiz.",
+        TOAST_OPTIONS.error,
+      );
+
       console.error(error);
     }
   }
@@ -212,6 +220,7 @@ function App() {
           />
         )}
       </div>
+      <Toaster expand={true} richColors />
     </>
   );
 }
