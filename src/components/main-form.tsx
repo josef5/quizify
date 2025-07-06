@@ -26,8 +26,6 @@ import {
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 
-// TODO: Error handling
-
 function MainForm({
   onSubmit,
   isLoading,
@@ -109,12 +107,10 @@ function MainForm({
             <FormField
               control={control}
               name="questionCount"
-              render={({ field, formState: { errors } }) => (
+              render={({ field }) => (
                 <FormItem className="flex gap-1">
                   <FormLabel className="flex text-xs font-normal">
                     Questions
-                    {errors?.questionCount?.message &&
-                      `. ${errors?.questionCount?.message}`}
                   </FormLabel>
                   <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
