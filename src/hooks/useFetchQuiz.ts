@@ -1,12 +1,12 @@
 import { OpenAI } from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { toast } from "sonner";
-import { DIFFICULTY_SETTINGS, TOAST_OPTIONS } from "../lib/constants";
-import { decryptSync } from "../lib/encryption";
-import { MainFormValues } from "../lib/schemas/form-schema";
-import { ResponseDataSchema } from "../lib/schemas/response-schema";
-import { useStore } from "../store/useStore";
-import type { Quiz } from "../types";
+import { DIFFICULTY_SETTINGS, TOAST_OPTIONS } from "@/lib/constants";
+import { decryptSync } from "@/lib/encryption";
+import { MainFormValues } from "@/lib/schemas/form-schema";
+import { ResponseDataSchema } from "@/lib/schemas/response-schema";
+import { useStore } from "@/store/useStore";
+import type { Quiz } from "@/types";
 
 export function useFetchQuiz() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
