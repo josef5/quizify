@@ -83,12 +83,16 @@ function App() {
       transitionTo("loading");
 
       const decryptedApiKey = decryptSync(encryptedApiKey);
+      const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
+
+      if (!decryptedApiKey) {
+        throw new Error("Decrypted API key is empty");
+      }
+
       const openai = new OpenAI({
         apiKey: decryptedApiKey,
         dangerouslyAllowBrowser: true,
       });
-
-      const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
 
       const response = await openai.responses.parse({
         model,

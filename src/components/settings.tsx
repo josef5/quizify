@@ -62,7 +62,9 @@ function Settings() {
 
     const decryptedApiKey = decryptSync(encryptedApiKey);
 
-    if (!decryptedApiKey) return;
+      if (!decryptedApiKey) {
+        throw new Error("Decrypted API key is empty");
+      }
 
     form.reset({
       apiKey: decryptedApiKey,
