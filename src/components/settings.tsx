@@ -86,7 +86,7 @@ function Settings() {
   return (
     <div
       className={cn(
-        "bg-settings-1 overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
+        "bg-settings-1 text-settings-text overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
         isOpen ? "h-28 sm:h-10" : "h-0",
       )}
     >
@@ -134,7 +134,7 @@ function Settings() {
                   <Button
                     variant="secondary"
                     size={"sm"}
-                    className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
+                    className="text-settings-text bg-settings-button-bg hover:bg-settings-button-bg hover:border-settings-2 dark:active:border-brand-1 dark:hover:border-settings-2 dark:hover:bg-settings-button-bg active:border-brand-1 box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
                     disabled={!isValid || !isDirty}
                     data-action="use-but-dont-save-api-key"
                     type="submit"
@@ -144,7 +144,7 @@ function Settings() {
                   <Button
                     variant="secondary"
                     size={"sm"}
-                    className="bg-input hover:bg-input dark:active:border-brand-1 text-primary dark:hover:border-settings-2 dark:hover:bg-input box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
+                    className="text-settings-text bg-settings-button-bg hover:bg-settings-button-bg hover:border-settings-2 dark:active:border-brand-1 active:border-brand-1 dark:hover:border-settings-2 dark:hover:bg-settings-button-bg box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
                     type="submit"
                     disabled={!isValid || !isDirty}
                     data-action="save-api-key"
@@ -157,7 +157,7 @@ function Settings() {
                 <Button
                   variant="ghost"
                   size={"sm"}
-                  className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 grow cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
+                  className="dark:active:border-brand-1 active:border-brand-1 hover:text-settings-3 dark:hover:border-settings-2 hover:border-settings-2 text-settings-3 border-settings-button-border h-6.5 grow cursor-pointer rounded-sm border-2 text-xs hover:bg-transparent dark:hover:bg-transparent"
                   onClick={() => toggleDarkMode()}
                 >
                   {isDarkMode ? <Sun /> : <Moon />}
@@ -165,7 +165,7 @@ function Settings() {
                 <Button
                   variant="ghost"
                   size={"sm"}
-                  className="dark:active:border-brand-1 dark:hover:border-settings-2 text-settings-3 h-6.5 grow cursor-pointer rounded-sm border-2 text-xs dark:hover:bg-transparent"
+                  className="dark:active:border-brand-1 active:border-brand-1 hover:text-settings-3 dark:hover:border-settings-2 hover:border-settings-2 text-settings-3 border-settings-button-border h-6.5 grow cursor-pointer rounded-sm border-2 text-xs hover:bg-transparent dark:hover:bg-transparent"
                   onClick={() => setIsOpen(false)}
                 >
                   <X />
