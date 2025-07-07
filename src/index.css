@@ -56,12 +56,19 @@
   --input: theme("colors.neutral.700");
   --ring: oklch(0.708 0 0);
 
+  --light: theme("colors.neutral.100");
+  --dark: theme("colors.neutral.800");
+
   --settings-1: theme("colors.neutral.600");
   --settings-2: theme("colors.neutral.400");
   --settings-3: theme("colors.neutral.300");
   --settings-text: oklch(0.922 0 0);
   --settings-button-bg: oklch(1 0 0 / 15%);
   --settings-button-border: oklch(1 0 0 / 10%);
+
+  --textarea-bg: theme("colors.neutral.100");
+  --dropdown-bg: theme("colors.neutral.100");
+  --badge-bg: theme("colors.neutral.200");
 
   --hover: theme("colors.neutral.600");
 
@@ -89,6 +96,9 @@
   --color-correct: var(--correct);
   --color-incorrect: var(--incorrect);
 
+  --color-light: var(--light);
+  --color-dark: var(--dark);
+
   --color-hover: var(--hover);
   --color-settings-1: var(--settings-1);
   --color-settings-2: var(--settings-2);
@@ -96,6 +106,9 @@
   --color-settings-text: var(--settings-text);
   --color-settings-button-bg: var(--settings-button-bg);
   --color-settings-button-border: var(--settings-button-border);
+  --color-textarea-bg: var(--textarea-bg);
+  --color-dropdown-bg: var(--dropdown-bg);
+  --color-badge-bg: var(--badge-bg);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -144,6 +157,9 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+  --textarea-bg: theme("colors.neutral.800");
+  --dropdown-bg: theme("colors.neutral.600");
+  --badge-bg: theme("colors.neutral.600");
 }
 
 /*

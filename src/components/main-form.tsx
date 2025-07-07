@@ -96,7 +96,7 @@ function MainForm({
                       {...field}
                       placeholder="e.g. Capital cities"
                       rows={10}
-                      className="h-36 border-none p-4 font-normal md:text-xl"
+                      className="bg-textarea-bg dark:bg-textarea-bg h-36 border-none p-4 font-normal md:text-xl"
                     />
                   </FormControl>
                 </FormItem>
@@ -120,7 +120,7 @@ function MainForm({
                         defaultValue={field.value.toString()}
                       >
                         <SelectTrigger
-                          className="dark:bg-input dark:hover:bg-input ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs"
+                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
                           data-size="custom"
                         >
                           <SelectValue />
@@ -154,7 +154,7 @@ function MainForm({
                         defaultValue={field.value.toString()}
                       >
                         <SelectTrigger
-                          className="dark:bg-input dark:hover:bg-input ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs"
+                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
                           data-size="custom"
                         >
                           <SelectValue />
@@ -188,7 +188,7 @@ function MainForm({
                         defaultValue={field.value}
                       >
                         <SelectTrigger
-                          className="dark:bg-input dark:hover:bg-input ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs"
+                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
                           data-size="custom"
                         >
                           <SelectValue />
@@ -210,7 +210,7 @@ function MainForm({
           <Button
             type="submit"
             disabled={!isValid || isLoading}
-            className="from-brand-1-lite to-brand-2-lite text-primary hover:from-brand-1 hover:to-brand-2 my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr font-bold transition-colors duration-200 ease-in-out"
+            className="from-brand-1-lite to-brand-2-lite text-light hover:from-brand-1 hover:to-brand-2 my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr font-bold transition-colors duration-200 ease-in-out"
           >
             <div className="w-4">
               {/* Balance spinner on other side of label */}
@@ -231,7 +231,7 @@ function MainForm({
                   <li key={index} className="list-none">
                     <Badge
                       variant="secondary"
-                      className="bg-input dark:bg-input text-primary cursor-pointer rounded-[3px] px-1"
+                      className="dark:bg-badge-bg text-dark dark:text-light bg-badge-bg cursor-pointer rounded-[3px] px-1"
                       onClick={(event) => {
                         event.preventDefault();
 

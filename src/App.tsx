@@ -38,10 +38,8 @@ function App() {
         setQuizResults({ userAnswers: [] });
         break;
       case "playing":
-        // Optionally reset question index or other state if needed
         break;
       case "finished":
-        // Any cleanup if needed
         break;
     }
 
@@ -145,7 +143,7 @@ function App() {
       <div className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
         <Button
           variant={"ghost"}
-          className="absolute top-5 right-0 cursor-pointer text-neutral-500 has-[>svg]:p-0"
+          className="absolute top-5 right-0 cursor-pointer text-neutral-500 hover:bg-transparent has-[>svg]:p-0 dark:hover:bg-transparent"
           onClick={() => {
             toggleIsSettingsOpen();
           }}
