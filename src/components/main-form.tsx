@@ -231,7 +231,7 @@ function MainForm({
                   <li key={index} className="list-none">
                     <Badge
                       variant="secondary"
-                      className="dark:bg-badge-bg text-dark dark:text-light bg-badge-bg cursor-pointer rounded-[3px] px-1"
+                      className="dark:bg-badge-bg hover:text-dark dark:text-light bg-badge-bg cursor-pointer rounded-[3px] px-1"
                       onClick={(event) => {
                         event.preventDefault();
 
@@ -258,7 +258,7 @@ function MainForm({
                       >
                         <CircleX
                           size={12}
-                          className="text-gray-400 hover:text-gray-200"
+                          className="text-neutral-400 hover:text-neutral-500 dark:hover:text-neutral-200"
                         />
                       </div>
                     </Badge>
