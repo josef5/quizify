@@ -36,6 +36,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* TODO: Use primary and primary foreground */
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -70,6 +72,9 @@
   --dropdown-bg: theme("colors.neutral.100");
   --badge-bg: theme("colors.neutral.200");
 
+  --grey-button-bg: theme("colors.neutral.200");
+  --grey-button-hover: theme("colors.neutral.300");
+
   --hover: theme("colors.neutral.600");
 
   --brand-1-lite: theme("colors.cyan.600");
@@ -78,8 +83,8 @@
   --brand-2: theme("colors.blue.500");
   --brand-1-darker: theme("colors.cyan.300");
 
-  --correct: theme("colors.lime.400");
-  --incorrect: theme("colors.red.500");
+  --correct: theme("colors.lime.500");
+  --incorrect: theme("colors.red.600");
 }
 
 /*
@@ -109,6 +114,8 @@
   --color-textarea-bg: var(--textarea-bg);
   --color-dropdown-bg: var(--dropdown-bg);
   --color-badge-bg: var(--badge-bg);
+  --color-grey-button-bg: var(--grey-button-bg);
+  --color-grey-button-hover: var(--grey-button-hover);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -160,6 +167,10 @@
   --textarea-bg: theme("colors.neutral.800");
   --dropdown-bg: theme("colors.neutral.600");
   --badge-bg: theme("colors.neutral.600");
+  --grey-button-bg: theme("colors.neutral.700");
+  --grey-button-hover: theme("colors.neutral.600");
+  --correct: theme("colors.lime.400");
+  --incorrect: theme("colors.red.500");
 }
 
 /*

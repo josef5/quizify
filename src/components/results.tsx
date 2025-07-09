@@ -83,7 +83,7 @@ const Results = ({
       <Button
         variant={"secondary"}
         onClick={onRestart}
-        className="bg-input text-primary hover:bg-hover mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm transition-colors duration-200 ease-in-out"
+        className="bg-grey-button-bg hover:bg-grey-button-hover text-primary mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm transition-colors duration-200 ease-in-out"
       >
         Finish
       </Button>
