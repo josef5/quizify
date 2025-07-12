@@ -14,7 +14,6 @@ import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
-// TODO: Lightmode
 // TODO: Accessibility
 // TODO: Testing
 // TODO: Add Storybook
@@ -46,7 +45,6 @@ function App() {
     setGameState(nextState);
   }
 
-  // TODO: Decompose fetching to dedicated file
   async function fetchQuizTemp({ questionCount }: MainFormValues) {
     transitionTo("loading");
 
