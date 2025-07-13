@@ -1,3 +1,5 @@
+import { MainFormValues } from "@/lib/schemas/form-schema";
+
 export type GameState = "setup" | "loading" | "playing" | "finished";
 
 export type Quiz = {
@@ -27,3 +29,10 @@ export type UserAnswer = {
 export type QuizResults = {
   userAnswers: UserAnswer[];
 };
+
+export type DifficultyLabels = Record<MainFormValues["difficulty"], string>;
+
+export type DifficultySettings = Record<
+  MainFormValues["difficulty"],
+  { temperature: number; description: string }
+>;
