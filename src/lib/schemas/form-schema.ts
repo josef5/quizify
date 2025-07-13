@@ -9,7 +9,7 @@ export const MainFormSchema = z.object({
     z.literal(20),
   ]),
   model: z.enum(["gpt-3.5-turbo", "gpt-4o", "gpt-4o-mini"]),
-  difficulty: z.enum(["easy", "medium", "hard"]),
+  difficulty: z.enum(["easy", "medium", "hard", "harder"]),
 });
 
 export type MainFormValues = z.infer<typeof MainFormSchema>;
