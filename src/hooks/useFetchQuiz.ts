@@ -36,7 +36,6 @@ export function useFetchQuiz() {
         dangerouslyAllowBrowser: true,
       });
 
-      // TODO: Improve difficulty setting
       const response = await openai.responses.parse({
         model,
         temperature: difficultySetting.temperature,
