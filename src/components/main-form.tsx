@@ -25,13 +25,14 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
+import StartButton from "./ui/start-button";
 
 function MainForm({
   onSubmit,
   isLoading,
 }: {
   onSubmit: (data: MainFormValues) => void;
-  isLoading?: boolean;
+  isLoading: boolean;
 }) {
   const form = useForm<MainFormValues>({
     resolver: zodResolver(MainFormSchema),
@@ -207,20 +208,11 @@ function MainForm({
               )}
             />
           </div>
-          {/* TODO: Better disabled state */}
-          <Button
-            type="submit"
+          <StartButton
+            label="Quizify"
+            isLoading={isLoading}
             disabled={!isValid || isLoading}
-            className="from-brand-1-lite to-brand-2-lite text-light hover:from-brand-1 hover:to-brand-2 my-4 h-12 w-full cursor-pointer rounded-sm bg-gradient-to-tr font-bold transition-colors duration-200 ease-in-out"
-          >
-            <div className="w-4">
-              {/* Balance spinner on other side of label */}
-            </div>
-            Quizify
-            <div className="ml-1 w-4">
-              {isLoading && <LoaderCircle size={16} className="animate-spin" />}
-            </div>
-          </Button>
+          />
 
           {promptStore.length > 0 && (
             <div className="my-8">
