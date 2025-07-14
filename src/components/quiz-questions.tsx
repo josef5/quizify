@@ -1,12 +1,12 @@
-import { cn, sleep } from "@/lib/utils";
+import { ANSWER_HOLD_DELAY } from "@/lib/constants";
+import { sleep } from "@/lib/utils";
 import type { Question } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
-import { Button } from "./ui/button";
+import AnswerButton from "./ui/answer-button";
 import { Progress } from "./ui/progress";
-import { ANSWER_HOLD_DELAY } from "@/lib/constants";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
@@ -123,19 +123,12 @@ function QuizQuestions({
           {shuffledAnswers.map((answer) => {
             const isSelected = selectedAnswer === answer;
             const isCorrect = answer === currentQuestion.correctAnswer;
-            const answerClass = isCorrect
-              ? "ring-2 ring-correct"
-              : "ring-2 ring-incorrect";
-            const selectedClass = isSelected ? answerClass : "";
 
             return (
               <li key={answer}>
-                <Button
-                  variant={"secondary"}
-                  className={cn(
-                    "bg-grey-button-bg hover:bg-grey-button-hover text-primary my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces transition-colors duration-200 ease-in-out disabled:opacity-100",
-                    selectedClass,
-                  )}
+                <AnswerButton
+                  isCorrect={isCorrect}
+                  isSelected={isSelected}
                   disabled={selectedAnswer !== null}
                   onClick={async () => {
                     setSelectedAnswer(answer);
@@ -156,7 +149,7 @@ function QuizQuestions({
                   }}
                 >
                   {answer}
-                </Button>
+                </AnswerButton>
               </li>
             );
           })}
