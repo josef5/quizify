@@ -1,9 +1,9 @@
+import { cn } from "@/lib/utils";
+import type { QuizResults, UserAnswer } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useRef } from "react";
-import type { QuizResults, UserAnswer } from "@/types";
-import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
+import FinishButton from "./ui/finish-button";
 
 const Results = ({
   userAnswers,
@@ -80,13 +80,7 @@ const Results = ({
           ),
         )}
       </ol>
-      <Button
-        variant={"secondary"}
-        onClick={onRestart}
-        className="bg-grey-button-bg hover:bg-grey-button-hover text-primary mt-1 mb-24 h-12 w-full cursor-pointer rounded-sm transition-colors duration-200 ease-in-out"
-      >
-        Finish
-      </Button>
+      <FinishButton label="Finish" onRestart={onRestart} />
     </div>
   );
 };
