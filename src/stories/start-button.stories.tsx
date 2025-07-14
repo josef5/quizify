@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import StartButton from "./start-button";
+import StartButton from "../components/ui/start-button";
 
 const meta = {
   component: StartButton,
@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Quizify",
-    isLoading: true,
-    disabled: true,
+    isLoading: false,
+    disabled: false,
   },
 };

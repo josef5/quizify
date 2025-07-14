@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import PromptSelect from "./prompt-select";
+import PromptSelect from "../components/ui/prompt-select";
 
 const meta = {
   component: PromptSelect,

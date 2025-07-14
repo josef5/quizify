@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import PromptBadge from "./prompt-badge";
+import PromptBadge from "../components/ui/prompt-badge";
 
 const meta = {
   component: PromptBadge,

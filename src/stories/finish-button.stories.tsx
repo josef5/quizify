@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import FinishButton from "./finish-button";
+import FinishButton from "../components/ui/finish-button";
 
 const meta = {
   component: FinishButton,

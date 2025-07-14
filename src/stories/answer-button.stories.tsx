@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import AnswerButton from "./answer-button";
+import AnswerButton from "../components/ui/answer-button";
 
 const meta = {
   component: AnswerButton,
