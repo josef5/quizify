@@ -1,14 +1,13 @@
-import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleX, LoaderCircle } from "lucide-react";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
 import {
   DIFFICULTY_LABELS,
   QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
 } from "@/lib/constants";
+import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleX } from "lucide-react";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -24,8 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Textarea } from "./ui/textarea";
 import StartButton from "./ui/start-button";
+import { Textarea } from "./ui/textarea";
 
 function MainForm({
   onSubmit,
