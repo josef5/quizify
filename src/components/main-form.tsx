@@ -4,10 +4,8 @@ import {
 } from "@/lib/constants";
 import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Badge } from "./ui/badge";
 import {
   Form,
   FormControl,
@@ -16,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import PromptBadge from "./ui/prompt-badge";
 import {
   Select,
   SelectContent,
@@ -221,39 +220,29 @@ function MainForm({
               <ul className="flex flex-wrap gap-2 pl-0">
                 {promptStore.map((prompt, index) => (
                   <li key={index} className="list-none">
-                    <Badge
-                      variant="secondary"
-                      className="dark:bg-badge-bg hover:text-dark dark:text-light bg-badge-bg cursor-pointer rounded-[3px] px-1"
+                    <PromptBadge
                       onClick={(event) => {
-                        event.preventDefault();
-
+                        event.preventDefault(); // Prevent form submission
                         setValue("prompt", prompt, { shouldValidate: true });
+                      }}
+                      onDelete={(event) => {
+                        event.preventDefault(); // Prevent form submission
+                        event.stopPropagation(); // Prevent click from bubbling up
+
+                        setPromptStore((prev) =>
+                          prev.filter((p) => p !== prompt),
+                        );
+
+                        localStorage.setItem(
+                          QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
+                          JSON.stringify(
+                            promptStore.filter((p) => p !== prompt),
+                          ),
+                        );
                       }}
                     >
                       {prompt}
-                      <div
-                        onClick={(event) => {
-                          event.preventDefault();
-                          event.stopPropagation();
-
-                          setPromptStore((prev) =>
-                            prev.filter((p) => p !== prompt),
-                          );
-
-                          localStorage.setItem(
-                            QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-                            JSON.stringify(
-                              promptStore.filter((p) => p !== prompt),
-                            ),
-                          );
-                        }}
-                      >
-                        <CircleX
-                          size={12}
-                          className="text-neutral-400 hover:text-neutral-500 dark:hover:text-neutral-200"
-                        />
-                      </div>
-                    </Badge>
+                    </PromptBadge>
                   </li>
                 ))}
               </ul>
