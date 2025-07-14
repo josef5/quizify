@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 function StartButton({
   label,
   isLoading,
-  disabled,
   className,
   ...props
 }: { label: string; isLoading: boolean } & React.ComponentProps<
@@ -19,7 +18,6 @@ function StartButton({
         className,
       )}
       {...props}
-      disabled={disabled}
     >
       <div className="w-4">{/* Balance spinner on other side of label */}</div>
       {label}
