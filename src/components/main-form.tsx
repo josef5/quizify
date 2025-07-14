@@ -15,13 +15,7 @@ import {
   FormMessage,
 } from "./ui/form";
 import PromptBadge from "./ui/prompt-badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
 import { Textarea } from "./ui/textarea";
 
@@ -113,25 +107,12 @@ function MainForm({
                   </FormLabel>
                   <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
-                      <Select
+                      <PromptSelect
+                        options={questionCount}
                         onValueChange={(value) => field.onChange(Number(value))}
                         value={field.value.toString()}
                         defaultValue={field.value.toString()}
-                      >
-                        <SelectTrigger
-                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
-                          data-size="custom"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="w-full">
-                          {questionCount.map((count) => (
-                            <SelectItem key={count} value={count}>
-                              {count}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      />
                     </FormControl>
                   </div>
                 </FormItem>
@@ -147,25 +128,12 @@ function MainForm({
                   </FormLabel>
                   <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
-                      <Select
-                        onValueChange={(value) => field.onChange(Number(value))}
-                        value={field.value.toString()}
-                        defaultValue={field.value.toString()}
-                      >
-                        <SelectTrigger
-                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
-                          data-size="custom"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="w-full">
-                          {models.map((count) => (
-                            <SelectItem key={count} value={count}>
-                              {count}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <PromptSelect
+                        options={models}
+                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value}
+                        defaultValue={field.value}
+                      />
                     </FormControl>
                   </div>
                 </FormItem>
@@ -181,25 +149,13 @@ function MainForm({
                   </FormLabel>
                   <div className="my-0 flex-shrink-0 sm:my-4">
                     <FormControl>
-                      <Select
+                      <PromptSelect
+                        options={diffulties}
+                        optionLabels={DIFFICULTY_LABELS}
                         onValueChange={(value) => field.onChange(value)}
                         value={field.value}
                         defaultValue={field.value}
-                      >
-                        <SelectTrigger
-                          className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
-                          data-size="custom"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="w-full">
-                          {diffulties.map((difficulty) => (
-                            <SelectItem key={difficulty} value={difficulty}>
-                              {DIFFICULTY_LABELS[difficulty]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      />
                     </FormControl>
                   </div>
                 </FormItem>
