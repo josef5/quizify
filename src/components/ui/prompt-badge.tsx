@@ -1,5 +1,5 @@
 import { CircleX } from "lucide-react";
-import { Badge } from "./badge";
+import { Badge } from "./core/badge";
 
 function PromptBadge({
   children,

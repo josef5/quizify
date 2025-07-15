@@ -1,4 +1,4 @@
-import { Button } from "./button";
+import { Button } from "./core/button";
 
 function FinishButton({
   label,

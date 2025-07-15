@@ -13,11 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
+} from "./ui/core/form";
 import PromptBadge from "./ui/prompt-badge";
 import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "./ui/core/textarea";
 
 function MainForm({
   onSubmit,

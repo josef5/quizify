@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Button } from "./button";
+import { Button } from "./core/button";
 
 function SettingsButton({
   children,

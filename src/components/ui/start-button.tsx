@@ -1,5 +1,5 @@
 import { LoaderCircle } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "./core/button";
 import { cn } from "@/lib/utils";
 
 function StartButton({

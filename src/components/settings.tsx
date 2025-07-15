@@ -11,8 +11,14 @@ import { Moon, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
-import { Input } from "./ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "./ui/core/form";
+import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
 import SettingsButton from "./ui/settings-button";
 

@@ -7,7 +7,7 @@ import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
-import { Button } from "./components/ui/button";
+import { Button } from "./components/ui/core/button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";

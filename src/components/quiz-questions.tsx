@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import AnswerButton from "./ui/answer-button";
-import { Progress } from "./ui/progress";
+import { Progress } from "./ui/core/progress";
 
 gsap.registerPlugin(useGSAP, SplitText);
 

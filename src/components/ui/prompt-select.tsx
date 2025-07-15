@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "./core/select";
 
 type OptionLabels<T extends readonly string[]> = Partial<
   Record<T[number], string>
