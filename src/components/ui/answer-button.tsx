@@ -20,7 +20,7 @@ function AnswerButton({
       variant={"secondary"}
       {...props}
       className={cn(
-        "bg-grey-button-bg hover:bg-grey-button-hover text-primary my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces transition-colors duration-200 ease-in-out disabled:opacity-100",
+        "bg-secondary hover:bg-secondary-hover text-secondary-foreground my-1 h-auto cursor-pointer rounded-sm text-left whitespace-break-spaces transition-colors duration-200 ease-in-out disabled:opacity-100",
         className,
         selectedClass,
       )}
