@@ -11,14 +11,14 @@ function PromptBadge({
   return (
     <Badge
       variant="secondary"
-      className="dark:bg-badge-bg hover:text-dark dark:text-light bg-badge-bg cursor-pointer rounded-[3px] px-1"
+      className="bg-secondary cursor-pointer rounded-[3px] px-1"
       onClick={onClick}
     >
       {children}
       <div onClick={onDelete}>
         <CircleX
           size={12}
-          className="text-neutral-400 hover:text-neutral-500 dark:hover:text-neutral-200"
+          className="text-badge-icon hover:text-badge-icon-hover"
         />
       </div>
     </Badge>
