@@ -58,6 +58,8 @@
   --border: oklch(0.922 0 0);
   --input: theme("colors.neutral.700");
   --ring: oklch(0.708 0 0);
+  --badge-icon: theme("colors.neutral.400");
+  --badge-icon-hover: theme("colors.neutral.500");
 
   --light: theme("colors.neutral.100");
   --dark: theme("colors.neutral.800");
@@ -118,6 +120,9 @@
   --color-grey-button-bg: var(--grey-button-bg);
   --color-grey-button-hover: var(--grey-button-hover);
 
+  --color-badge-icon: var(--badge-icon);
+  --color-badge-icon-hover: var(--badge-icon-hover);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -174,6 +179,8 @@
   --grey-button-hover: theme("colors.neutral.600");
   --correct: theme("colors.lime.400");
   --incorrect: theme("colors.red.500");
+
+  --badge-icon-hover: theme("colors.neutral.200");
 }
 
 /*
