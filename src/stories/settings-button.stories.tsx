@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
-import SaveButton from "../components/ui/save-button";
+import SettingsButton from "../components/ui/settings-button";
+import { Moon } from "lucide-react";
 
 const meta = {
-  component: SaveButton,
-} satisfies Meta<typeof SaveButton>;
+  component: SettingsButton,
+} satisfies Meta<typeof SettingsButton>;
 
 export default meta;
 
@@ -12,8 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: "Save",
-    disabled: false,
+    children: <Moon />,
     className: "",
   },
 };

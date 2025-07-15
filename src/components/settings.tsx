@@ -7,14 +7,14 @@ import {
 import { cn } from "@/lib/utils";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Moon, Save, Sun, X } from "lucide-react";
+import { Moon, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
 import SaveButton from "./ui/save-button";
+import SettingsButton from "./ui/settings-button";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
@@ -147,22 +147,12 @@ function Settings() {
                 </div>
               </form>
               <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
-                <Button
-                  variant="ghost"
-                  size={"sm"}
-                  className="dark:active:border-brand-1 active:border-brand-1 hover:text-settings-3 dark:hover:border-settings-2 hover:border-settings-2 text-settings-3 border-settings-button-border h-6.5 grow cursor-pointer rounded-sm border-2 text-xs hover:bg-transparent dark:hover:bg-transparent"
-                  onClick={() => toggleDarkMode()}
-                >
+                <SettingsButton onClick={() => toggleDarkMode()}>
                   {isDarkMode ? <Sun /> : <Moon />}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size={"sm"}
-                  className="dark:active:border-brand-1 active:border-brand-1 hover:text-settings-3 dark:hover:border-settings-2 hover:border-settings-2 text-settings-3 border-settings-button-border h-6.5 grow cursor-pointer rounded-sm border-2 text-xs hover:bg-transparent dark:hover:bg-transparent"
-                  onClick={() => setIsOpen(false)}
-                >
+                </SettingsButton>
+                <SettingsButton onClick={() => setIsOpen(false)}>
                   <X />
-                </Button>
+                </SettingsButton>
               </div>
             </div>
           </Form>
