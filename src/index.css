@@ -65,7 +65,7 @@
   --settings-2: theme("colors.neutral.400");
   --settings-3: theme("colors.neutral.300");
   --settings-text: oklch(0.922 0 0);
-  --settings-button-bg: oklch(1 0 0 / 15%);
+  --settings-button-bg: theme("colors.neutral.500");
   --settings-button-border: oklch(1 0 0 / 10%);
 
   --textarea-bg: theme("colors.neutral.100");

@@ -7,13 +7,14 @@ import {
 import { cn } from "@/lib/utils";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Moon, Sun, X } from "lucide-react";
+import { Moon, Save, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
+import SaveButton from "./ui/save-button";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
@@ -131,26 +132,18 @@ function Settings() {
                   }}
                 />
                 <div className="mb-0.25 flex w-full flex-row items-center gap-2 sm:mb-0 sm:w-auto">
-                  <Button
-                    variant="secondary"
-                    size={"sm"}
-                    className="text-settings-text bg-settings-button-bg hover:bg-settings-button-bg hover:border-settings-2 dark:active:border-brand-1 dark:hover:border-settings-2 dark:hover:bg-settings-button-bg active:border-brand-1 box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
+                  <SaveButton
                     disabled={!isValid || !isDirty}
                     data-action="use-but-dont-save-api-key"
-                    type="submit"
                   >
                     Use
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    size={"sm"}
-                    className="text-settings-text bg-settings-button-bg hover:bg-settings-button-bg hover:border-settings-2 dark:active:border-brand-1 active:border-brand-1 dark:hover:border-settings-2 dark:hover:bg-settings-button-bg box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0"
-                    type="submit"
+                  </SaveButton>
+                  <SaveButton
                     disabled={!isValid || !isDirty}
                     data-action="save-api-key"
                   >
                     Save
-                  </Button>
+                  </SaveButton>
                 </div>
               </form>
               <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
