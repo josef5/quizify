@@ -80,6 +80,7 @@
 
   --hover: theme("colors.neutral.600");
 
+  --brand-foreground: theme("colors.neutral.50");
   --brand-1-lite: theme("colors.cyan.600");
   --brand-2-lite: theme("colors.blue.600");
   --brand-1: theme("colors.cyan.500");
@@ -95,6 +96,7 @@
 */
 
 @theme inline {
+  --color-brand-foreground: var(--brand-foreground);
   --color-brand-1-lite: var(--brand-1-lite);
   --color-brand-2-lite: var(--brand-2-lite);
   --color-brand-1: var(--brand-1);
