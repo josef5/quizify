@@ -26,7 +26,7 @@ function PromptSelect<T extends readonly string[]>({
   return (
     <Select {...props}>
       <SelectTrigger
-        className="dark:hover:bg-dropdown-bg bg-dropdown-bg dark:bg-dropdown-bg ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
+        className="dark:hover:bg-input bg-input dark:bg-input ml-2 h-5 gap-1 rounded-xs border-none py-2 pr-1 pl-2 text-xs shadow dark:shadow-none"
         data-size="custom"
       >
         <SelectValue />

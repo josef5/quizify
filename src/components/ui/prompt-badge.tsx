@@ -11,7 +11,7 @@ function PromptBadge({
   return (
     <Badge
       variant="secondary"
-      className="bg-secondary cursor-pointer rounded-[3px] px-1"
+      className="bg-input cursor-pointer rounded-[3px] px-1"
       onClick={onClick}
     >
       {children}
