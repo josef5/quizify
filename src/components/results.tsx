@@ -80,7 +80,7 @@ const Results = ({
           ),
         )}
       </ol>
-      <FinishButton label="Finish" onRestart={onRestart} />
+      <FinishButton label="Finish" onClick={onRestart} />
     </div>
   );
 };
