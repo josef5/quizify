@@ -16,7 +16,6 @@ import type { GameState, Question, Quiz, QuizResults } from "./types";
 
 // TODO: Accessibility
 // TODO: Testing
-// TODO: Add Storybook
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
