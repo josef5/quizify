@@ -61,30 +61,13 @@
   --badge-icon: theme("colors.neutral.400");
   --badge-icon-hover: theme("colors.neutral.500");
 
-  --light: theme("colors.neutral.100");
-  --dark: theme("colors.neutral.800");
-
-  --settings-1: theme("colors.neutral.600");
-  --settings-2: theme("colors.neutral.400");
-  --settings-3: theme("colors.neutral.300");
-  --settings-text: oklch(0.922 0 0);
-  --settings-button-bg: theme("colors.neutral.500");
-  --settings-button-border: oklch(1 0 0 / 10%);
-
   --settings-background: theme("colors.neutral.600");
   --settings-foreground: theme("colors.neutral.300");
   --settings-primary: theme("colors.neutral.500");
   --settings-secondary: theme("colors.neutral.500");
   --settings-accent: theme("colors.neutral.400");
 
-  --textarea-bg: theme("colors.neutral.100");
-  --dropdown-bg: theme("colors.neutral.100");
-  --badge-bg: theme("colors.neutral.200");
-
-  --grey-button-bg: theme("colors.neutral.200");
-  --grey-button-hover: theme("colors.neutral.300");
-
-  --hover: theme("colors.neutral.600");
+  --textarea: theme("colors.neutral.100");
 
   --brand-foreground: theme("colors.neutral.50");
   --brand-1-lite: theme("colors.cyan.600");
@@ -112,21 +95,7 @@
   --color-correct: var(--correct);
   --color-incorrect: var(--incorrect);
 
-  --color-light: var(--light);
-  --color-dark: var(--dark);
-
-  --color-hover: var(--hover);
-  --color-settings-1: var(--settings-1);
-  --color-settings-2: var(--settings-2);
-  --color-settings-3: var(--settings-3);
-  --color-settings-text: var(--settings-text);
-  --color-settings-button-bg: var(--settings-button-bg);
-  --color-settings-button-border: var(--settings-button-border);
-  --color-textarea-bg: var(--textarea-bg);
-  --color-dropdown-bg: var(--dropdown-bg);
-  --color-badge-bg: var(--badge-bg);
-  --color-grey-button-bg: var(--grey-button-bg);
-  --color-grey-button-hover: var(--grey-button-hover);
+  --color-textarea: var(--textarea);
 
   --color-settings-background: var(--settings-background);
   --color-settings-foreground: var(--settings-foreground);
@@ -184,17 +153,12 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: theme("colors.neutral.600"); /* oklch(1 0 0 / 15%); */
+  --input: theme("colors.neutral.600");
   --ring: oklch(0.556 0 0);
-  --textarea-bg: theme("colors.neutral.800");
-  --dropdown-bg: theme("colors.neutral.600");
-  --badge-bg: theme("colors.neutral.600");
-  --grey-button-bg: theme("colors.neutral.700");
-  --grey-button-hover: theme("colors.neutral.600");
+  --textarea: theme("colors.neutral.800");
+  --badge-icon-hover: theme("colors.neutral.200");
   --correct: theme("colors.lime.400");
   --incorrect: theme("colors.red.500");
-
-  --badge-icon-hover: theme("colors.neutral.200");
 }
 
 /*
