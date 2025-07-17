@@ -12,7 +12,7 @@ function SettingsButton({
       variant="ghost"
       size={"sm"}
       className={cn(
-        "dark:active:border-brand-1 active:border-brand-1 hover:text-settings-3 dark:hover:border-settings-2 hover:border-settings-2 text-settings-3 border-settings-button-border h-6.5 grow cursor-pointer rounded-sm border-2 text-xs hover:bg-transparent dark:hover:bg-transparent",
+        "dark:active:border-brand-1 active:border-brand-1 hover:text-settings-foreground dark:hover:border-settings-accent hover:border-settings-accent text-settings-foreground border-settings-button-border hover:bg-settings-background dark:hover:bg-settings-background bg-settings-background h-6.5 grow cursor-pointer rounded-sm border-2 text-xs",
         className,
       )}
       {...props}
