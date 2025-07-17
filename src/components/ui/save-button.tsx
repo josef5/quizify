@@ -12,7 +12,7 @@ function SaveButton({
       variant="secondary"
       size={"sm"}
       className={cn(
-        "text-settings-foreground bg-settings-primary hover:bg-settings-primary hover:border-settings-accent dark:active:border-brand-1 dark:hover:border-settings-accent dark:hover:bg-settings-button-bg active:border-brand-1 box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0",
+        "text-settings-foreground bg-settings-primary hover:bg-settings-primary hover:border-settings-accent dark:active:border-brand-1 dark:hover:border-settings-accent dark:hover:bg-settings-primary active:border-brand-1 box-border h-6 grow cursor-pointer rounded-sm border-2 border-transparent px-2.5 text-xs sm:grow-0",
         className,
       )}
       type="submit"
