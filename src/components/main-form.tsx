@@ -89,7 +89,7 @@ function MainForm({
                       {...field}
                       placeholder="e.g. Capital cities"
                       rows={10}
-                      className="bg-textarea-bg dark:bg-textarea-bg h-36 border-none p-4 font-normal md:text-xl"
+                      className="bg-textarea dark:bg-textarea h-36 border-none p-4 font-normal md:text-xl"
                     />
                   </FormControl>
                 </FormItem>
