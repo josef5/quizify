@@ -71,6 +71,12 @@
   --settings-button-bg: theme("colors.neutral.500");
   --settings-button-border: oklch(1 0 0 / 10%);
 
+  --settings-background: theme("colors.neutral.600");
+  --settings-foreground: theme("colors.neutral.300");
+  --settings-primary: theme("colors.neutral.500");
+  --settings-secondary: theme("colors.neutral.500");
+  --settings-accent: theme("colors.neutral.400");
+
   --textarea-bg: theme("colors.neutral.100");
   --dropdown-bg: theme("colors.neutral.100");
   --badge-bg: theme("colors.neutral.200");
@@ -121,6 +127,12 @@
   --color-badge-bg: var(--badge-bg);
   --color-grey-button-bg: var(--grey-button-bg);
   --color-grey-button-hover: var(--grey-button-hover);
+
+  --color-settings-background: var(--settings-background);
+  --color-settings-foreground: var(--settings-foreground);
+  --color-settings-primary: var(--settings-primary);
+  --color-settings-secondary: var(--settings-secondary);
+  --color-settings-accent: var(--settings-accent);
 
   --color-badge-icon: var(--badge-icon);
   --color-badge-icon-hover: var(--badge-icon-hover);
