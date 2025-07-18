@@ -159,7 +159,10 @@ function Settings() {
                 >
                   {isDarkMode ? <Sun /> : <Moon />}
                 </SettingsButton>
-                <SettingsButton onClick={() => setIsOpen(false)}>
+                <SettingsButton
+                  aria-label="Close settings"
+                  onClick={() => setIsOpen(false)}
+                >
                   <X />
                 </SettingsButton>
               </div>
