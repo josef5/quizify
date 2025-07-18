@@ -5,6 +5,7 @@ function PromptBadge({
   children,
   onClick,
   onDelete,
+  ...props
 }: { onDelete: (event: React.SyntheticEvent) => void } & React.ComponentProps<
   typeof Badge
 >) {
@@ -13,9 +14,25 @@ function PromptBadge({
       variant="secondary"
       className="bg-input cursor-pointer rounded-[3px] px-1"
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          onClick?.(event as unknown as React.MouseEvent<HTMLDivElement>);
+        }
+      }}
+      {...props}
     >
       {children}
-      <div onClick={onDelete}>
+      <div
+        onClick={onDelete}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            onDelete(event);
+          }
+        }}
+        aria-label="Remove prompt"
+        role="button"
+        tabIndex={0}
+      >
         <CircleX
           size={12}
           className="text-badge-icon hover:text-badge-icon-hover"
