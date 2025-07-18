@@ -91,7 +91,7 @@ function Settings() {
   }, [isOpen]);
 
   return (
-    <div
+    <aside
       className={cn(
         "bg-settings-background text-settings-foreground overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
         isOpen ? "h-28 sm:h-10" : "h-0",
@@ -164,7 +164,7 @@ function Settings() {
           </Form>
         </FormProvider>
       </div>
-    </div>
+    </aside>
   );
 }
 
