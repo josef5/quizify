@@ -137,7 +137,7 @@ function App() {
   return (
     <>
       <Settings />
-      <div className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
+      <main className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
         <Button
           variant={"ghost"}
           className="absolute top-5 right-0 cursor-pointer text-neutral-500 hover:bg-transparent has-[>svg]:p-0 dark:hover:bg-transparent"
@@ -176,7 +176,7 @@ function App() {
             onRestart={handleRestart}
           />
         )}
-      </div>
+      </main>
       <Toaster expand={true} richColors />
     </>
   );
