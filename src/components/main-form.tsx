@@ -202,6 +202,7 @@ function MainForm({
                           ),
                         );
                       }}
+                      tabIndex={0}
                     >
                       {prompt}
                     </PromptBadge>
