@@ -111,6 +111,7 @@ function QuizQuestions({
       <Progress
         value={Math.round((progressCount / questionCount) * 100)}
         className="mb-8 h-1 w-full"
+        aria-label="Quiz progress"
       />
       <div ref={containerRef}>
         <p className="mb-2 flex text-xs font-normal">
