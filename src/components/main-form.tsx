@@ -44,7 +44,9 @@ function MainForm({
 
   const models = MainFormSchema.shape.model._def.values;
   const diffulties = MainFormSchema.shape.difficulty._def.values;
-  const questionCount = [5, 10, 15, 20].map((count) => count.toString());
+  const questionCount = MainFormSchema.shape.questionCount._def.options.map(
+    (opt: { value: number }) => opt.value.toString(),
+  );
 
   // Initialize promptStore from localStorage or empty array
   // Use a function to avoid re-initialization on every render
