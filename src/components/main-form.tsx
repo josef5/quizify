@@ -112,6 +112,7 @@ function MainForm({
                         onValueChange={(value) => field.onChange(Number(value))}
                         value={field.value.toString()}
                         defaultValue={field.value.toString()}
+                        aria-label="Select number of questions"
                       />
                     </FormControl>
                   </div>
@@ -133,6 +134,7 @@ function MainForm({
                         onValueChange={(value) => field.onChange(value)}
                         value={field.value}
                         defaultValue={field.value}
+                        aria-label="Select OpenAI model"
                       />
                     </FormControl>
                   </div>
@@ -155,6 +157,7 @@ function MainForm({
                         onValueChange={(value) => field.onChange(value)}
                         value={field.value}
                         defaultValue={field.value}
+                        aria-label="Select quiz difficulty"
                       />
                     </FormControl>
                   </div>
