@@ -153,7 +153,10 @@ function Settings() {
                 </div>
               </form>
               <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
-                <SettingsButton onClick={() => toggleDarkMode()}>
+                <SettingsButton
+                  aria-label="Toggle dark mode"
+                  onClick={() => toggleDarkMode()}
+                >
                   {isDarkMode ? <Sun /> : <Moon />}
                 </SettingsButton>
                 <SettingsButton onClick={() => setIsOpen(false)}>
