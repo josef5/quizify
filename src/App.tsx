@@ -144,6 +144,7 @@ function App() {
           onClick={() => {
             toggleIsSettingsOpen();
           }}
+          aria-label="Open settings"
         >
           <SettingsIcon size={20} />
         </Button>
