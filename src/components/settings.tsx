@@ -115,6 +115,7 @@ function Settings() {
                           OpenAI API Key
                         </FormLabel>
                         <FormControl>
+                          {/* TODO: Fix border */}
                           <Input
                             type="text"
                             placeholder="abc123..."

@@ -14,7 +14,6 @@ import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
-// TODO: Accessibility
 // TODO: Testing
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
@@ -136,6 +135,7 @@ function App() {
 
   return (
     <>
+      {/* TODO: Fix overscroll */}
       <Settings />
       <main className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
         <Button

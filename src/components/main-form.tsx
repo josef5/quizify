@@ -177,6 +177,7 @@ function MainForm({
                 Previous Quiz Subjects:
               </h2>
               <ul className="flex flex-wrap gap-2 pl-0">
+                {/* TODO: A11y - make keyboard reachable */}
                 {promptStore.map((prompt, index) => (
                   <li key={index} className="list-none">
                     <PromptBadge
