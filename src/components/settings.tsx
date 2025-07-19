@@ -115,7 +115,6 @@ function Settings() {
                           OpenAI API Key
                         </FormLabel>
                         <FormControl>
-                          {/* TODO: Fix border */}
                           <Input
                             type="text"
                             placeholder="abc123..."
@@ -124,7 +123,7 @@ function Settings() {
                               field.onChange(event.target.value)
                             }
                             className={cn(
-                              "dark:bg-input h-6 rounded-xs border-none pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
+                              "dark:bg-input border-settings-accent/20 h-6 rounded-xs pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
                               form.formState.errors.apiKey
                                 ? "ring-destructive ring-2 ring-offset-0"
                                 : "",
