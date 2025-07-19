@@ -134,7 +134,6 @@ function App() {
 
   return (
     <>
-      {/* TODO: Fix overscroll */}
       <Settings />
       <main className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
         <OpenSettingsButton
