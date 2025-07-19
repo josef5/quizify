@@ -1,4 +1,3 @@
-import { Settings2 as SettingsIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
 import sampleQuestions from "../test/sample-questions.json";
@@ -7,7 +6,7 @@ import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
-import { Button } from "./components/ui/core/button";
+import OpenSettingsButton from "./components/ui/open-settings-button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
@@ -138,16 +137,12 @@ function App() {
       {/* TODO: Fix overscroll */}
       <Settings />
       <main className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
-        <Button
-          variant={"ghost"}
-          className="absolute top-5 right-0 cursor-pointer text-neutral-500 hover:bg-transparent has-[>svg]:p-0 dark:hover:bg-transparent"
+        <OpenSettingsButton
+          className="absolute top-5 right-0"
           onClick={() => {
             toggleIsSettingsOpen();
           }}
-          aria-label="Open settings"
-        >
-          <SettingsIcon size={20} />
-        </Button>
+        />
         <h1 className="my-12 text-xl font-black">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <MainForm
