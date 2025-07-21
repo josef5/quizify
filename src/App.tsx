@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
-import sampleQuestions from "../test/sample-questions.json";
 import "./App.css";
 import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
@@ -11,6 +10,7 @@ import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
+import sampleQuestions from "./test/sample-questions.json";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
 // TODO: Testing
