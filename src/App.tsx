@@ -13,7 +13,6 @@ import { useStore } from "./store/useStore";
 import sampleQuestions from "./test/sample-questions.json";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
-// TODO: Testing
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
@@ -141,6 +140,7 @@ function App() {
           onClick={() => {
             toggleIsSettingsOpen();
           }}
+          aria-label="Open settings"
         />
         <h1 className="my-12 text-xl font-black">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (

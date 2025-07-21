@@ -92,6 +92,7 @@ function MainForm({
                       placeholder="e.g. Capital cities"
                       rows={10}
                       className="bg-textarea dark:bg-textarea h-36 border-none p-4 font-normal md:text-xl"
+                      aria-label="Prompt"
                     />
                   </FormControl>
                 </FormItem>
@@ -171,6 +172,7 @@ function MainForm({
             label="Quizify"
             isLoading={isLoading}
             disabled={!isValid || isLoading}
+            aria-label="Start quiz"
           />
 
           {promptStore.length > 0 && (

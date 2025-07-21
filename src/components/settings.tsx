@@ -96,6 +96,8 @@ function Settings() {
         "bg-settings-background text-settings-foreground overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
         isOpen ? "h-28 sm:h-10" : "h-0",
       )}
+      aria-expanded={isOpen}
+      aria-label="Settings"
     >
       <div className="pt-4 sm:pt-2">
         <FormProvider {...form}>
