@@ -8,9 +8,7 @@ import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
-import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
-import sampleQuestions from "./test/sample-questions.json";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
 function App() {
@@ -39,19 +37,6 @@ function App() {
     }
 
     setGameState(nextState);
-  }
-
-  async function fetchQuizTemp({ questionCount }: MainFormValues) {
-    transitionTo("loading");
-
-    await sleep(500); // Simulate loading delay
-
-    setQuizData({
-      ...sampleQuestions,
-      questions: sampleQuestions.questions.slice(0, questionCount),
-    });
-
-    transitionTo("playing");
   }
 
   const { fetchQuiz } = useFetchQuiz();
@@ -149,11 +134,7 @@ function App() {
             onSubmit={(data: MainFormValues) => {
               setIsSettingsOpen(false);
 
-              //*
-              fetchQuizTemp(data);
-              /*/
               handleFetchQuiz(data);
-              //*/
             }}
           />
         )}
