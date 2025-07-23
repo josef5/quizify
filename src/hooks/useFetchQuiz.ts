@@ -39,7 +39,7 @@ export function useFetchQuiz() {
       const response = await openai.responses.parse({
         model,
         temperature: difficultySetting.temperature,
-        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. ${difficultySetting.description}. Return the quiz in json format`,
+        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. Ensure that all wrong answers are of a similar word length to the correct answer. ${difficultySetting.description}. Return the quiz in json format`,
         input: prompt,
         text: {
           format: zodTextFormat(ResponseDataSchema, "event"),
