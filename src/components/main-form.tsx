@@ -181,34 +181,39 @@ function MainForm({
                 Previous Quiz Subjects:
               </h2>
               <ul className="flex flex-wrap gap-2 pl-0">
-                {promptStore.map((prompt, index) => (
-                  <li key={index} className="list-none">
-                    <PromptBadge
-                      onClick={(event) => {
-                        event.preventDefault(); // Prevent form submission
-                        setValue("prompt", prompt, { shouldValidate: true });
-                      }}
-                      onDelete={(event) => {
-                        event.preventDefault(); // Prevent form submission
-                        event.stopPropagation(); // Prevent click from bubbling up
+                {promptStore
+                  .slice()
+                  .sort((a, b) =>
+                    a.toLowerCase().localeCompare(b.toLowerCase()),
+                  )
+                  .map((prompt, index) => (
+                    <li key={index} className="list-none">
+                      <PromptBadge
+                        onClick={(event) => {
+                          event.preventDefault(); // Prevent form submission
+                          setValue("prompt", prompt, { shouldValidate: true });
+                        }}
+                        onDelete={(event) => {
+                          event.preventDefault(); // Prevent form submission
+                          event.stopPropagation(); // Prevent click from bubbling up
 
-                        setPromptStore((prev) =>
-                          prev.filter((p) => p !== prompt),
-                        );
+                          setPromptStore((prev) =>
+                            prev.filter((p) => p !== prompt),
+                          );
 
-                        localStorage.setItem(
-                          QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-                          JSON.stringify(
-                            promptStore.filter((p) => p !== prompt),
-                          ),
-                        );
-                      }}
-                      tabIndex={0}
-                    >
-                      {prompt}
-                    </PromptBadge>
-                  </li>
-                ))}
+                          localStorage.setItem(
+                            QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
+                            JSON.stringify(
+                              promptStore.filter((p) => p !== prompt),
+                            ),
+                          );
+                        }}
+                        tabIndex={0}
+                      >
+                        {prompt}
+                      </PromptBadge>
+                    </li>
+                  ))}
               </ul>
             </div>
           )}
