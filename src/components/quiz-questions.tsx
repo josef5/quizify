@@ -11,10 +11,12 @@ import { Progress } from "./ui/core/progress";
 gsap.registerPlugin(useGSAP, SplitText);
 
 function QuizQuestions({
+  currentQuestionNumber,
   currentQuestion,
   questionCount,
   onAnswer,
 }: {
+  currentQuestionNumber: number;
   currentQuestion?: Question | null;
   questionCount: number;
   onAnswer: (answer: string) => void;
@@ -24,7 +26,7 @@ function QuizQuestions({
   const answersRef = useRef<HTMLUListElement>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [progressCount, setProgressCount] = useState(
-    (currentQuestion?.questionNumber ?? 0) - 1,
+    (currentQuestionNumber ?? 0) - 1,
   );
 
   useGSAP(
@@ -115,7 +117,7 @@ function QuizQuestions({
       />
       <div ref={containerRef}>
         <p className="mb-2 flex text-xs font-normal">
-          Question {currentQuestion.questionNumber}
+          Question {currentQuestionNumber}
         </p>
         <h2 className="my-2 mb-8 text-xl font-bold" ref={questionRef}>
           {currentQuestion.question}

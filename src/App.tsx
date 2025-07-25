@@ -57,14 +57,7 @@ function App() {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
 
-      // TODO: Remove the questionNumber from the data structure
-      // and use the index directly in the UI (currentQuestionIndex)
-
-      // Preserve question order by overwriting questionNumber
-      quizData.questions = shuffled.map((question, idx) => ({
-        ...question,
-        questionNumber: idx + 1,
-      }));
+      quizData.questions = shuffled;
     }
 
     if (quizData) {
@@ -102,13 +95,13 @@ function App() {
         return prevResults;
       }
 
-      const { questionNumber, question, correctAnswer } = currentQuestion;
+      const { question, correctAnswer } = currentQuestion;
 
       return {
         userAnswers: [
           ...(prevResults?.userAnswers || []),
           {
-            questionNumber,
+            questionNumber: currentQuestionIndex + 1,
             question,
             answer,
             correctAnswer,
@@ -162,6 +155,7 @@ function App() {
 
         {currentQuestion && gameState === "playing" && (
           <QuizQuestions
+            currentQuestionNumber={currentQuestionIndex + 1}
             currentQuestion={currentQuestion}
             questionCount={quizData?.questions.length ?? 0}
             onAnswer={handleAnswer}
