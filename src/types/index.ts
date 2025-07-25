@@ -6,6 +6,7 @@ export type Quiz = {
   questions: Question[];
 };
 
+// TODO: Better naming
 export type Question = {
   question: string;
   correctAnswer: string;
