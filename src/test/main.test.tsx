@@ -120,9 +120,20 @@ describe("App", () => {
     await waitFor(() => {
       expect(screen.getByText("Question 1")).toBeInTheDocument();
 
-      expect(
-        screen.getByText(sampleQuestions.questions[0].correctAnswer),
-      ).toBeInTheDocument();
+      // Check the question in the heading
+      // and assert the corresponding correct answer is present
+      const questionHeading = screen.getByTestId("question");
+      expect(questionHeading).toBeInTheDocument();
+
+      const questionText = questionHeading.textContent;
+
+      const correctAnswer = sampleQuestions.questions
+        .map((question) => question)
+        .filter(
+          (question) => question.question === questionText,
+        )[0].correctAnswer;
+
+      expect(screen.getByText(correctAnswer)).toBeInTheDocument();
     });
   });
 });
@@ -131,6 +142,7 @@ describe("Questions", () => {
   it("renders questions", async () => {
     render(
       <QuizQuestions
+        currentQuestionNumber={1}
         currentQuestion={sampleQuestions.questions[0]}
         questionCount={sampleQuestions.questions.length}
         onAnswer={vi.fn()}
