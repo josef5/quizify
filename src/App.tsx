@@ -46,6 +46,23 @@ function App() {
 
     const quizData = await fetchQuiz(data);
 
+    // Shuffle questions randomly
+    if (quizData && quizData.questions) {
+      // Fisher-Yates shuffle
+      const shuffled = [...quizData.questions];
+
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      // Preserve question order by overwriting questionNumber
+      quizData.questions = shuffled.map((question, idx) => ({
+        ...question,
+        questionNumber: idx + 1,
+      }));
+    }
+
     if (quizData) {
       setQuizData(quizData);
       transitionTo("playing");
