@@ -11,6 +11,7 @@ import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
+// TODO: Collect incorrect answers and reuse them in the quiz
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
@@ -55,6 +56,9 @@ function App() {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
+
+      // TODO: Remove the questionNumber from the data structure
+      // and use the index directly in the UI (currentQuestionIndex)
 
       // Preserve question order by overwriting questionNumber
       quizData.questions = shuffled.map((question, idx) => ({

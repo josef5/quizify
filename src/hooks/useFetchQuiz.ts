@@ -36,6 +36,7 @@ export function useFetchQuiz() {
         dangerouslyAllowBrowser: true,
       });
 
+      // TODO: Request more questions than needed and shuffle them
       const response = await openai.responses.parse({
         model,
         temperature: difficultySetting.temperature,
