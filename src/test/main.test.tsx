@@ -167,8 +167,8 @@ describe("Results", () => {
   it("renders results", async () => {
     render(
       <Results
-        userAnswers={sampleQuestions.questions.map((question) => ({
-          questionNumber: question.questionNumber,
+        userAnswers={sampleQuestions.questions.map((question, index) => ({
+          questionNumber: index + 1,
           question: question.text,
           answer: question.correctAnswer,
           correctAnswer: question.correctAnswer,
