@@ -129,9 +129,7 @@ describe("App", () => {
 
       const correctAnswer = sampleQuestions.questions
         .map((question) => question)
-        .filter(
-          (question) => question.question === questionText,
-        )[0].correctAnswer;
+        .filter((question) => question.text === questionText)[0].correctAnswer;
 
       expect(screen.getByText(correctAnswer)).toBeInTheDocument();
     });
@@ -169,7 +167,7 @@ describe("Results", () => {
       <Results
         userAnswers={sampleQuestions.questions.map((question) => ({
           questionNumber: question.questionNumber,
-          question: question.question,
+          question: question.text,
           answer: question.correctAnswer,
           correctAnswer: question.correctAnswer,
           isCorrect: true,
@@ -181,7 +179,7 @@ describe("Results", () => {
     await waitFor(() => {
       sampleQuestions.questions.forEach((question) => {
         expect(
-          screen.getByText((content) => content.includes(question.question)),
+          screen.getByText((content) => content.includes(question.text)),
         ).toBeInTheDocument();
 
         // If there may be more than one match, use getAllByText and check at least one exists

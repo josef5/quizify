@@ -60,7 +60,7 @@ function QuizQuestions({
         );
     },
     {
-      dependencies: [currentQuestion?.question],
+      dependencies: [currentQuestion?.text],
       scope: containerRef,
     },
   );
@@ -124,7 +124,7 @@ function QuizQuestions({
           ref={questionRef}
           data-testid="question"
         >
-          {currentQuestion.question}
+          {currentQuestion.text}
         </h2>
         <ul className="list-none pl-0" ref={answersRef}>
           {shuffledAnswers.map((answer) => {

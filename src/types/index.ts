@@ -8,7 +8,7 @@ export type Quiz = {
 
 // TODO: Better naming
 export type Question = {
-  question: string;
+  text: string;
   correctAnswer: string;
   wrongAnswers: string[];
 };

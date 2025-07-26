@@ -95,14 +95,14 @@ function App() {
         return prevResults;
       }
 
-      const { question, correctAnswer } = currentQuestion;
+      const { text, correctAnswer } = currentQuestion;
 
       return {
         userAnswers: [
           ...(prevResults?.userAnswers || []),
           {
             questionNumber: currentQuestionIndex + 1,
-            question,
+            question: text,
             answer,
             correctAnswer,
             isCorrect: answer === correctAnswer,
