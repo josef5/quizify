@@ -102,9 +102,9 @@ function QuizQuestions({
 
   function getShuffledAnswers(
     correctAnswer: string,
-    wrongAnswers: string[],
+    incorrectAnswers: string[],
   ): string[] {
-    const answers = [correctAnswer, ...wrongAnswers];
+    const answers = [correctAnswer, ...incorrectAnswers];
     return answers.sort(() => Math.random() - 0.5);
   }
 

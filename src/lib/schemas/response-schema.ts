@@ -28,7 +28,7 @@ export const QuestionSchema = z.object({
   questionNumber: z.number(),
   question: z.string(),
   correctAnswer: z.string(),
-  wrongAnswers: z.array(z.string()),
+  incorrectAnswers: z.array(z.string()),
 });
 
 export type Question = z.infer<typeof QuestionSchema>;
