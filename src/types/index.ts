@@ -1,4 +1,5 @@
 import { MainFormValues } from "@/lib/schemas/form-schema";
+import { QuestionSchemaType } from "./../lib/schemas/response-schema";
 
 export type GameState = "setup" | "loading" | "playing" | "finished";
 
@@ -6,11 +7,7 @@ export type Quiz = {
   questions: Question[];
 };
 
-export type Question = {
-  text: string;
-  correctAnswer: string;
-  incorrectAnswers: string[];
-};
+export type Question = QuestionSchemaType;
 
 export type Answer = {
   id: string;
