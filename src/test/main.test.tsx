@@ -154,9 +154,11 @@ describe("Questions", () => {
         screen.getByText(sampleQuestions.questions[0].correctAnswer),
       ).toBeInTheDocument();
 
-      sampleQuestions.questions[0].wrongAnswers.forEach((wrongAnswer) => {
-        expect(screen.getByText(wrongAnswer)).toBeInTheDocument();
-      });
+      sampleQuestions.questions[0].incorrectAnswers.forEach(
+        (incorrectAnswer) => {
+          expect(screen.getByText(incorrectAnswer)).toBeInTheDocument();
+        },
+      );
     });
   });
 });

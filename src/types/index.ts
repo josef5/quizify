@@ -6,11 +6,10 @@ export type Quiz = {
   questions: Question[];
 };
 
-// TODO: Better naming
 export type Question = {
   text: string;
   correctAnswer: string;
-  wrongAnswers: string[];
+  incorrectAnswers: string[];
 };
 
 export type Answer = {

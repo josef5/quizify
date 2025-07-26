@@ -4,61 +4,65 @@
       "questionNumber": 1,
       "text": "Who was the first King of England?",
       "correctAnswer": "Egbert",
-      "wrongAnswers": ["Alfred the Great", "William the Conqueror", "Henry II"]
+      "incorrectAnswers": [
+        "Alfred the Great",
+        "William the Conqueror",
+        "Henry II"
+      ]
     },
     {
       "questionNumber": 2,
       "text": "Which king signed the Magna Carta in 1215?",
       "correctAnswer": "King John",
-      "wrongAnswers": ["Henry III", "Richard the Lionheart", "Edward I"]
+      "incorrectAnswers": ["Henry III", "Richard the Lionheart", "Edward I"]
     },
     {
       "questionNumber": 3,
       "text": "Who was known as the 'Merry Monarch'?",
       "correctAnswer": "Charles II",
-      "wrongAnswers": ["James I", "George IV", "Henry VIII"]
+      "incorrectAnswers": ["James I", "George IV", "Henry VIII"]
     },
     {
       "questionNumber": 4,
       "text": "Which king was executed during the English Civil War?",
       "correctAnswer": "Charles I",
-      "wrongAnswers": ["James II", "Henry VI", "Richard III"]
+      "incorrectAnswers": ["James II", "Henry VI", "Richard III"]
     },
     {
       "questionNumber": 5,
       "text": "Which monarch was the last of the Tudor dynasty?",
       "correctAnswer": "Elizabeth I",
-      "wrongAnswers": ["Mary I", "Henry VIII", "Edward VI"]
+      "incorrectAnswers": ["Mary I", "Henry VIII", "Edward VI"]
     },
     {
       "questionNumber": 6,
       "text": "Who was the first monarch of the House of Windsor?",
       "correctAnswer": "George V",
-      "wrongAnswers": ["Edward VII", "George VI", "Victoria"]
+      "incorrectAnswers": ["Edward VII", "George VI", "Victoria"]
     },
     {
       "questionNumber": 7,
       "text": "Which king was known for his six marriages?",
       "correctAnswer": "Henry VIII",
-      "wrongAnswers": ["Edward IV", "George III", "James I"]
+      "incorrectAnswers": ["Edward IV", "George III", "James I"]
     },
     {
       "questionNumber": 8,
       "text": "Which king led the country during World War II?",
       "correctAnswer": "George VI",
-      "wrongAnswers": ["Edward VIII", "William IV", "Henry VII"]
+      "incorrectAnswers": ["Edward VIII", "William IV", "Henry VII"]
     },
     {
       "questionNumber": 9,
       "text": "Who was the king during the Great Plague of London in 1665?",
       "correctAnswer": "Charles II",
-      "wrongAnswers": ["Charles I", "James II", "George II"]
+      "incorrectAnswers": ["Charles I", "James II", "George II"]
     },
     {
       "questionNumber": 10,
       "text": "Which king was known for his attempts to unify England and Scotland?",
       "correctAnswer": "James I",
-      "wrongAnswers": ["Henry V", "Charles II", "Edmund I"]
+      "incorrectAnswers": ["Henry V", "Charles II", "Edmund I"]
     }
   ]
 }

@@ -92,7 +92,7 @@ function QuizQuestions({
 
     return getShuffledAnswers(
       currentQuestion.correctAnswer,
-      currentQuestion.wrongAnswers,
+      currentQuestion.incorrectAnswers,
     );
   }, [currentQuestion]);
 
