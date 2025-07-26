@@ -25,8 +25,7 @@ export const ResponseSchema = z.object({
 export type Response = z.infer<typeof ResponseSchema>;
 
 export const QuestionSchema = z.object({
-  questionNumber: z.number(),
-  question: z.string(),
+  text: z.string(),
   correctAnswer: z.string(),
   incorrectAnswers: z.array(z.string()),
 });
