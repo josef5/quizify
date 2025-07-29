@@ -47,19 +47,6 @@ function App() {
 
     const quizData = await fetchQuiz(data);
 
-    // Shuffle questions randomly
-    if (quizData && quizData.questions) {
-      // Fisher-Yates shuffle
-      const shuffled = [...quizData.questions];
-
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-
-      quizData.questions = shuffled;
-    }
-
     if (quizData) {
       setQuizData(quizData);
       transitionTo("playing");

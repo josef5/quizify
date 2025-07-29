@@ -1,7 +1,11 @@
 import { OpenAI } from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
 import { toast } from "sonner";
-import { DIFFICULTY_SETTINGS, TOAST_OPTIONS } from "@/lib/constants";
+import {
+  DIFFICULTY_SETTINGS,
+  QUESTION_COUNT_EXTRA,
+  TOAST_OPTIONS,
+} from "@/lib/constants";
 import { decryptSync } from "@/lib/encryption";
 import { MainFormValues } from "@/lib/schemas/form-schema";
 import { ResponseDataSchema } from "@/lib/schemas/response-schema";
@@ -36,11 +40,10 @@ export function useFetchQuiz() {
         dangerouslyAllowBrowser: true,
       });
 
-      // TODO: Request more questions than needed and shuffle them
       const response = await openai.responses.parse({
         model,
         temperature: difficultySetting.temperature,
-        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount} questions, each with 1 correct answer and 3 wrong answers. Ensure that all wrong answers are of a similar word length to the correct answer. ${difficultySetting.description}. Return the quiz in json format`,
+        instructions: `You are a expert in multiple choice quiz writing. Write a multiple choice quiz based on the input. The quiz should have ${questionCount + QUESTION_COUNT_EXTRA} questions, each with 1 correct answer and 3 wrong answers. Ensure that all wrong answers are of a similar word length to the correct answer. ${difficultySetting.description}. Return the quiz in json format`,
         input: prompt,
         text: {
           format: zodTextFormat(ResponseDataSchema, "event"),
@@ -50,6 +53,16 @@ export function useFetchQuiz() {
       if (!response.output_parsed) {
         throw new Error("No quiz data returned from OpenAI API");
       }
+
+      const shuffled = [...response.output_parsed.questions];
+
+      // Fisher-Yates shuffle
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      response.output_parsed.questions = shuffled.slice(0, questionCount);
 
       return response.output_parsed as Quiz;
     } catch (error) {
