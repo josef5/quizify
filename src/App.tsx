@@ -11,7 +11,9 @@ import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
 import type { GameState, Question, Quiz, QuizResults } from "./types";
 
+// TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
+// TODO: Move local state to Zustand store
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);

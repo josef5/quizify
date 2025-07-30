@@ -10,6 +10,7 @@ import { Progress } from "./ui/core/progress";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
+// TODO: Add current score
 function QuizQuestions({
   currentQuestionNumber,
   currentQuestion,
