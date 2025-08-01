@@ -117,9 +117,10 @@ function QuizQuestions({
         aria-label="Quiz progress"
       />
       <div ref={containerRef}>
-        <p className="mb-2 flex text-xs font-normal">
-          Question {currentQuestionNumber}
-        </p>
+        <div className="mb-2 flex text-xs font-normal">
+          <p>Question {currentQuestionNumber}</p>
+          <p className="ml-auto">Score: {currentScore}</p>
+        </div>
         <h2
           className="my-2 mb-8 text-xl font-bold"
           ref={questionRef}
