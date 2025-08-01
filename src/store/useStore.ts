@@ -12,6 +12,14 @@ interface Store {
   encryptedApiKey: string;
   encryptAndSetApiKey: (key: string) => void;
   encryptAndSaveApiKey: (key: string) => void;
+  currentQuestionIndex: number;
+  setCurrentQuestionIndex: (index: number) => void;
+  incrementCurrentQuestionIndex: () => void;
+  resetCurrentQuestionIndex: () => void;
+  currentScore: number;
+  setCurrentScore: (score: number) => void;
+  incrementCurrentScore: () => void;
+  resetCurrentScore: () => void;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -45,8 +53,20 @@ export const useStore = create<Store>((set) => ({
   },
   encryptAndSaveApiKey: (key: string) => {
     const encryptedApiKey = encryptSync(key);
-
     localStorage.setItem("apiKey", encryptedApiKey);
     set({ encryptedApiKey });
   },
+
+  currentQuestionIndex: 0,
+  setCurrentQuestionIndex: (index: number) =>
+    set({ currentQuestionIndex: index }),
+  incrementCurrentQuestionIndex: () =>
+    set((state) => ({ currentQuestionIndex: state.currentQuestionIndex + 1 })),
+  resetCurrentQuestionIndex: () => set({ currentQuestionIndex: 0 }),
+
+  currentScore: 0,
+  setCurrentScore: (score: number) => set({ currentScore: score }),
+  incrementCurrentScore: () =>
+    set((state) => ({ currentScore: state.currentScore + 1 })),
+  resetCurrentScore: () => set({ currentScore: 0 }),
 }));
