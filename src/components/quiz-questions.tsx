@@ -7,17 +7,16 @@ import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import AnswerButton from "./ui/answer-button";
 import { Progress } from "./ui/core/progress";
+import { useStore } from "@/store/useStore";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
 // TODO: Add current score
 function QuizQuestions({
-  currentQuestionNumber,
   currentQuestion,
   questionCount,
   onAnswer,
 }: {
-  currentQuestionNumber: number;
   currentQuestion?: Question | null;
   questionCount: number;
   onAnswer: (answer: string) => void;
@@ -25,10 +24,15 @@ function QuizQuestions({
   const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [progressCount, setProgressCount] = useState(
-    (currentQuestionNumber ?? 0) - 1,
+  const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
+  const currentQuestionNumber = currentQuestionIndex + 1;
+  const currentScore = useStore((state) => state.currentScore);
+  const incrementCurrentScore = useStore(
+    (state) => state.incrementCurrentScore,
   );
+  // Updated independently so the progress bar can be animated
+  const [progressCount, setProgressCount] = useState(currentQuestionIndex);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
   useGSAP(
     () => {
@@ -142,6 +146,10 @@ function QuizQuestions({
                   onClick={async () => {
                     setSelectedAnswer(answer);
                     setProgressCount((prev) => prev + 1);
+
+                    if (isCorrect) {
+                      incrementCurrentScore();
+                    }
 
                     await sleep(ANSWER_HOLD_DELAY); // Wait for the animation to finish
 
