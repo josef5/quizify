@@ -17,16 +17,24 @@ import type { GameState, Question, Quiz, QuizResults } from "./types";
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
   const [quizData, setQuizData] = useState<Quiz | null>(null);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
+  const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
+  const incrementCurrentQuestionIndex = useStore(
+    (state) => state.incrementCurrentQuestionIndex,
+  );
+  const resetCurrentQuestionIndex = useStore(
+    (state) => state.resetCurrentQuestionIndex,
+  );
+  const resetCurrentScore = useStore((state) => state.resetCurrentScore);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
-        setCurrentQuestionIndex(0);
+        resetCurrentQuestionIndex();
+        resetCurrentScore();
         setQuizResults({ userAnswers: [] });
         break;
       case "loading":
@@ -70,7 +78,7 @@ function App() {
     const nextIndex = currentQuestionIndex + 1;
 
     if (nextIndex < (quizData?.questions.length ?? 0)) {
-      setCurrentQuestionIndex(nextIndex);
+      incrementCurrentQuestionIndex();
     } else {
       transitionTo("finished");
     }
@@ -144,7 +152,6 @@ function App() {
 
         {currentQuestion && gameState === "playing" && (
           <QuizQuestions
-            currentQuestionNumber={currentQuestionIndex + 1}
             currentQuestion={currentQuestion}
             questionCount={quizData?.questions.length ?? 0}
             onAnswer={handleAnswer}
