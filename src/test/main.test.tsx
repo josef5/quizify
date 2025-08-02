@@ -249,6 +249,7 @@ describe("App", () => {
         fireEvent.click(submitButton);
       });
 
+      // Check state has reset
       await waitFor(
         () => {
           expect(screen.getByText("Question 1")).toBeInTheDocument();
