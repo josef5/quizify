@@ -252,6 +252,9 @@ describe("App", () => {
       await waitFor(
         () => {
           expect(screen.getByText("Question 1")).toBeInTheDocument();
+
+          const currentScore = screen.getByLabelText("Current score");
+          expect(currentScore.textContent).toContain("Score: 0");
         },
         { timeout: 5000 },
       );
