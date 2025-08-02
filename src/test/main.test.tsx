@@ -134,13 +134,135 @@ describe("App", () => {
       expect(screen.getByText(correctAnswer)).toBeInTheDocument();
     });
   });
+
+  it.only(
+    "plays through a full quiz once and starts a new one",
+    { timeout: 10000 },
+    async () => {
+      render(<App />);
+
+      let promptInput = screen.getByLabelText("Prompt");
+      let submitButton = screen.getByRole("button", { name: "Start quiz" });
+
+      expect(submitButton).toBeInTheDocument();
+
+      act(() => {
+        fireEvent.change(promptInput, {
+          target: { value: "General knowledge" },
+        });
+      });
+
+      await waitFor(() => {
+        expect(submitButton).toBeEnabled();
+      });
+
+      act(() => {
+        fireEvent.click(submitButton);
+      });
+
+      // Loop through the questions
+      // and click the correct answer for each one
+      const questionCount = 5;
+
+      for (let i = 0; i < questionCount; i++) {
+        const questionNumber = i + 1;
+
+        await waitFor(
+          () => {
+            expect(
+              screen.getByText(`Question ${questionNumber}`),
+            ).toBeInTheDocument();
+          },
+          { timeout: 3000 },
+        );
+
+        const currentScore = screen.getByLabelText("Current score");
+
+        expect(currentScore).toBeInTheDocument();
+        expect(currentScore.textContent).toContain(`Score: ${i}`);
+
+        // Check the question in the heading
+        // and assert the corresponding correct answer is present
+        const questionHeading = screen.getByTestId("question");
+        expect(questionHeading).toBeInTheDocument();
+
+        const questionText = questionHeading.textContent;
+
+        const correctAnswer = sampleQuestions.questions
+          .map((question) => question)
+          .filter(
+            (question) => question.text === questionText,
+          )[0].correctAnswer;
+
+        expect(screen.getByText(correctAnswer)).toBeInTheDocument();
+
+        act(() => {
+          fireEvent.click(screen.getByText(correctAnswer));
+        });
+
+        expect(currentScore.textContent).toContain(`Score: ${i + 1}`);
+      }
+
+      await waitFor(
+        () => {
+          const finalScore = screen.getByLabelText("Final score");
+          expect(finalScore).toBeInTheDocument();
+          expect(finalScore.textContent).toMatch(/5\/5/);
+
+          const finishButton = screen.getByRole("button", {
+            name: "Finish",
+          });
+          expect(finishButton).toBeInTheDocument();
+        },
+        {
+          timeout: 5000,
+        },
+      );
+
+      await waitFor(() => {
+        const finishButton = screen.getByRole("button", {
+          name: "Finish",
+        });
+
+        act(() => {
+          fireEvent.click(finishButton);
+        });
+      });
+
+      // Start a new quiz
+      promptInput = screen.getByLabelText("Prompt");
+      submitButton = screen.getByRole("button", {
+        name: "Start quiz",
+      });
+
+      act(() => {
+        fireEvent.change(promptInput, {
+          target: { value: "General knowledge" },
+        });
+      });
+
+      await waitFor(() => {
+        expect(submitButton).toBeEnabled();
+      });
+
+      act(() => {
+        fireEvent.click(submitButton);
+      });
+
+      await waitFor(
+        () => {
+          expect(screen.getByText("Question 1")).toBeInTheDocument();
+        },
+        { timeout: 5000 },
+      );
+    },
+  ); // Increased timeout for multiple questions
 });
 
 describe("Questions", () => {
   it("renders questions", async () => {
     render(
       <QuizQuestions
-        currentQuestionNumber={1}
         currentQuestion={sampleQuestions.questions[0]}
         questionCount={sampleQuestions.questions.length}
         onAnswer={vi.fn()}
