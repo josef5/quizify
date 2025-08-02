@@ -123,7 +123,9 @@ function QuizQuestions({
       <div ref={containerRef}>
         <div className="mb-2 flex text-xs font-normal">
           <p>Question {currentQuestionNumber}</p>
-          <p className="ml-auto">Score: {currentScore}</p>
+          <p className="ml-auto" aria-label="Current score">
+            Score: {currentScore}
+          </p>
         </div>
         <h2
           className="my-2 mb-8 text-xl font-bold"

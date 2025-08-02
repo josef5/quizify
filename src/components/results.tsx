@@ -47,13 +47,13 @@ const Results = ({
 
   return (
     <div className="flex flex-col" ref={containerRef}>
-      <h2 className="mb-4 self-end text-base">
+      <h2 className="mb-4 self-end text-base" aria-label="Final score">
         <span className="from-brand-1 to-brand-2 bg-gradient-to-br bg-clip-text text-7xl font-black text-transparent">
           {score.correctCount}
         </span>
         /{score.questionsCount}
       </h2>
-      <ol className="mb-18 list-none">
+      <ol className="mb-18 list-none" aria-label="Quiz results">
         {userAnswers.map(
           ({ questionNumber, question, answer, correctAnswer, isCorrect }) => (
             <li key={questionNumber} className="mt-4 text-base font-normal">
