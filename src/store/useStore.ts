@@ -1,21 +1,30 @@
 import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { encryptSync } from "@/lib/encryption";
+import { Quiz } from "@/types";
 import { create } from "zustand";
 
 interface Store {
   isSettingsOpen: boolean;
   setIsSettingsOpen: (isOpen: boolean) => void;
   toggleIsSettingsOpen: () => void;
+
   isDarkMode: boolean;
   toggleDarkMode: () => void;
   setDarkMode: (value: boolean) => void;
+
   encryptedApiKey: string;
   encryptAndSetApiKey: (key: string) => void;
   encryptAndSaveApiKey: (key: string) => void;
+
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (index: number) => void;
   incrementCurrentQuestionIndex: () => void;
   resetCurrentQuestionIndex: () => void;
+
+  quizData: Quiz | null;
+  setQuizData: (data: Quiz | null) => void;
+  resetQuizData: () => void;
+
   currentScore: number;
   setCurrentScore: (score: number) => void;
   incrementCurrentScore: () => void;
@@ -56,6 +65,10 @@ export const useStore = create<Store>((set) => ({
     localStorage.setItem("apiKey", encryptedApiKey);
     set({ encryptedApiKey });
   },
+
+  quizData: null,
+  setQuizData: (data: Quiz | null) => set({ quizData: data }),
+  resetQuizData: () => set({ quizData: null }),
 
   currentQuestionIndex: 0,
   setCurrentQuestionIndex: (index: number) =>
