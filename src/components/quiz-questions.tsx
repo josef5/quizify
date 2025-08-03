@@ -20,7 +20,7 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
   const incrementCurrentScore = useStore(
     (state) => state.incrementCurrentScore,
   );
-  const questionsTotalStore = useStore(
+  const questionsTotal = useStore(
     (state) => state.quizData?.questions?.length ?? 0,
   );
   const currentQuestion = useStore(
@@ -112,7 +112,7 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
   return (
     <>
       <Progress
-        value={Math.round((progressCount / questionsTotalStore) * 100)}
+        value={Math.round((progressCount / questionsTotal) * 100)}
         className="mb-8 h-1 w-full"
         aria-label="Quiz progress"
       />

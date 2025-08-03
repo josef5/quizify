@@ -28,13 +28,13 @@ function App() {
   );
   const resetCurrentScore = useStore((state) => state.resetCurrentScore);
 
-  const quizDataStore = useStore((state) => state.quizData);
-  const setQuizDataStore = useStore((state) => state.setQuizData);
-  const resetQuizDataStore = useStore((state) => state.resetQuizData);
-  const questionsTotalStore = useStore(
+  const quizData = useStore((state) => state.quizData);
+  const setQuizData = useStore((state) => state.setQuizData);
+  const resetQuizData = useStore((state) => state.resetQuizData);
+  const questionsTotal = useStore(
     (state) => state.quizData?.questions?.length ?? 0,
   );
-  const isLastQuestion = currentQuestionIndex === questionsTotalStore - 1;
+  const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -44,7 +44,7 @@ function App() {
         setQuizResults({ userAnswers: [] });
         break;
       case "loading":
-        resetQuizDataStore();
+        resetQuizData();
         setQuizResults({ userAnswers: [] });
         break;
       case "playing":
@@ -64,7 +64,7 @@ function App() {
     const quizData = await fetchQuiz(data);
 
     if (quizData) {
-      setQuizDataStore(quizData);
+      setQuizData(quizData);
       transitionTo("playing");
     } else {
       // Error handling is already done in the hook
@@ -73,11 +73,11 @@ function App() {
   }
 
   function getCurrentQuestion(): Question | null {
-    if (!quizDataStore) {
+    if (!quizData) {
       return null;
     }
 
-    return quizDataStore.questions[currentQuestionIndex];
+    return quizData.questions[currentQuestionIndex];
   }
 
   function startNextTurn() {
