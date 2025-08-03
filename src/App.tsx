@@ -9,7 +9,7 @@ import OpenSettingsButton from "./components/ui/open-settings-button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
-import type { GameState, Question, QuizResults } from "./types";
+import type { GameState, QuizResults } from "./types";
 
 // TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
@@ -30,8 +30,6 @@ function App() {
     (state) => state.resetCurrentQuestionIndex,
   );
   const resetCurrentScore = useStore((state) => state.resetCurrentScore);
-
-  const quizData = useStore((state) => state.quizData);
   const setQuizData = useStore((state) => state.setQuizData);
   const resetQuizData = useStore((state) => state.resetQuizData);
   const questionsTotal = useStore(
