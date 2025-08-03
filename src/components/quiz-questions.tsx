@@ -1,26 +1,16 @@
 import { ANSWER_HOLD_DELAY } from "@/lib/constants";
 import { sleep } from "@/lib/utils";
-import type { Question } from "@/types";
+import { useStore } from "@/store/useStore";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import AnswerButton from "./ui/answer-button";
 import { Progress } from "./ui/core/progress";
-import { useStore } from "@/store/useStore";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
-// TODO: Add current score
-function QuizQuestions({
-  currentQuestion,
-  questionCount,
-  onAnswer,
-}: {
-  currentQuestion?: Question | null;
-  questionCount: number;
-  onAnswer: (answer: string) => void;
-}) {
+function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
@@ -29,6 +19,12 @@ function QuizQuestions({
   const currentScore = useStore((state) => state.currentScore);
   const incrementCurrentScore = useStore(
     (state) => state.incrementCurrentScore,
+  );
+  const questionsTotalStore = useStore(
+    (state) => state.quizData?.questions?.length ?? 0,
+  );
+  const currentQuestion = useStore(
+    (state) => state.quizData?.questions[state.currentQuestionIndex],
   );
   // Updated independently so the progress bar can be animated
   const [progressCount, setProgressCount] = useState(currentQuestionIndex);
@@ -116,7 +112,7 @@ function QuizQuestions({
   return (
     <>
       <Progress
-        value={Math.round((progressCount / questionCount) * 100)}
+        value={Math.round((progressCount / questionsTotalStore) * 100)}
         className="mb-8 h-1 w-full"
         aria-label="Quiz progress"
       />

@@ -9,14 +9,12 @@ import OpenSettingsButton from "./components/ui/open-settings-button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
-import type { GameState, Question, Quiz, QuizResults } from "./types";
+import type { GameState, Question, QuizResults } from "./types";
 
 // TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
-// TODO: Move local state to Zustand store
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
-  const [quizData, setQuizData] = useState<Quiz | null>(null);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
@@ -30,6 +28,14 @@ function App() {
   );
   const resetCurrentScore = useStore((state) => state.resetCurrentScore);
 
+  const quizDataStore = useStore((state) => state.quizData);
+  const setQuizDataStore = useStore((state) => state.setQuizData);
+  const resetQuizDataStore = useStore((state) => state.resetQuizData);
+  const questionsTotalStore = useStore(
+    (state) => state.quizData?.questions?.length ?? 0,
+  );
+  const isLastQuestion = currentQuestionIndex === questionsTotalStore - 1;
+
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
@@ -38,7 +44,7 @@ function App() {
         setQuizResults({ userAnswers: [] });
         break;
       case "loading":
-        setQuizData(null);
+        resetQuizDataStore();
         setQuizResults({ userAnswers: [] });
         break;
       case "playing":
@@ -58,7 +64,7 @@ function App() {
     const quizData = await fetchQuiz(data);
 
     if (quizData) {
-      setQuizData(quizData);
+      setQuizDataStore(quizData);
       transitionTo("playing");
     } else {
       // Error handling is already done in the hook
@@ -67,17 +73,15 @@ function App() {
   }
 
   function getCurrentQuestion(): Question | null {
-    if (!quizData || currentQuestionIndex >= quizData.questions.length) {
+    if (!quizDataStore) {
       return null;
     }
 
-    return quizData.questions[currentQuestionIndex];
+    return quizDataStore.questions[currentQuestionIndex];
   }
 
   function startNextTurn() {
-    const nextIndex = currentQuestionIndex + 1;
-
-    if (nextIndex < (quizData?.questions.length ?? 0)) {
+    if (!isLastQuestion) {
       incrementCurrentQuestionIndex();
     } else {
       transitionTo("finished");
@@ -144,18 +148,13 @@ function App() {
             isLoading={gameState === "loading"}
             onSubmit={(data: MainFormValues) => {
               setIsSettingsOpen(false);
-
               handleFetchQuiz(data);
             }}
           />
         )}
 
         {currentQuestion && gameState === "playing" && (
-          <QuizQuestions
-            currentQuestion={currentQuestion}
-            questionCount={quizData?.questions.length ?? 0}
-            onAnswer={handleAnswer}
-          />
+          <QuizQuestions onAnswer={handleAnswer} />
         )}
         {gameState === "finished" && quizResults && (
           <Results
