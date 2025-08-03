@@ -19,6 +19,9 @@ function App() {
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
+  const currentQuestion = useStore(
+    (state) => state.quizData?.questions[state.currentQuestionIndex] || null,
+  );
   const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
   const incrementCurrentQuestionIndex = useStore(
     (state) => state.incrementCurrentQuestionIndex,
@@ -72,14 +75,6 @@ function App() {
     }
   }
 
-  function getCurrentQuestion(): Question | null {
-    if (!quizData) {
-      return null;
-    }
-
-    return quizData.questions[currentQuestionIndex];
-  }
-
   function startNextTurn() {
     if (!isLastQuestion) {
       incrementCurrentQuestionIndex();
@@ -87,8 +82,6 @@ function App() {
       transitionTo("finished");
     }
   }
-
-  const currentQuestion = getCurrentQuestion();
 
   async function handleAnswer(answer: string) {
     setQuizResults((prevResults) => {
