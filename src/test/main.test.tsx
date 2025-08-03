@@ -135,7 +135,7 @@ describe("App", () => {
     });
   });
 
-  it.only(
+  it(
     "plays through a full quiz once and starts a new one",
     { timeout: 10000 },
     async () => {
