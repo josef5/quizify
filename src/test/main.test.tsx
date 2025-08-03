@@ -265,13 +265,7 @@ describe("App", () => {
 
 describe("Questions", () => {
   it("renders questions", async () => {
-    render(
-      <QuizQuestions
-        currentQuestion={sampleQuestions.questions[0]}
-        questionCount={sampleQuestions.questions.length}
-        onAnswer={vi.fn()}
-      />,
-    );
+    render(<QuizQuestions onAnswer={vi.fn()} />);
 
     expect(screen.getByText("Question 1")).toBeInTheDocument();
 
