@@ -9,13 +9,12 @@ import OpenSettingsButton from "./components/ui/open-settings-button";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
-import type { GameState, QuizResults } from "./types";
+import type { GameState } from "./types";
 
 // TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
 function App() {
   const [gameState, setGameState] = useState<GameState>("setup");
-  const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
@@ -36,17 +35,20 @@ function App() {
     (state) => state.quizData?.questions?.length ?? 0,
   );
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
+  const quizResults = useStore((state) => state.quizResults);
+  const setQuizResults = useStore((state) => state.setQuizResults);
+  const resetQuizResults = useStore((state) => state.resetQuizResults);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
         resetCurrentQuestionIndex();
         resetCurrentScore();
-        setQuizResults({ userAnswers: [] });
+        resetQuizResults();
         break;
       case "loading":
         resetQuizData();
-        setQuizResults({ userAnswers: [] });
+        resetQuizResults();
         break;
       case "playing":
         break;
@@ -82,26 +84,23 @@ function App() {
   }
 
   async function handleAnswer(answer: string) {
-    setQuizResults((prevResults) => {
-      if (!currentQuestion) {
-        return prevResults;
-      }
-
+    if (currentQuestion) {
+      const isCorrect = answer === currentQuestion.correctAnswer;
       const { text, correctAnswer } = currentQuestion;
 
-      return {
+      setQuizResults({
         userAnswers: [
-          ...(prevResults?.userAnswers || []),
+          ...(quizResults?.userAnswers || []),
           {
             questionNumber: currentQuestionIndex + 1,
             question: text,
             answer,
             correctAnswer,
-            isCorrect: answer === correctAnswer,
+            isCorrect,
           },
         ],
-      };
-    });
+      });
+    }
 
     startNextTurn();
   }
