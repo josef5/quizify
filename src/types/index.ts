@@ -22,10 +22,6 @@ export type UserAnswer = {
   isCorrect: boolean;
 };
 
-export type QuizResults = {
-  userAnswers: UserAnswer[];
-};
-
 export type DifficultyLabels = Record<MainFormValues["difficulty"], string>;
 
 export type DifficultySettings = Record<

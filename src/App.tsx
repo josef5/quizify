@@ -19,9 +19,10 @@ function App() {
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentQuestion = useStore(
-    (state) => state.quizData?.questions[state.currentQuestionIndex] || null,
+    (state) => state.quizData?.questions[state.currentQuestionIndex] ?? null,
   );
   const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
+  // const currentQuestionIndex = useStore((state) => state.userAnswers.length);
   const incrementCurrentQuestionIndex = useStore(
     (state) => state.incrementCurrentQuestionIndex,
   );
@@ -35,20 +36,22 @@ function App() {
     (state) => state.quizData?.questions?.length ?? 0,
   );
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
-  const quizResults = useStore((state) => state.quizResults);
-  const setQuizResults = useStore((state) => state.setQuizResults);
-  const resetQuizResults = useStore((state) => state.resetQuizResults);
+
+  const userAnswers = useStore((state) => state.userAnswers);
+  const addUserAnswer = useStore((state) => state.addUserAnswer);
+  const resetUserAnswers = useStore((state) => state.resetUserAnswers);
+  const userAnswersExist = userAnswers.length > 0;
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
         resetCurrentQuestionIndex();
         resetCurrentScore();
-        resetQuizResults();
+        resetUserAnswers();
         break;
       case "loading":
         resetQuizData();
-        resetQuizResults();
+        resetUserAnswers();
         break;
       case "playing":
         break;
@@ -88,17 +91,12 @@ function App() {
       const isCorrect = answer === currentQuestion.correctAnswer;
       const { text, correctAnswer } = currentQuestion;
 
-      setQuizResults({
-        userAnswers: [
-          ...(quizResults?.userAnswers || []),
-          {
-            questionNumber: currentQuestionIndex + 1,
-            question: text,
-            answer,
-            correctAnswer,
-            isCorrect,
-          },
-        ],
+      addUserAnswer({
+        questionNumber: currentQuestionIndex + 1,
+        question: text,
+        answer,
+        correctAnswer,
+        isCorrect,
       });
     }
 
@@ -146,11 +144,9 @@ function App() {
         {currentQuestion && gameState === "playing" && (
           <QuizQuestions onAnswer={handleAnswer} />
         )}
-        {gameState === "finished" && quizResults && (
-          <Results
-            userAnswers={quizResults.userAnswers}
-            onRestart={handleRestart}
-          />
+
+        {gameState === "finished" && userAnswersExist && (
+          <Results userAnswers={userAnswers} onRestart={handleRestart} />
         )}
       </main>
       <Toaster expand={true} richColors />

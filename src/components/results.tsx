@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { QuizResults, UserAnswer } from "@/types";
+import type { UserAnswer } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useRef } from "react";
@@ -8,7 +8,10 @@ import FinishButton from "./ui/finish-button";
 const Results = ({
   userAnswers,
   onRestart,
-}: QuizResults & { onRestart: () => void }) => {
+}: {
+  userAnswers: UserAnswer[];
+  onRestart: () => void;
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   function getScore(userAnswers: UserAnswer[]) {
