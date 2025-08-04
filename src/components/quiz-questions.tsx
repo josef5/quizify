@@ -106,7 +106,14 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
     incorrectAnswers: string[],
   ): string[] {
     const answers = [correctAnswer, ...incorrectAnswers];
-    return answers.sort(() => Math.random() - 0.5);
+
+    // Fisher-Yates shuffle
+    for (let i = answers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+
+    return answers;
   }
 
   return (
