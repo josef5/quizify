@@ -1,6 +1,6 @@
 import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { encryptSync } from "@/lib/encryption";
-import { Quiz } from "@/types";
+import { Quiz, QuizResults } from "@/types";
 import { create } from "zustand";
 
 interface Store {
@@ -29,6 +29,10 @@ interface Store {
   setCurrentScore: (score: number) => void;
   incrementCurrentScore: () => void;
   resetCurrentScore: () => void;
+
+  quizResults: QuizResults | null;
+  setQuizResults: (results: QuizResults | null) => void;
+  resetQuizResults: () => void;
 }
 
 export const useStore = create<Store>((set) => ({
@@ -82,4 +86,9 @@ export const useStore = create<Store>((set) => ({
   incrementCurrentScore: () =>
     set((state) => ({ currentScore: state.currentScore + 1 })),
   resetCurrentScore: () => set({ currentScore: 0 }),
+
+  quizResults: null,
+  setQuizResults: (results: QuizResults | null) =>
+    set({ quizResults: results }),
+  resetQuizResults: () => set({ quizResults: null }),
 }));
