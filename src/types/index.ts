@@ -9,11 +9,6 @@ export type Quiz = {
 
 export type Question = QuestionSchemaType;
 
-export type Answer = {
-  id: string;
-  text: string;
-};
-
 export type UserAnswer = {
   questionNumber: number;
   question: string;
