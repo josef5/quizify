@@ -19,16 +19,9 @@ function App() {
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentQuestion = useStore(
-    (state) => state.quizData?.questions[state.currentQuestionIndex] ?? null,
+    (state) => state.quizData?.questions[state.userAnswers.length] ?? null,
   );
-  const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
-  // const currentQuestionIndex = useStore((state) => state.userAnswers.length);
-  const incrementCurrentQuestionIndex = useStore(
-    (state) => state.incrementCurrentQuestionIndex,
-  );
-  const resetCurrentQuestionIndex = useStore(
-    (state) => state.resetCurrentQuestionIndex,
-  );
+  const currentQuestionIndex = useStore((state) => state.userAnswers.length);
   const resetCurrentScore = useStore((state) => state.resetCurrentScore);
   const setQuizData = useStore((state) => state.setQuizData);
   const resetQuizData = useStore((state) => state.resetQuizData);
@@ -36,7 +29,6 @@ function App() {
     (state) => state.quizData?.questions?.length ?? 0,
   );
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
-
   const userAnswers = useStore((state) => state.userAnswers);
   const addUserAnswer = useStore((state) => state.addUserAnswer);
   const resetUserAnswers = useStore((state) => state.resetUserAnswers);
@@ -45,7 +37,6 @@ function App() {
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
-        resetCurrentQuestionIndex();
         resetCurrentScore();
         resetUserAnswers();
         break;
@@ -79,9 +70,7 @@ function App() {
   }
 
   function startNextTurn() {
-    if (!isLastQuestion) {
-      incrementCurrentQuestionIndex();
-    } else {
+    if (isLastQuestion) {
       transitionTo("finished");
     }
   }

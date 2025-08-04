@@ -14,7 +14,7 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
-  const currentQuestionIndex = useStore((state) => state.currentQuestionIndex);
+  const currentQuestionIndex = useStore((state) => state.userAnswers.length);
   const currentQuestionNumber = currentQuestionIndex + 1;
   const currentScore = useStore((state) => state.currentScore);
   const incrementCurrentScore = useStore(
@@ -24,7 +24,7 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
     (state) => state.quizData?.questions?.length ?? 0,
   );
   const currentQuestion = useStore(
-    (state) => state.quizData?.questions[state.currentQuestionIndex],
+    (state) => state.quizData?.questions[state.userAnswers.length],
   );
   // Updated independently so the progress bar can be animated
   const [progressCount, setProgressCount] = useState(currentQuestionIndex);

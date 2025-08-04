@@ -16,11 +16,6 @@ interface Store {
   encryptAndSetApiKey: (key: string) => void;
   encryptAndSaveApiKey: (key: string) => void;
 
-  currentQuestionIndex: number;
-  setCurrentQuestionIndex: (index: number) => void;
-  incrementCurrentQuestionIndex: () => void;
-  resetCurrentQuestionIndex: () => void;
-
   quizData: Quiz | null;
   setQuizData: (data: Quiz | null) => void;
   resetQuizData: () => void;
@@ -73,13 +68,6 @@ export const useStore = create<Store>((set) => ({
   quizData: null,
   setQuizData: (data: Quiz | null) => set({ quizData: data }),
   resetQuizData: () => set({ quizData: null }),
-
-  currentQuestionIndex: 0,
-  setCurrentQuestionIndex: (index: number) =>
-    set({ currentQuestionIndex: index }),
-  incrementCurrentQuestionIndex: () =>
-    set((state) => ({ currentQuestionIndex: state.currentQuestionIndex + 1 })),
-  resetCurrentQuestionIndex: () => set({ currentQuestionIndex: 0 }),
 
   currentScore: 0,
   setCurrentScore: (score: number) => set({ currentScore: score }),
