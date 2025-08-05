@@ -37,11 +37,9 @@ function App() {
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
-        resetCurrentScore();
-        resetUserAnswers();
-        break;
       case "loading":
         resetQuizData();
+        resetCurrentScore();
         resetUserAnswers();
         break;
       case "playing":
