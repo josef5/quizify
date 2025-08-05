@@ -1,9 +1,12 @@
 import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { encryptSync } from "@/lib/encryption";
-import { Quiz, UserAnswer } from "@/types";
+import { GameState, Quiz, UserAnswer } from "@/types";
 import { create } from "zustand";
 
 interface Store {
+  gameState: GameState;
+  setGameState: (state: GameState) => void;
+
   isSettingsOpen: boolean;
   setIsSettingsOpen: (isOpen: boolean) => void;
   toggleIsSettingsOpen: () => void;
@@ -31,6 +34,9 @@ interface Store {
 }
 
 export const useStore = create<Store>((set) => ({
+  gameState: "setup",
+  setGameState: (state: GameState) => set({ gameState: state }),
+
   isSettingsOpen: false,
   setIsSettingsOpen: (isOpen: boolean) => set({ isSettingsOpen: isOpen }),
   toggleIsSettingsOpen: () =>

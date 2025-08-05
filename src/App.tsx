@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "./App.css";
 import MainForm from "./components/main-form";
@@ -14,7 +14,8 @@ import type { GameState } from "./types";
 // TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
 function App() {
-  const [gameState, setGameState] = useState<GameState>("setup");
+  const gameState = useStore((state) => state.gameState);
+  const setGameState = useStore((state) => state.setGameState);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
@@ -28,10 +29,10 @@ function App() {
   const questionsTotal = useStore(
     (state) => state.quizData?.questions?.length ?? 0,
   );
-  const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
   const userAnswers = useStore((state) => state.userAnswers);
   const addUserAnswer = useStore((state) => state.addUserAnswer);
   const resetUserAnswers = useStore((state) => state.resetUserAnswers);
+  const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
   const userAnswersExist = userAnswers.length > 0;
 
   function transitionTo(nextState: GameState) {
@@ -75,8 +76,8 @@ function App() {
 
   async function handleAnswer(answer: string) {
     if (currentQuestion) {
-      const isCorrect = answer === currentQuestion.correctAnswer;
       const { text, correctAnswer } = currentQuestion;
+      const isCorrect = answer === currentQuestion.correctAnswer;
 
       addUserAnswer({
         questionNumber: currentQuestionIndex + 1,
