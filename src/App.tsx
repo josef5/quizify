@@ -34,6 +34,7 @@ function App() {
   const resetUserAnswers = useStore((state) => state.resetUserAnswers);
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
   const userAnswersExist = userAnswers.length > 0;
+  const { fetchQuiz } = useFetchQuiz();
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -51,8 +52,6 @@ function App() {
 
     setGameState(nextState);
   }
-
-  const { fetchQuiz } = useFetchQuiz();
 
   async function handleFetchQuiz(data: MainFormValues) {
     transitionTo("loading");
