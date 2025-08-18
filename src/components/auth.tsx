@@ -28,6 +28,7 @@ function Auth() {
     defaultValues: {
       email: "",
       password: "",
+      loginMode: "login",
     },
   });
 

@@ -21,6 +21,7 @@ export const AuthFormSchema = z.object({
     .min(5, "Email is required")
     .email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
+  loginMode: z.enum(["login", "signup"]),
 });
 
 export type AuthFormValues = z.infer<typeof AuthFormSchema>;
