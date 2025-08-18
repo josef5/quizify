@@ -14,6 +14,17 @@ export const MainFormSchema = z.object({
 
 export type MainFormValues = z.infer<typeof MainFormSchema>;
 
+export const AuthFormSchema = z.object({
+  email: z
+    .string()
+    .email()
+    .min(5, "Email is required")
+    .email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+export type AuthFormValues = z.infer<typeof AuthFormSchema>;
+
 export const SettingsFormSchema = z.object({
   apiKey: z.string().min(156, "OpenAI API Key is required"),
 });
