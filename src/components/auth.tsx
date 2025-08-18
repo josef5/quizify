@@ -20,7 +20,7 @@ import { Switch } from "./ui/switch";
 function Auth() {
   const isOpen = useStore((state) => state.isSettingsOpen);
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"signIn" | "signUp">("signIn");
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(AuthFormSchema),
@@ -28,7 +28,7 @@ function Auth() {
     defaultValues: {
       email: "",
       password: "",
-      loginMode: "login",
+      loginMode: "signIn",
     },
   });
 
@@ -121,7 +121,7 @@ function Auth() {
                   }}
                 />
                 <SaveButton className="min-w-20" type="submit">
-                  {mode === "login" ? "Login" : "Sign Up"}
+                  {mode === "signIn" ? "Sign In" : "Sign Up"}
                 </SaveButton>
                 <div className="flex w-4 justify-center">
                   <FormField
@@ -131,10 +131,10 @@ function Auth() {
                       <FormItem>
                         <FormControl>
                           <Switch
-                            checked={mode === "login"}
+                            checked={mode === "signIn"}
                             onCheckedChange={(checked) => {
-                              setMode(checked ? "login" : "signup");
-                              field.onChange(checked ? "login" : "signup");
+                              setMode(checked ? "signIn" : "signUp");
+                              field.onChange(checked ? "signIn" : "signUp");
                             }}
                             className="dark:data-[state=unchecked]:bg-settings-primary dark:data-[state=checked]:bg-settings-primary data-[state=checked]:bg-settings-primary data-[state=unchecked]:bg-settings-primary dark:[&_span]:data-[state=checked]:bg-foreground relative my-0 scale-60 rotate-90"
                           />
