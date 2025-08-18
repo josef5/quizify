@@ -48,7 +48,7 @@ function Auth() {
   return (
     <aside
       className={cn(
-        "bg-settings-background text-settings-foreground transition-height overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] duration-300 ease-in-out",
+        "bg-settings-background text-settings-foreground overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
         isOpen ? "h-28 sm:h-10" : "h-0",
       )}
       aria-expanded={isOpen}
@@ -120,10 +120,29 @@ function Auth() {
                     );
                   }}
                 />
-                <SaveButton>
+                <SaveButton className="min-w-20" type="submit">
                   {mode === "login" ? "Login" : "Sign Up"}
                 </SaveButton>
-                <Switch className="dark:data-[state=unchecked]:bg-settings-accent relative my-0 scale-60 rotate-90" />
+                <div className="flex w-4 justify-center">
+                  <FormField
+                    control={control}
+                    name="loginMode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={mode === "login"}
+                            onCheckedChange={(checked) => {
+                              setMode(checked ? "login" : "signup");
+                              field.onChange(checked ? "login" : "signup");
+                            }}
+                            className="dark:data-[state=unchecked]:bg-settings-primary dark:data-[state=checked]:bg-settings-primary data-[state=checked]:bg-settings-primary data-[state=unchecked]:bg-settings-primary dark:[&_span]:data-[state=checked]:bg-foreground relative my-0 scale-60 rotate-90"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </form>
             </div>
           </Form>
