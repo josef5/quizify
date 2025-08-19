@@ -23,3 +23,12 @@ export type DifficultySettings = Record<
   MainFormValues["difficulty"],
   { temperature: number; description: string }
 >;
+
+export type Profile = {
+  id: string;
+  user_id: string;
+  openai_api_key_id: string | null;
+  prompts: string[] | null;
+  created_at: string;
+  updated_at: string;
+};
