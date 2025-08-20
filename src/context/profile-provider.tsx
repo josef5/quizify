@@ -2,7 +2,23 @@ import { supabase } from "@/lib/supabase";
 import type { Profile } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { ProfileContext, type UpdateProfileResponse } from "./profile-context";
+import { ProfileContext } from "./profile-context";
+import { AuthError } from "@supabase/supabase-js";
+
+interface UpdateProfileResponse {
+  error: AuthError | null;
+}
+
+export interface ProfileContextType {
+  profile: Profile | null;
+  loading: boolean;
+  updateProfile: (
+    openai_api_key: string,
+    prompts: string[],
+  ) => Promise<UpdateProfileResponse>;
+  getOpenAIApiKey: () => Promise<string | null>;
+  refetch: () => Promise<void>;
+}
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
