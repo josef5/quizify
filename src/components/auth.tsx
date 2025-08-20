@@ -66,7 +66,7 @@ function Auth() {
           throw error;
         }
 
-        toast.success("Signed up successfully");
+        toast.success("Signed up successfully", TOAST_OPTIONS.success);
       } catch (error) {
         console.error("Sign Up Error:", error);
 

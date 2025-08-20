@@ -36,6 +36,9 @@ export const ANSWER_HOLD_DELAY = 1000; // Delay before showing the next question
 export const QUESTION_COUNT_EXTRA = 5; // Add 5 questions to the quiz for randomization
 
 export const TOAST_OPTIONS = {
+  success: {
+    duration: 4000,
+  },
   error: {
     duration: 10000,
     style: {
