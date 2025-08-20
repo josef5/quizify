@@ -16,15 +16,15 @@ import {
 import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
 import { Switch } from "./ui/switch";
+import { useAuth } from "@/hooks/use-auth";
 
 function Auth() {
   const isOpen = useStore((state) => state.isSettingsOpen);
-  const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const [mode, setMode] = useState<"signIn" | "signUp">("signIn");
+  const { signUp, signIn } = useAuth();
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(AuthFormSchema),
-    // mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -39,6 +39,36 @@ function Auth() {
     event?: React.BaseSyntheticEvent,
   ) {
     event?.preventDefault();
+
+    if (mode === "signIn") {
+      signIn(email, password)
+        .then(({ error }) => {
+          if (error) {
+            toast.error(error.message, TOAST_OPTIONS.error);
+          } else {
+            toast.success("Signed in successfully" /* , TOAST_OPTIONS */);
+            // setIsOpen(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Sign In Error:", error);
+          toast.error("Failed to sign in", TOAST_OPTIONS.error);
+        });
+    } else {
+      signUp(email, password)
+        .then(({ error }) => {
+          if (error) {
+            toast.error(error.message, TOAST_OPTIONS.error);
+          } else {
+            toast.success("Signed up successfully" /* , TOAST_OPTIONS */);
+            // setIsOpen(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Sign Up Error:", error);
+          toast.error("Failed to sign up", TOAST_OPTIONS.error);
+        });
+    }
   }
 
   useEffect(() => {
