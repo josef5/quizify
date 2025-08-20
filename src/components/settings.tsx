@@ -21,6 +21,7 @@ import {
 import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
 import SettingsButton from "./ui/settings-button";
+import { useAuth } from "@/hooks/use-auth";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
@@ -30,6 +31,7 @@ function Settings() {
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
+  const { signOut } = useAuth();
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
@@ -60,6 +62,17 @@ function Settings() {
       // If the action is to save the API key, encrypt and save it
       encryptAndSaveApiKey(apiKey);
       setIsOpen(false);
+    }
+  }
+
+  async function handleSignOut() {
+    const { error } = await signOut();
+
+    if (error) {
+      toast.error("Failed to sign out", TOAST_OPTIONS.error);
+      console.error("Sign Out Error:", error);
+    } else {
+      toast.success("Signed out successfully", TOAST_OPTIONS.success);
     }
   }
 
@@ -102,7 +115,7 @@ function Settings() {
       <div className="pt-4 sm:pt-2">
         <FormProvider {...form}>
           <Form {...form}>
-            <div className="flex flex-1 flex-row gap-3 sm:gap-2">
+            <div className="flex flex-1 flex-row items-center gap-3 sm:gap-2">
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
@@ -142,18 +155,13 @@ function Settings() {
                 <div className="mb-0.25 flex w-full flex-row items-center gap-2 sm:mb-0 sm:w-auto">
                   <SaveButton
                     disabled={!isValid || !isDirty}
-                    data-action="use-but-dont-save-api-key"
-                  >
-                    Use
-                  </SaveButton>
-                  <SaveButton
-                    disabled={!isValid || !isDirty}
                     data-action="save-api-key"
                   >
                     Save
                   </SaveButton>
                 </div>
               </form>
+              <SaveButton onClick={handleSignOut}>Sign Out</SaveButton>
               <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
                 <SettingsButton
                   aria-label="Toggle dark mode"
