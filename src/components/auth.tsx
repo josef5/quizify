@@ -34,40 +34,48 @@ function Auth() {
 
   const { control } = form;
 
-  function handleSubmit(
+  async function handleSubmit(
     { email, password }: AuthFormValues,
     event?: React.BaseSyntheticEvent,
   ) {
     event?.preventDefault();
 
     if (mode === "signIn") {
-      signIn(email, password)
-        .then(({ error }) => {
-          if (error) {
-            toast.error(error.message, TOAST_OPTIONS.error);
-          } else {
-            toast.success("Signed in successfully" /* , TOAST_OPTIONS */);
-            // setIsOpen(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Sign In Error:", error);
+      try {
+        const { error } = await signIn(email, password);
+
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Signed in successfully");
+      } catch (error) {
+        console.error("Sign In Error:", error);
+
+        if (error instanceof Error) {
+          toast.error(error.message, TOAST_OPTIONS.error);
+        } else {
           toast.error("Failed to sign in", TOAST_OPTIONS.error);
-        });
+        }
+      }
     } else {
-      signUp(email, password)
-        .then(({ error }) => {
-          if (error) {
-            toast.error(error.message, TOAST_OPTIONS.error);
-          } else {
-            toast.success("Signed up successfully" /* , TOAST_OPTIONS */);
-            // setIsOpen(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Sign Up Error:", error);
+      try {
+        const { error } = await signUp(email, password);
+
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Signed up successfully");
+      } catch (error) {
+        console.error("Sign Up Error:", error);
+
+        if (error instanceof Error) {
+          toast.error(error.message, TOAST_OPTIONS.error);
+        } else {
           toast.error("Failed to sign up", TOAST_OPTIONS.error);
-        });
+        }
+      }
     }
   }
 
