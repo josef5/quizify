@@ -33,15 +33,14 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
-        .eq("user_id", user.id)
-        .single();
+        .eq("user_id", user.id);
 
       if (error && error.code !== "PGRST116") {
         // PGRST116 = no rows returned
         throw error;
       }
 
-      setProfile(data);
+      setProfile(data?.[0] || null);
     } catch (error) {
       console.error("Error fetching profile:", error);
     } finally {
