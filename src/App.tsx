@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "./App.css";
+import Auth from "./components/auth";
 import MainForm from "./components/main-form";
 import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
@@ -111,8 +112,8 @@ function AppContent() {
 
   return (
     <>
-      <Settings />
-      <main className="relative mx-auto flex w-[87.5%] max-w-[560px] flex-col">
+      {user ? <Settings /> : <Auth />}
+      <main className="relative mx-auto flex w-[87.5%] max-w-xl flex-col">
         <OpenSettingsButton
           className="absolute top-5 right-0"
           onClick={() => {
