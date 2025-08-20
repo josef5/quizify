@@ -6,14 +6,16 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
+import { AuthProvider } from "./context/auth-provider";
+import { ProfileProvider } from "./context/profile-provider";
+import { useAuth } from "./hooks/use-auth";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { useStore } from "./store/useStore";
 import type { GameState } from "./types";
 
-// TODO: Add Auth and database support
 // TODO: Collect incorrect answers and reuse them in the quiz
-function App() {
+function AppContent() {
   const gameState = useStore((state) => state.gameState);
   const setGameState = useStore((state) => state.setGameState);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
@@ -35,6 +37,7 @@ function App() {
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
   const userAnswersExist = userAnswers.length > 0;
   const { fetchQuiz } = useFetchQuiz();
+  const { loading, user } = useAuth();
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -138,6 +141,16 @@ function App() {
       </main>
       <Toaster expand={true} richColors />
     </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <ProfileProvider>
+        <AppContent />
+      </ProfileProvider>
+    </AuthProvider>
   );
 }
 
