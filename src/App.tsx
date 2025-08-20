@@ -12,6 +12,7 @@ import { ProfileProvider } from "./context/profile-provider";
 import { useAuth } from "./hooks/use-auth";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
+import { sleep } from "./lib/utils";
 import { useStore } from "./store/useStore";
 import type { GameState } from "./types";
 
@@ -109,6 +110,14 @@ function AppContent() {
   useEffect(() => {
     transitionTo("setup");
   }, []);
+
+  useEffect(() => {
+    sleep(250).then(() => {
+      if (!loading && !user) {
+        setIsSettingsOpen(true);
+      }
+    });
+  }, [user, loading]);
 
   return (
     <>
