@@ -84,9 +84,10 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   },
 
   async fetchApiKey() {
-    const { data, error } = (await supabase.rpc(
-      "get_user_openai_api_key",
-    )) as unknown as { data: string; error: Error };
+    const { data, error } = (await supabase.rpc("get_user_openai_api_key")) as {
+      data: string;
+      error: AuthError | null;
+    };
 
     return { data, error };
   },
