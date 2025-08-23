@@ -15,7 +15,7 @@ import {
 } from "./ui/core/form";
 import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
-import { Switch } from "./ui/switch";
+import { Switch } from "./ui/core/switch";
 import { useAuth } from "@/hooks/use-auth";
 
 function Auth() {
