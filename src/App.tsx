@@ -119,6 +119,11 @@ function AppContent() {
       }
     });
   }, [user, loading]);
+  useEffect(() => {
+    if (user) {
+      loadProfile(user.id);
+    }
+  }, [user]);
 
   return (
     <>
