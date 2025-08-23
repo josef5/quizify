@@ -13,7 +13,7 @@ interface ProfileStore {
   fetchApiKey: () => Promise<{ data: string; error: Error }>;
   updateProfile: (
     userId: string,
-    { apiKey, prompts }: { apiKey: string; prompts: string[] },
+    { apiKey, prompts }: { apiKey?: string; prompts?: string[] },
   ) => void;
 
   _upsertProfile: (updateData: {
