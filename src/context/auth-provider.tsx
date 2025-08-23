@@ -43,8 +43,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
+  function clearUser() {
+    const localStorageKey = `sb-${import.meta.env.VITE_SUPABASE_URL.split("://")[1].split(".")[0]}-auth-token`;
+
+    localStorage.removeItem(localStorageKey);
+
+    setUser(null);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, loading, signUp, signIn, signOut, clearUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

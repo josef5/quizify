@@ -29,7 +29,7 @@ function Settings() {
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
-  const { user, signOut } = useAuth();
+  const { user, signOut, clearUser } = useAuth();
   const { updateProfile, openAiApiKey } = useProfileStore();
 
   const form = useForm<SettingsFormValues>({
@@ -64,8 +64,9 @@ function Settings() {
     const { error } = await signOut();
 
     if (error) {
-      toast.error("Failed to sign out", TOAST_OPTIONS.error);
       console.error("Sign Out Error:", error);
+
+      clearUser();
     } else {
       toast.success("Signed out successfully", TOAST_OPTIONS.success);
     }
