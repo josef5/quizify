@@ -6,14 +6,14 @@ import {
   QUESTION_COUNT_EXTRA,
   TOAST_OPTIONS,
 } from "@/lib/constants";
-import { decryptSync } from "@/lib/encryption";
 import { MainFormValues } from "@/lib/schemas/form-schema";
 import { ResponseDataSchema } from "@/lib/schemas/response-schema";
 import { useStore } from "@/store/useStore";
+import { useProfileStore } from "@/store/profileStore";
 import type { Quiz } from "@/types";
 
 export function useFetchQuiz() {
-  const encryptedApiKey = useStore((state) => state.encryptedApiKey);
+  const openAiApiKey = useProfileStore((state) => state.openAiApiKey);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
 
   const fetchQuiz = async ({
@@ -23,20 +23,15 @@ export function useFetchQuiz() {
     difficulty,
   }: MainFormValues): Promise<Quiz | null> => {
     try {
-      if (!encryptedApiKey) {
+      if (!openAiApiKey) {
         setIsSettingsOpen(true);
         throw new Error("API key is not set");
       }
 
-      const decryptedApiKey = decryptSync(encryptedApiKey);
       const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
 
-      if (!decryptedApiKey) {
-        throw new Error("Decrypted API key is empty");
-      }
-
       const openai = new OpenAI({
-        apiKey: decryptedApiKey,
+        apiKey: openAiApiKey,
         dangerouslyAllowBrowser: true,
       });
 
