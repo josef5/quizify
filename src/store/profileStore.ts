@@ -10,7 +10,7 @@ interface ProfileStore {
   profile: Profile | null;
 
   loadProfile: (userId: string) => void;
-  fetchApiKey: () => Promise<{ data: string; error: Error }>;
+  fetchApiKey: () => Promise<{ data: string; error: AuthError | null }>;
   updateProfile: (
     userId: string,
     { apiKey, prompts }: { apiKey?: string; prompts?: string[] },
@@ -73,6 +73,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
         set({ prompts: profileData.prompts });
       }
 
+      // Set entire profile
       if (profileData) {
         set({ profile: profileData });
       }
