@@ -1,5 +1,5 @@
+import { useAuth } from "@/hooks/use-auth";
 import { TOAST_OPTIONS } from "@/lib/constants";
-import { decryptSync } from "@/lib/encryption";
 import {
   SettingsFormSchema,
   SettingsFormValues,
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useProfileStore } from "@/store/profileStore";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthError } from "@supabase/supabase-js";
 import { Moon, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -24,44 +25,38 @@ import SaveButton from "./ui/save-button";
 import SettingsButton from "./ui/settings-button";
 
 function Settings() {
-  const encryptedApiKey = useStore((state) => state.encryptedApiKey);
-  const encryptAndSetApiKey = useStore((state) => state.encryptAndSetApiKey);
-  const encryptAndSaveApiKey = useStore((state) => state.encryptAndSaveApiKey);
   const isOpen = useStore((state) => state.isSettingsOpen);
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  const { updateProfile, openAiApiKey } = useProfileStore();
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
     mode: "onChange",
     defaultValues: {
-      apiKey: "",
+      apiKey: openAiApiKey ?? "",
     },
   });
 
   const {
     control,
     formState: { isValid, isDirty },
-    trigger,
   } = form;
 
-  function handleSubmit(
-    { apiKey }: SettingsFormValues,
-    event?: React.BaseSyntheticEvent,
-  ) {
-    const submitter = (event?.nativeEvent as SubmitEvent).submitter;
-    const action = submitter?.getAttribute("data-action");
+  async function handleSubmit({ apiKey }: SettingsFormValues) {
+    try {
+      if (!user) throw new AuthError("No user");
 
-    if (action === "use-but-dont-save-api-key") {
-      // If the action is to use the API key without saving, just encrypt and set it
-      encryptAndSetApiKey(apiKey);
+      updateProfile(user.id, { apiKey });
+
       setIsOpen(false);
-    } else if (action === "save-api-key") {
-      // If the action is to save the API key, encrypt and save it
-      encryptAndSaveApiKey(apiKey);
-      setIsOpen(false);
+    } catch (error) {
+      const errorMessage = `Failed to update profile: ${error instanceof Error ? error.message : "Unknown error"}`;
+
+      console.error(errorMessage);
+      toast.error(errorMessage, TOAST_OPTIONS.error);
     }
   }
 
@@ -77,27 +72,12 @@ function Settings() {
   }
 
   useEffect(() => {
-    if (!encryptedApiKey) {
-      trigger("apiKey");
-      return;
-    }
-    try {
-      const decryptedApiKey = decryptSync(encryptedApiKey);
-
-      if (!decryptedApiKey) {
-        throw new Error("Decrypted API key is empty");
-      }
-
+    if (openAiApiKey) {
       form.reset({
-        apiKey: decryptedApiKey,
+        apiKey: openAiApiKey,
       });
-    } catch (error) {
-      const errorMessage = `Failed to decrypt API key: ${error instanceof Error ? error.message : "Unknown error"}`;
-
-      console.error(errorMessage);
-      toast.error(errorMessage, TOAST_OPTIONS.error);
     }
-  }, [form, encryptedApiKey, trigger]);
+  }, [openAiApiKey]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
