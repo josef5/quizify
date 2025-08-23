@@ -40,7 +40,7 @@ function AppContent() {
   const userAnswersExist = userAnswers.length > 0;
   const loadProfile = useProfileStore((state) => state.loadProfile);
   const { fetchQuiz } = useFetchQuiz();
-  const { loading, user } = useAuth();
+  const { loading: authLoading, user } = useAuth();
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -114,11 +114,12 @@ function AppContent() {
 
   useEffect(() => {
     sleep(250).then(() => {
-      if (!loading && !user) {
+      if (!authLoading && !user) {
         setIsSettingsOpen(true);
       }
     });
-  }, [user, loading]);
+  }, [user, authLoading]);
+
   useEffect(() => {
     if (user) {
       loadProfile(user.id);
@@ -163,7 +164,7 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-        <AppContent />
+      <AppContent />
     </AuthProvider>
   );
 }
