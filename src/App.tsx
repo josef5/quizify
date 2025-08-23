@@ -8,11 +8,11 @@ import Results from "./components/results";
 import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
 import { AuthProvider } from "./context/auth-provider";
-import { ProfileProvider } from "./context/profile-provider";
 import { useAuth } from "./hooks/use-auth";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
+import { useProfileStore } from "./store/profileStore";
 import { useStore } from "./store/useStore";
 import type { GameState } from "./types";
 
@@ -38,6 +38,7 @@ function AppContent() {
   const resetUserAnswers = useStore((state) => state.resetUserAnswers);
   const isLastQuestion = currentQuestionIndex === questionsTotal - 1;
   const userAnswersExist = userAnswers.length > 0;
+  const loadProfile = useProfileStore((state) => state.loadProfile);
   const { fetchQuiz } = useFetchQuiz();
   const { loading, user } = useAuth();
 
@@ -157,9 +158,7 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <ProfileProvider>
         <AppContent />
-      </ProfileProvider>
     </AuthProvider>
   );
 }

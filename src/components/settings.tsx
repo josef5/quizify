@@ -5,6 +5,7 @@ import {
   SettingsFormValues,
 } from "@/lib/schemas/form-schema";
 import { cn } from "@/lib/utils";
+import { useProfileStore } from "@/store/profileStore";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Moon, Sun, X } from "lucide-react";
@@ -21,7 +22,6 @@ import {
 import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
 import SettingsButton from "./ui/settings-button";
-import { useAuth } from "@/hooks/use-auth";
 
 function Settings() {
   const encryptedApiKey = useStore((state) => state.encryptedApiKey);
