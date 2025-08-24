@@ -1,10 +1,10 @@
-import { useAuth } from "@/hooks/use-auth";
 import { TOAST_OPTIONS } from "@/lib/constants";
 import {
   SettingsFormSchema,
   SettingsFormValues,
 } from "@/lib/schemas/form-schema";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 import { useProfileStore } from "@/store/profileStore";
 import { useStore } from "@/store/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,8 +29,10 @@ function Settings() {
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
-  const { user, signOut, clearUser } = useAuth();
   const { updateProfile, openAiApiKey } = useProfileStore();
+  const user = useAuthStore((state) => state.user);
+  const signOut = useAuthStore((state) => state.signOut);
+  const clearUser = useAuthStore((state) => state.clearUser);
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),

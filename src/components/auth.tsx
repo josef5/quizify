@@ -16,12 +16,13 @@ import {
 import { Input } from "./ui/core/input";
 import SaveButton from "./ui/save-button";
 import { Switch } from "./ui/core/switch";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuthStore } from "@/store/authStore";
 
 function Auth() {
   const isOpen = useStore((state) => state.isSettingsOpen);
   const [mode, setMode] = useState<"signIn" | "signUp">("signIn");
-  const { signUp, signIn } = useAuth();
+  const signUp = useAuthStore((state) => state.signUp);
+  const signIn = useAuthStore((state) => state.signIn);
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(AuthFormSchema),

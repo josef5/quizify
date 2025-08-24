@@ -1,3 +1,4 @@
+import { Subscription } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "./App.css";
@@ -7,17 +8,16 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
-import { AuthProvider } from "./context/auth-provider";
-import { useAuth } from "./hooks/use-auth";
 import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
+import { useAuthStore } from "./store/authStore";
 import { useProfileStore } from "./store/profileStore";
 import { useStore } from "./store/useStore";
 import type { GameState } from "./types";
 
 // TODO: Collect incorrect answers and reuse them in the quiz
-function AppContent() {
+function App() {
   const gameState = useStore((state) => state.gameState);
   const setGameState = useStore((state) => state.setGameState);
   const toggleIsSettingsOpen = useStore((state) => state.toggleIsSettingsOpen);
@@ -40,7 +40,9 @@ function AppContent() {
   const userAnswersExist = userAnswers.length > 0;
   const loadProfile = useProfileStore((state) => state.loadProfile);
   const { fetchQuiz } = useFetchQuiz();
-  const { loading: authLoading, user } = useAuth();
+  const initializeAuth = useAuthStore((state) => state.initialize);
+  const authLoading = useAuthStore((state) => state.loading);
+  const user = useAuthStore((state) => state.user);
 
   function transitionTo(nextState: GameState) {
     switch (nextState) {
@@ -126,6 +128,20 @@ function AppContent() {
     }
   }, [user]);
 
+  useEffect(() => {
+    let subscription: Subscription | void;
+
+    const init = async () => {
+      subscription = await initializeAuth();
+    };
+
+    init();
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
   return (
     <>
       {user ? <Settings /> : <Auth />}
@@ -158,14 +174,6 @@ function AppContent() {
       </main>
       <Toaster expand={true} richColors />
     </>
-  );
-}
-
-function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
   );
 }
 
