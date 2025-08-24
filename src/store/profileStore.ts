@@ -5,7 +5,7 @@ import { AuthError } from "@supabase/supabase-js";
 
 interface ProfileStore {
   loading: boolean;
-  openAiApiKey: string | null;
+  apiKey: string;
   prompts: string[];
   profile: Profile | null;
 
@@ -24,13 +24,13 @@ interface ProfileStore {
   }) => Promise<{ data: Profile; error: AuthError | null }>;
 
   _upsertApiKey: (
-    openai_api_key: string,
+    apiKey: string,
   ) => Promise<{ apiKeyId: string; error: AuthError | null }>;
 }
 
 export const useProfileStore = create<ProfileStore>((set, get) => ({
   loading: false,
-  openAiApiKey: null,
+  apiKey: "",
   prompts: [],
   profile: null,
 
@@ -58,11 +58,11 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       // Set Api key
       if (profileData?.openai_api_key_id) {
         try {
-          const { data: openAiApiKey, error } = await get().fetchApiKey();
+          const { data: apiKey, error } = await get().fetchApiKey();
 
           if (error) throw error;
 
-          set({ openAiApiKey });
+          set({ apiKey });
         } catch (error) {
           throw error;
         }
@@ -114,7 +114,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
         if (error) throw error;
 
-        set({ openAiApiKey: apiKey });
+        set({ apiKey });
         updatedData.openai_api_key_id = apiKeyId;
       }
 
@@ -154,10 +154,10 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   },
 
   // Upsert API key separately in the Vault and return the key id
-  async _upsertApiKey(openai_api_key: string) {
+  async _upsertApiKey(apiKey: string) {
     const { data: apiKeyId, error } = (await supabase.rpc(
       "upsert_user_openai_api_key",
-      { new_openai_api_key: openai_api_key },
+      { new_openai_api_key: apiKey },
     )) as { data: string; error: AuthError | null };
 
     return { apiKeyId, error };

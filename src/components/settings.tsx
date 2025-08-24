@@ -29,7 +29,8 @@ function Settings() {
   const setIsOpen = useStore((state) => state.setIsSettingsOpen);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
-  const { updateProfile, openAiApiKey } = useProfileStore();
+  const updateProfile = useProfileStore((state) => state.updateProfile);
+  const apiKey = useProfileStore((state) => state.apiKey);
   const user = useAuthStore((state) => state.user);
   const signOut = useAuthStore((state) => state.signOut);
   const clearUser = useAuthStore((state) => state.clearUser);
@@ -38,7 +39,7 @@ function Settings() {
     resolver: zodResolver(SettingsFormSchema),
     mode: "onChange",
     defaultValues: {
-      apiKey: openAiApiKey ?? "",
+      apiKey,
     },
   });
 
@@ -75,12 +76,12 @@ function Settings() {
   }
 
   useEffect(() => {
-    if (openAiApiKey) {
+    if (apiKey) {
       form.reset({
-        apiKey: openAiApiKey,
+        apiKey,
       });
     }
-  }, [openAiApiKey]);
+  }, [apiKey]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
