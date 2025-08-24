@@ -126,7 +126,7 @@ function App() {
     if (user) {
       loadProfile(user.id);
     }
-  }, [user]);
+  }, [user?.id]);
 
   useEffect(() => {
     let subscription: Subscription | void;
