@@ -1,10 +1,8 @@
-import {
-  DIFFICULTY_LABELS,
-  QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-} from "@/lib/constants";
+import { DIFFICULTY_LABELS } from "@/lib/constants";
 import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
+import { useAuthStore } from "@/store/authStore";
+import { useProfileStore } from "@/store/profileStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Form,
@@ -14,10 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/core/form";
+import { Textarea } from "./ui/core/textarea";
 import PromptBadge from "./ui/prompt-badge";
 import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
-import { Textarea } from "./ui/core/textarea";
 
 function MainForm({
   onSubmit,
@@ -48,26 +46,22 @@ function MainForm({
     (opt: { value: number }) => opt.value.toString(),
   );
 
-  // Initialize promptStore from localStorage or empty array
-  // Use a function to avoid re-initialization on every render
-  const [promptStore, setPromptStore] = useState<string[]>(() => {
-    const storedPrompts = localStorage.getItem(QUIZ_PROMPTS_LOCAL_STORAGE_KEY);
-    return storedPrompts ? JSON.parse(storedPrompts) : [];
-  });
+  const user = useAuthStore((state) => state.user);
+  const savedPrompts = useProfileStore((state) => state.prompts);
+  const updateProfile = useProfileStore((state) => state.updateProfile);
 
-  function updatePromptStore(prompt: string) {
-    if (!promptStore.includes(prompt)) {
-      setPromptStore((prev) => [...prev, prompt]);
+  async function updatePromptStore(prompt: string) {
+    console.log("add prompt :", prompt, user?.id);
 
-      localStorage.setItem(
-        QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-        JSON.stringify([...promptStore, prompt]),
-      );
+    if (!user) return;
+
+    await updateProfile(user.id, {
+      prompts: [...(savedPrompts || []), prompt],
+    });
     }
-  }
 
-  function handleSubmit(data: MainFormValues) {
-    updatePromptStore(data.prompt);
+  async function handleSubmit(data: MainFormValues) {
+    await updatePromptStore(data.prompt);
 
     onSubmit(data);
   }
@@ -175,13 +169,13 @@ function MainForm({
             aria-label="Start quiz"
           />
 
-          {promptStore.length > 0 && (
+          {savedPrompts.length > 0 && (
             <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
                 Previous Quiz Subjects:
               </h2>
               <ul className="flex flex-wrap gap-2 pl-0">
-                {promptStore
+                {savedPrompts
                   .slice()
                   .sort((a, b) =>
                     a.toLowerCase().localeCompare(b.toLowerCase()),
@@ -197,16 +191,9 @@ function MainForm({
                           event.preventDefault(); // Prevent form submission
                           event.stopPropagation(); // Prevent click from bubbling up
 
-                          setPromptStore((prev) =>
-                            prev.filter((p) => p !== prompt),
-                          );
-
-                          localStorage.setItem(
-                            QUIZ_PROMPTS_LOCAL_STORAGE_KEY,
-                            JSON.stringify(
-                              promptStore.filter((p) => p !== prompt),
-                            ),
-                          );
+                          updateProfile(user!.id, {
+                            prompts: savedPrompts.filter((p) => p !== prompt),
+                          });
                         }}
                         tabIndex={0}
                       >
