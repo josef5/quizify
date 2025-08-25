@@ -18,8 +18,8 @@ interface ProfileStore {
 
   _upsertProfile: (updateData: {
     user_id: string;
-    openai_api_key_id: string | null;
-    prompts: string[];
+    openai_api_key_id?: string | null;
+    prompts?: string[] | null;
     updated_at: string;
   }) => Promise<{ data: Profile; error: AuthError | null }>;
 
@@ -102,10 +102,13 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
       set({ loading: true });
 
-      const updatedData = {
+      const updatedData: {
+        user_id: string;
+        openai_api_key_id?: string | null;
+        prompts?: string[] | null;
+        updated_at: string;
+      } = {
         user_id: userId,
-        openai_api_key_id: null as string | null,
-        prompts: prompts ?? [],
         updated_at: new Date().toISOString(),
       };
 
@@ -120,7 +123,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       }
 
       if (prompts) {
-        set({ prompts: updatedData.prompts });
+        set({ prompts });
         updatedData.prompts = prompts;
       }
 
@@ -141,8 +144,8 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   // Helper method to update profile in database
   _upsertProfile: async (updateData: {
     user_id: string;
-    openai_api_key_id: string | null;
-    prompts: string[];
+    openai_api_key_id?: string | null;
+    prompts?: string[] | null;
     updated_at: string;
   }) => {
     const { data, error } = (await supabase
