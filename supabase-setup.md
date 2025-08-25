@@ -21,7 +21,7 @@ create table profiles (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users(id) on delete cascade not null,
   prompts text[],
-  openai_api_key_id uuid, -- References vault.secrets(id)
+  api_key_id uuid, -- References vault.secrets(id)
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
   unique(user_id)
@@ -55,8 +55,6 @@ grant all on profiles to authenticated;
 ### Step 2: Create Vault Functions
 
 Run this SQL to create functions for handling encrypted secrets:
-
-TODO: Rename openai_api_key to api_key
 
 ```sql
 -- Function to create or update a user's OpenAI API key in Vault
@@ -182,9 +180,9 @@ set search_path = ''
 as $function$
 begin
   -- Delete the associated vault secret when profile is deleted
-  if OLD.openai_api_key_id is not null then
+  if OLD.api_key_id is not null then
     begin
-      delete from vault.secrets where id = OLD.openai_api_key_id;
+      delete from vault.secrets where id = OLD.api_key_id;
     exception
       when others then
         -- Log the error but don't fail the profile deletion
@@ -208,8 +206,8 @@ create trigger cleanup_profile_secrets_trigger
 ### Data Storage
 
 - **Text array data** (`prompts`): Stored directly in the `profiles` table
-- **Encrypted data** (`openai_api_key`): Stored in `vault.secrets` table (encrypted)
-- **Reference**: `profiles.openai_api_key_id` contains UUID pointing to the vault secret
+- **Encrypted data** (`api_key`): Stored in `vault.secrets` table (encrypted)
+- **Reference**: `profiles.api_key_id` contains UUID pointing to the vault secret
 
 ### Security Features
 
@@ -220,8 +218,8 @@ create trigger cleanup_profile_secrets_trigger
 
 ### Functions
 
-- `upsert_user_openai_api_key(text)`: Creates or updates encrypted secret, returns UUID
-- `get_user_openai_api_key()`: Retrieves and decrypts user's api key
+- `upsert_user_api_key(text)`: Creates or updates encrypted secret, returns UUID
+- `get_user_api_key()`: Retrieves and decrypts user's api key
 - `cleanup_profile_secrets()`: Trigger function that cleans up vault secrets on profile deletion
 
 ## Frontend Integration
@@ -239,12 +237,12 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ```typescript
 // Update profile with both plain and encrypted data
-const { error } = await supabase.rpc("upsert_user_openai_api_key", {
-  new_openai_api_key: "abc123...",
+const { error } = await supabase.rpc("upsert_user_api_key", {
+  new_api_key: "abc123...",
 });
 
 // Get decrypted secret
-const { data: apiKey } = await supabase.rpc("get_user_openai_api_key");
+const { data: apiKey } = await supabase.rpc("get_user_api_key");
 ```
 
 ## Verification
@@ -259,7 +257,7 @@ select vault.create_secret('test_secret', 'test_name', 'test description');
 select * from vault.decrypted_secrets where name = 'test_name';
 
 -- Should return null initially (no user secrets yet)
-select get_user_openai_api_key();
+select get_user_api_key();
 ```
 
 ### Check Extensions
