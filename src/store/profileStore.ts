@@ -103,13 +103,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
       set({ loading: true });
 
-      // TODO: Define a type for updatedData
-      const updatedData: {
-        user_id: string;
-        api_key_id?: string | null;
-        prompts?: string[] | null;
-        updated_at: string;
-      } = {
+      const updatedData: Partial<Profile> = {
         user_id: userId,
         updated_at: new Date().toISOString(),
       };
@@ -129,7 +123,9 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
         updatedData.prompts = prompts;
       }
 
-      const { data, error } = await get()._upsertProfile(updatedData);
+      const { data, error } = await get()._upsertProfile(
+        updatedData as Profile,
+      );
 
       if (error) throw error;
 
@@ -154,12 +150,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   },
 
   // Helper method to update profile in database
-  _upsertProfile: async (updateData: {
-    user_id: string;
-    api_key_id?: string | null;
-    prompts?: string[] | null;
-    updated_at: string;
-  }) => {
+  _upsertProfile: async (updateData: Partial<Profile>) => {
     const { data, error } = (await supabase
       .from("profiles")
       .upsert(updateData, { onConflict: "user_id" })
