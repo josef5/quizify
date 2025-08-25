@@ -8,7 +8,7 @@ import {
 } from "@/lib/constants";
 import { MainFormValues } from "@/lib/schemas/form-schema";
 import { ResponseDataSchema } from "@/lib/schemas/response-schema";
-import { useStore } from "@/store/store";
+import { useStore } from "@/store/mainStore";
 import { useProfileStore } from "@/store/profileStore";
 import type { Quiz } from "@/types";
 

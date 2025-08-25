@@ -33,7 +33,7 @@ vi.mock("openai", () => {
 
 vi.mock("@/store/useStore", async () => {
   const actual = (await vi.importActual("@/store/useStore")) as {
-    useStore: typeof import("@/store/store").useStore;
+    useStore: typeof import("@/store/mainStore").useStore;
   };
 
   return {

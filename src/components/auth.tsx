@@ -1,7 +1,7 @@
 import { TOAST_OPTIONS } from "@/lib/constants";
 import { AuthFormSchema, AuthFormValues } from "@/lib/schemas/form-schema";
 import { cn } from "@/lib/utils";
-import { useStore } from "@/store/store";
+import { useStore } from "@/store/mainStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";

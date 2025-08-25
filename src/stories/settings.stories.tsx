@@ -1,5 +1,5 @@
 import OpenSettingsButton from "@/components/ui/open-settings-button";
-import { useStore } from "@/store/store";
+import { useStore } from "@/store/mainStore";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect } from "react";
 import Settings from "../components/settings";
