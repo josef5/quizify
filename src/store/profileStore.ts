@@ -9,12 +9,12 @@ interface ProfileStore {
   prompts: string[];
   profile: Profile | null;
 
-  loadProfile: (userId: string) => void;
+  loadProfile: (userId: string) => Promise<void>;
   fetchApiKey: () => Promise<{ data: string; error: AuthError | null }>;
   updateProfile: (
     userId: string,
     { apiKey, prompts }: { apiKey?: string; prompts?: string[] },
-  ) => void;
+  ) => Promise<void>;
 
   _upsertProfile: (updateData: {
     user_id: string;
