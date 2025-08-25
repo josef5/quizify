@@ -1,5 +1,5 @@
 import { MainFormValues } from "@/lib/schemas/form-schema";
-import { QuestionSchemaType } from "./../lib/schemas/response-schema";
+import { QuestionSchemaType } from "@/lib/schemas/response-schema";
 
 export type GameState = "setup" | "loading" | "playing" | "finished";
 
@@ -27,7 +27,7 @@ export type DifficultySettings = Record<
 export type Profile = {
   id: string;
   user_id: string;
-  openai_api_key_id: string | null;
+  api_key_id: string | null;
   prompts: string[] | null;
   created_at: string;
   updated_at: string;
