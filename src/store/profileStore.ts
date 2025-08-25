@@ -18,7 +18,7 @@ interface ProfileStore {
 
   _upsertProfile: (updateData: {
     user_id: string;
-    openai_api_key_id?: string | null;
+    api_key_id?: string | null;
     prompts?: string[] | null;
     updated_at: string;
   }) => Promise<{ data: Profile; error: AuthError | null }>;
@@ -56,7 +56,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       const profileData = data?.[0] as Profile | undefined;
 
       // Set Api key
-      if (profileData?.openai_api_key_id) {
+      if (profileData?.api_key_id) {
         try {
           const { data: apiKey, error } = await get().fetchApiKey();
 
@@ -85,7 +85,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   },
 
   async fetchApiKey() {
-    const { data, error } = (await supabase.rpc("get_user_openai_api_key")) as {
+    const { data, error } = (await supabase.rpc("get_user_api_key")) as {
       data: string;
       error: AuthError | null;
     };
@@ -105,7 +105,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
       // TODO: Define a type for updatedData
       const updatedData: {
         user_id: string;
-        openai_api_key_id?: string | null;
+        api_key_id?: string | null;
         prompts?: string[] | null;
         updated_at: string;
       } = {
@@ -120,7 +120,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
         if (error) throw error;
 
         set({ apiKey });
-        updatedData.openai_api_key_id = apiKeyId;
+        updatedData.api_key_id = apiKeyId;
       }
 
       if (prompts) {
@@ -145,7 +145,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   // Helper method to update profile in database
   _upsertProfile: async (updateData: {
     user_id: string;
-    openai_api_key_id?: string | null;
+    api_key_id?: string | null;
     prompts?: string[] | null;
     updated_at: string;
   }) => {
@@ -161,8 +161,8 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
   // Upsert API key separately in the Vault and return the key id
   async _upsertApiKey(apiKey: string) {
     const { data: apiKeyId, error } = (await supabase.rpc(
-      "upsert_user_openai_api_key",
-      { new_openai_api_key: apiKey },
+      "upsert_user_api_key",
+      { new_api_key: apiKey },
     )) as { data: string; error: AuthError | null };
 
     return { apiKeyId, error };
