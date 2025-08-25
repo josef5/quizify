@@ -15,6 +15,7 @@ interface ProfileStore {
     userId: string,
     { apiKey, prompts }: { apiKey?: string; prompts?: string[] },
   ) => Promise<void>;
+  clearProfile: () => void;
 
   _upsertProfile: (updateData: {
     user_id: string;
@@ -140,6 +141,16 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
     } finally {
       set({ loading: false });
     }
+  },
+
+  // Called when user signs out
+  clearProfile() {
+    set({
+      loading: false,
+      apiKey: "",
+      prompts: [],
+      profile: null,
+    });
   },
 
   // Helper method to update profile in database

@@ -34,6 +34,7 @@ function Settings() {
   const user = useAuthStore((state) => state.user);
   const signOut = useAuthStore((state) => state.signOut);
   const clearUser = useAuthStore((state) => state.clearUser);
+  const clearProfile = useProfileStore((state) => state.clearProfile);
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
@@ -66,9 +67,12 @@ function Settings() {
   async function handleSignOut() {
     const { error } = await signOut();
 
+    clearProfile();
+
     if (error) {
       console.error("Sign Out Error:", error);
 
+      // Force clear user
       clearUser();
     } else {
       toast.success("Signed out successfully", TOAST_OPTIONS.success);
