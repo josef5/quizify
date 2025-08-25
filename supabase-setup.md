@@ -62,33 +62,58 @@ create or replace function upsert_user_openai_api_key(new_openai_api_key text)
 returns uuid
 language plpgsql
 security definer
-set search_path = ''
+set search_path = public
 as $function$
 declare
   current_profile record;
   secret_id uuid;
+  secret_name text;
 begin
-  -- Get current profile
-  select * into current_profile
-  from profiles
-  where user_id = auth.uid();
+  -- Generate consistent secret name for the user
+  secret_name := 'user_openai_api_key_' || auth.uid()::text;
+
+  -- Try to get current profile, but don't fail if table doesn't exist
+  begin
+    select * into current_profile
+    from public.profiles
+    where user_id = auth.uid();
+  exception
+    when undefined_table then
+      -- Table doesn't exist yet, treat as no existing profile
+      current_profile := null;
+  end;
 
   if current_profile.openai_api_key_id is not null then
     -- Update existing secret in vault
     perform vault.update_secret(
       current_profile.openai_api_key_id,
       new_openai_api_key,
-      'user_openai_api_key_' || auth.uid()::text,
+      secret_name,
       'OpenAI API key for user ' || auth.uid()::text
     );
     return current_profile.openai_api_key_id;
   else
-    -- Create new secret in vault
-    select vault.create_secret(
-      new_openai_api_key,
-      'user_openai_api_key_' || auth.uid()::text,
-      'OpenAI API key for user ' || auth.uid()::text
-    ) into secret_id;
+    -- Check if secret with this name already exists (edge case)
+    select id into secret_id
+    from vault.secrets
+    where name = secret_name;
+
+    if secret_id is not null then
+      -- Update existing orphaned secret
+      perform vault.update_secret(
+        secret_id,
+        new_openai_api_key,
+        secret_name,
+        'OpenAI API key for user ' || auth.uid()::text
+      );
+    else
+      -- Create new secret in vault
+      select vault.create_secret(
+        new_openai_api_key,
+        secret_name,
+        'OpenAI API key for user ' || auth.uid()::text
+      ) into secret_id;
+    end if;
 
     return secret_id;
   end if;
