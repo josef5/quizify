@@ -56,6 +56,8 @@ grant all on profiles to authenticated;
 
 Run this SQL to create functions for handling encrypted secrets:
 
+TODO: Rename openai_api_key to api_key
+
 ```sql
 -- Function to create or update a user's OpenAI API key in Vault
 create or replace function upsert_user_openai_api_key(new_openai_api_key text)

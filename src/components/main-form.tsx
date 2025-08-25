@@ -58,7 +58,7 @@ function MainForm({
     await updateProfile(user.id, {
       prompts: [...(savedPrompts || []), prompt],
     });
-    }
+  }
 
   async function handleSubmit(data: MainFormValues) {
     await updatePromptStore(data.prompt);
@@ -197,6 +197,7 @@ function MainForm({
                         }}
                         tabIndex={0}
                       >
+                        {/* TODO: Truncate long prompts */}
                         {prompt}
                       </PromptBadge>
                     </li>

@@ -102,6 +102,7 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
       set({ loading: true });
 
+      // TODO: Define a type for updatedData
       const updatedData: {
         user_id: string;
         openai_api_key_id?: string | null;

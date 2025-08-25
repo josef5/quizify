@@ -2,6 +2,8 @@ import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/lib/constants";
 import { GameState, Quiz, UserAnswer } from "@/types";
 import { create } from "zustand";
 
+// TODO: Rename file to store.ts
+
 interface Store {
   gameState: GameState;
   setGameState: (state: GameState) => void;
