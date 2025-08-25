@@ -60,7 +60,7 @@ TODO: Rename openai_api_key to api_key
 
 ```sql
 -- Function to create or update a user's OpenAI API key in Vault
-create or replace function upsert_user_openai_api_key(new_openai_api_key text)
+create or replace function upsert_user_api_key(new_api_key text)
 returns uuid
 language plpgsql
 security definer
@@ -72,7 +72,7 @@ declare
   secret_name text;
 begin
   -- Generate consistent secret name for the user
-  secret_name := 'user_openai_api_key_' || auth.uid()::text;
+  secret_name := 'user_api_key_' || auth.uid()::text;
 
   -- Try to get current profile, but don't fail if table doesn't exist
   begin
@@ -85,15 +85,15 @@ begin
       current_profile := null;
   end;
 
-  if current_profile.openai_api_key_id is not null then
+  if current_profile.api_key_id is not null then
     -- Update existing secret in vault
     perform vault.update_secret(
-      current_profile.openai_api_key_id,
-      new_openai_api_key,
+      current_profile.api_key_id,
+      new_api_key,
       secret_name,
       'OpenAI API key for user ' || auth.uid()::text
     );
-    return current_profile.openai_api_key_id;
+    return current_profile.api_key_id;
   else
     -- Check if secret with this name already exists (edge case)
     select id into secret_id
@@ -104,14 +104,14 @@ begin
       -- Update existing orphaned secret
       perform vault.update_secret(
         secret_id,
-        new_openai_api_key,
+        new_api_key,
         secret_name,
         'OpenAI API key for user ' || auth.uid()::text
       );
     else
       -- Create new secret in vault
       select vault.create_secret(
-        new_openai_api_key,
+        new_api_key,
         secret_name,
         'OpenAI API key for user ' || auth.uid()::text
       ) into secret_id;
@@ -127,11 +127,11 @@ end;
 $function$;
 
 -- Function to get a user's decrypted OpenAI API key
-create or replace function get_user_openai_api_key()
+create or replace function get_user_api_key()
 returns text
 language plpgsql
 security definer
-set search_path = ''
+set search_path = public
 as $function$
 declare
   current_profile record;
@@ -139,17 +139,17 @@ declare
 begin
   -- Get current profile
   select * into current_profile
-  from profiles
+  from public.profiles
   where user_id = auth.uid();
 
-  if current_profile.openai_api_key_id is null then
+  if current_profile.api_key_id is null then
     return null;
   end if;
 
   -- Get decrypted secret from vault
   select decrypted_secret into secret_value
   from vault.decrypted_secrets
-  where id = current_profile.openai_api_key_id;
+  where id = current_profile.api_key_id;
 
   return secret_value;
 exception
@@ -160,8 +160,8 @@ end;
 $function$;
 
 -- Grant function permissions
-grant execute on function upsert_user_openai_api_key(text) to authenticated;
-grant execute on function get_user_openai_api_key() to authenticated;
+grant execute on function upsert_user_api_key(text) to authenticated;
+grant execute on function get_user_api_key() to authenticated;
 
 -- Add these if needed
 grant usage on schema vault to authenticated;
