@@ -13,7 +13,7 @@ import { useProfileStore } from "@/store/profileStore";
 import type { Quiz } from "@/types";
 
 export function useFetchQuiz() {
-  const openAiApiKey = useProfileStore((state) => state.openAiApiKey);
+  const apiKey = useProfileStore((state) => state.apiKey);
   const setIsSettingsOpen = useStore((state) => state.setIsSettingsOpen);
 
   const fetchQuiz = async ({
@@ -23,7 +23,7 @@ export function useFetchQuiz() {
     difficulty,
   }: MainFormValues): Promise<Quiz | null> => {
     try {
-      if (!openAiApiKey) {
+      if (!apiKey) {
         setIsSettingsOpen(true);
         throw new Error("API key is not set");
       }
@@ -31,7 +31,7 @@ export function useFetchQuiz() {
       const difficultySetting = DIFFICULTY_SETTINGS[difficulty];
 
       const openai = new OpenAI({
-        apiKey: openAiApiKey,
+        apiKey,
         dangerouslyAllowBrowser: true,
       });
 
