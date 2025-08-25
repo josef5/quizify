@@ -13,7 +13,7 @@ import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
 import { useAuthStore } from "./store/authStore";
 import { useProfileStore } from "./store/profileStore";
-import { useStore } from "./store/useStore";
+import { useStore } from "./store/store";
 import type { GameState } from "./types";
 
 // TODO: Collect incorrect answers and reuse them in the quiz

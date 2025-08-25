@@ -6,7 +6,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { useProfileStore } from "@/store/profileStore";
-import { useStore } from "@/store/useStore";
+import { useStore } from "@/store/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthError } from "@supabase/supabase-js";
 import { Moon, Sun, X } from "lucide-react";

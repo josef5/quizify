@@ -1,6 +1,6 @@
 import { ANSWER_HOLD_DELAY } from "@/lib/constants";
 import { sleep } from "@/lib/utils";
-import { useStore } from "@/store/useStore";
+import { useStore } from "@/store/store";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
