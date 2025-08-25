@@ -104,12 +104,13 @@ export const useProfileStore = create<ProfileStore>((set, get) => ({
 
       const updatedData = {
         user_id: userId,
-        openai_api_key_id: "",
+        openai_api_key_id: null as string | null,
         prompts: prompts ?? [],
         updated_at: new Date().toISOString(),
       };
 
       if (apiKey) {
+        // Upsert API key and get the key id
         const { apiKeyId, error } = await get()._upsertApiKey(apiKey);
 
         if (error) throw error;
