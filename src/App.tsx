@@ -1,6 +1,6 @@
 import { Subscription } from "@supabase/supabase-js";
 import { useEffect } from "react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import "./App.css";
 import Auth from "./components/auth";
 import MainForm from "./components/main-form";
@@ -62,6 +62,9 @@ function App() {
   }
 
   async function handleFetchQuiz(data: MainFormValues) {
+    try {
+      if (!user) throw new Error("User not authenticated");
+
     transitionTo("loading");
 
     const quizData = await fetchQuiz(data);
@@ -71,6 +74,17 @@ function App() {
       transitionTo("playing");
     } else {
       // Error handling is already done in the hook
+        transitionTo("setup");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Unknown error signing in");
+      }
+
+      console.error("Error fetching quiz:", error);
+
       transitionTo("setup");
     }
   }
