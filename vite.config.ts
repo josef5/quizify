@@ -32,7 +32,7 @@ export default defineConfig({
           name: "unit",
           environment: "jsdom",
           include: ["src/**/*.test.{ts,tsx}"],
-          setupFiles: ["./setup-tests.ts"],
+          setupFiles: ["./src/test/setup-tests.ts"],
           globals: true,
           alias: {
             "@": path.resolve(__dirname, "src"),

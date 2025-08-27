@@ -12,52 +12,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
 import sampleQuestions from "./sample-questions.json";
 
-window.scrollTo = vi.fn();
-
-// Mock OpenAI class and its methods
-vi.mock("openai", () => {
-  return {
-    OpenAI: vi.fn().mockImplementation(() => ({
-      responses: {
-        parse: vi.fn().mockImplementation(() => {
-          console.log("OpenAI mock called!");
-
-          return Promise.resolve({
-            output_parsed: { ...sampleQuestions },
-          });
-        }),
-      },
-    })),
-  };
-});
-
-vi.mock("@/store/useStore", async () => {
-  const actual = (await vi.importActual("@/store/useStore")) as {
-    useStore: typeof import("@/store/mainStore").useStore;
-  };
-
-  return {
-    useStore: vi.fn((selector) => {
-      // Get the original store state/methods
-      const originalStore = actual.useStore((state) => state);
-
-      return selector({
-        ...originalStore, // Keep all original methods and values
-        encryptedApiKey: "mocked-key",
-        setIsSettingsOpen: vi.fn(),
-      });
-    }),
-  };
-});
-
-vi.mock("./useFetchQuiz", () => ({
-  decryptSync: vi.fn(() => "mockedApiKey"),
-}));
-
-vi.mock("@/lib/encryption", () => ({
-  decryptSync: vi.fn(() => "mocked-decrypted-key"),
-}));
-
 describe("App", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -260,7 +214,7 @@ describe("App", () => {
         { timeout: 5000 },
       );
     },
-  ); // Increased timeout for multiple questions
+  );
 });
 
 describe("Questions", () => {
