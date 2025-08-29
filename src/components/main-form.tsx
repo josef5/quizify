@@ -51,8 +51,6 @@ function MainForm({
   const updateProfile = useProfileStore((state) => state.updateProfile);
 
   async function updatePromptStore(prompt: string) {
-    console.log("add prompt :", prompt, user?.id);
-
     if (!user) return;
 
     await updateProfile(user.id, {
