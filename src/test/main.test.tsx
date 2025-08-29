@@ -3,18 +3,29 @@ import Results from "@/components/results";
 import "@testing-library/jest-dom";
 import {
   act,
+  cleanup,
   fireEvent,
   render,
   screen,
   waitFor,
 } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
 import sampleQuestions from "./sample-questions.json";
+import { useAuthStore } from "./setup-tests";
 
 describe("App", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // reinitialize the store state before each test
+    useAuthStore.setState({
+      user: { id: "test-user-id", email: "test@example.com" },
+    });
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it("renders without crashing", () => {
@@ -35,6 +46,14 @@ describe("App", () => {
   it("can open settings if button exists", async () => {
     render(<App />);
 
+    await waitFor(() => {
+      expect(screen.getByLabelText("Settings")).toBeInTheDocument();
+    });
+
+    const isSettingsExpandedInitially =
+      screen.getByLabelText("Settings").getAttribute("aria-expanded") ===
+      "true";
+
     const btn = screen.queryByRole("button", { name: "Open settings" });
 
     if (btn) {
@@ -42,10 +61,36 @@ describe("App", () => {
 
       expect(screen.getByLabelText("Settings")).toHaveAttribute(
         "aria-expanded",
-        "true",
+        isSettingsExpandedInitially ? "false" : "true",
       );
     } else {
       throw new Error("Open Settings Button not found");
+    }
+  });
+
+  it("can sign out and user is null", async () => {
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText("Settings")).toBeInTheDocument();
+    });
+
+    const signOutBtn = screen.queryByRole("button", { name: "Sign Out" });
+
+    expect(signOutBtn).toBeInTheDocument();
+
+    if (signOutBtn) {
+      act(() => signOutBtn.click());
+
+      await waitFor(() => {
+        expect(screen.getByLabelText("Login or Sign Up")).toBeInTheDocument();
+      });
+
+      // Check the user is null in the store
+      const user = useAuthStore.getState().user;
+      expect(user).toBeNull();
+    } else {
+      throw new Error("Sign out button not found");
     }
   });
 
