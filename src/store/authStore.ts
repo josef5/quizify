@@ -65,6 +65,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     return { error };
   },
 
+  // Clear user and remove auth token from local storage (forcibly log out)
   clearUser() {
     const localStorageKey = `sb-${import.meta.env.VITE_SUPABASE_URL.split("://")[1].split(".")[0]}-auth-token`;
 

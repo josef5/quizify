@@ -1,5 +1,6 @@
 import { vi } from "vitest";
 import sampleQuestions from "./sample-questions.json";
+import { create } from "zustand";
 
 window.scrollTo = vi.fn();
 
@@ -12,33 +13,46 @@ class ResizeObserver {
 
 global.ResizeObserver = ResizeObserver;
 
-vi.mock("@/store/authStore", async () => {
-  const actual = (await vi.importActual("@/store/authStore")) as {
-    useAuthStore: typeof import("@/store/authStore").useAuthStore;
-  };
+interface AuthStore {
+  loading: boolean;
+  initialized: boolean;
+  user: {
+    id: "test-user-id";
+    email: "test@example.com";
+  } | null;
 
-  console.log("Auth store called");
+  initialize: () => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<{ error: null }>;
+  clearUser: () => void;
+}
 
-  return {
-    useAuthStore: vi.fn((selector) => {
-      // Get the original store state/methods
-      const originalStore = actual.useAuthStore((state) => state);
+// Create a mock Zustand store
+const useAuthStore = create<AuthStore>((set) => ({
+  loading: false,
+  initialized: true,
+  user: {
+    id: "test-user-id",
+    email: "test@example.com",
+  },
+  initialize: vi.fn(() => Promise.resolve()),
+  signIn: vi.fn(() => Promise.resolve()),
+  signOut: vi.fn(() => {
+    set({ user: null });
+    return Promise.resolve({ error: null });
+  }),
+  signUp: vi.fn(() => Promise.resolve()),
+  clearUser: vi.fn(() => {
+    set({ user: null });
+  }),
+}));
 
-      return selector({
-        ...originalStore, // Keep all original methods and values
-        user: {
-          id: "test-user-id",
-          email: "test@example.com",
-        },
-        initialize: vi.fn(() => Promise.resolve()),
-        signIn: vi.fn(() => Promise.resolve()),
-        signOut: vi.fn(() => Promise.resolve()),
-        signUp: vi.fn(() => Promise.resolve()),
-        clearUser: vi.fn(),
-      });
-    }),
-  };
+vi.mock("@/store/authStore", () => {
+  return { useAuthStore };
 });
+
+export { useAuthStore };
 
 vi.mock("@/store/profileStore", async () => {
   const actual = (await vi.importActual("@/store/profileStore")) as {
