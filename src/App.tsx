@@ -16,6 +16,9 @@ import { useProfileStore } from "./store/profileStore";
 import { useStore } from "./store/mainStore";
 import type { GameState } from "./types";
 
+// TODO: Update styling
+// TODO: Toast error text colour in light mode
+// TODO: Switch to game as soon as quiz started and show a loader there
 // TODO: Collect incorrect answers and reuse them in the quiz
 function App() {
   const gameState = useStore((state) => state.gameState);
@@ -65,15 +68,15 @@ function App() {
     try {
       if (!user) throw new Error("User not authenticated");
 
-    transitionTo("loading");
+      transitionTo("loading");
 
-    const quizData = await fetchQuiz(data);
+      const quizData = await fetchQuiz(data);
 
-    if (quizData) {
-      setQuizData(quizData);
-      transitionTo("playing");
-    } else {
-      // Error handling is already done in the hook
+      if (quizData) {
+        setQuizData(quizData);
+        transitionTo("playing");
+      } else {
+        // Error handling is already done in the hook
         transitionTo("setup");
       }
     } catch (error) {
