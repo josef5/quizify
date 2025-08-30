@@ -38,12 +38,17 @@ export const QUESTION_COUNT_EXTRA = 5; // Add 5 questions to the quiz for random
 export const TOAST_OPTIONS = {
   success: {
     duration: 4000,
+    style: {
+      backgroundColor: "var(--correct)",
+      color: "var(--toast-foreground)",
+      border: "none",
+    },
   },
   error: {
     duration: 10000,
     style: {
       backgroundColor: "var(--incorrect)",
-      color: "var(--foreground)",
+      color: "var(--toast-foreground)",
       border: "none",
     },
     cancel: {
@@ -52,8 +57,8 @@ export const TOAST_OPTIONS = {
     },
     cancelButtonStyle: {
       backgroundColor: "transparent",
-      color: "var(--primary)",
-      border: "1px solid var(--primary)",
+      color: "var(--toast-foreground)",
+      border: "1px solid var(--toast-foreground)",
     },
   },
 };
