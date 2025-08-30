@@ -170,7 +170,7 @@ function App() {
           }}
           aria-label="Open settings"
         />
-        <h1 className="my-12 text-xl font-black">Quizify</h1>
+        <h1 className="text-primary my-20 text-3xl font-black">Quizify</h1>
         {(gameState === "setup" || gameState === "loading") && (
           <MainForm
             isLoading={gameState === "loading"}
