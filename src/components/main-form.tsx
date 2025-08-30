@@ -52,9 +52,10 @@ function MainForm({
 
   async function updatePromptStore(prompt: string) {
     if (!user) return;
+    if (savedPrompts.includes(prompt)) return;
 
     await updateProfile(user.id, {
-      prompts: [...(savedPrompts || []), prompt],
+      prompts: [...(savedPrompts ?? []), prompt],
     });
   }
 
