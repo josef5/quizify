@@ -167,6 +167,7 @@ function MainForm({
             aria-label="Start quiz"
           />
 
+          {/* TODO: Add a spinner while profile loads */}
           {savedPrompts.length > 0 && (
             <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
