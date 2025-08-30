@@ -70,11 +70,11 @@
   --textarea: theme("colors.neutral.100");
 
   --brand-foreground: theme("colors.neutral.50");
-  --brand-1-lite: theme("colors.cyan.600");
-  --brand-2-lite: theme("colors.blue.600");
-  --brand-1: theme("colors.cyan.500");
-  --brand-2: theme("colors.blue.500");
-  --brand-1-darker: theme("colors.cyan.300");
+  --brand-1-lite: theme("colors.emerald-400");
+  --brand-2-lite: theme("colors.sky.600");
+  --brand-1: theme("colors.emerald.400");
+  --brand-2: theme("colors.sky.500");
+  --brand-1-darker: theme("colors.emerald.300");
 
   --correct: theme("colors.lime.500");
   --incorrect: theme("colors.red.600");
