@@ -16,7 +16,6 @@ import { useProfileStore } from "./store/profileStore";
 import { useStore } from "./store/mainStore";
 import type { GameState } from "./types";
 
-// TODO: Update styling
 // TODO: Toast error text colour in light mode
 // TODO: Switch to game as soon as quiz started and show a loader there
 // TODO: Collect incorrect answers and reuse them in the quiz
