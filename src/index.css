@@ -67,7 +67,7 @@
   --settings-secondary: theme("colors.neutral.500");
   --settings-accent: theme("colors.neutral.400");
 
-  --textarea: theme("colors.neutral.100");
+  --textarea: theme("colors.neutral.200");
 
   --brand-foreground: theme("colors.neutral.50");
   --brand-1-lite: theme("colors.emerald-400");
@@ -155,7 +155,7 @@
   --border: oklch(1 0 0 / 10%);
   --input: theme("colors.neutral.600");
   --ring: oklch(0.556 0 0);
-  --textarea: theme("colors.neutral.800");
+  --textarea: theme("colors.neutral.950");
   --badge-icon-hover: theme("colors.neutral.200");
   --correct: theme("colors.lime.400");
   --incorrect: theme("colors.red.500");
