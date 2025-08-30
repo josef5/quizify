@@ -30,11 +30,13 @@ function Settings() {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const toggleDarkMode = useStore((state) => state.toggleDarkMode);
   const updateProfile = useProfileStore((state) => state.updateProfile);
+  const clearProfile = useProfileStore((state) => state.clearProfile);
   const apiKey = useProfileStore((state) => state.apiKey);
   const user = useAuthStore((state) => state.user);
   const signOut = useAuthStore((state) => state.signOut);
   const clearUser = useAuthStore((state) => state.clearUser);
-  const clearProfile = useProfileStore((state) => state.clearProfile);
+
+  // TODO: Add spinner while profile is loading
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
