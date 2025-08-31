@@ -102,7 +102,7 @@ function Settings() {
       aria-expanded={isOpen}
       aria-label="Settings"
     >
-      <div className="pt-4 sm:pt-2">
+      <div className="flex h-full flex-col justify-center">
         <FormProvider {...form}>
           <Form {...form}>
             <div className="flex flex-1 flex-row items-center gap-3 sm:gap-2">
