@@ -17,7 +17,6 @@ import { useStore } from "./store/mainStore";
 import type { GameState } from "./types";
 import { TOAST_OPTIONS } from "./lib/constants";
 
-// TODO: Switch to game as soon as quiz started and show a loader there
 // TODO: Collect incorrect answers and reuse them in the quiz
 function App() {
   const gameState = useStore((state) => state.gameState);
