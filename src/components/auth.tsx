@@ -49,7 +49,7 @@ function Auth() {
           throw error;
         }
 
-        toast.success("Signed in successfully");
+        toast.success("Signed in successfully", TOAST_OPTIONS.success);
       } catch (error) {
         console.error("Sign In Error:", error);
 

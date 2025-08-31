@@ -8,13 +8,14 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
-import { useFetchQuiz } from "./hooks/useFetchQuiz";
+import { useFetchQuiz } from "./hooks/useFetchQuizDev";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
 import { useAuthStore } from "./store/authStore";
 import { useProfileStore } from "./store/profileStore";
 import { useStore } from "./store/mainStore";
 import type { GameState } from "./types";
+import { TOAST_OPTIONS } from "./lib/constants";
 
 // TODO: Switch to game as soon as quiz started and show a loader there
 // TODO: Collect incorrect answers and reuse them in the quiz
@@ -79,9 +80,9 @@ function App() {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast.error(error.message, TOAST_OPTIONS.error);
       } else {
-        toast.error("Unknown error signing in");
+        toast.error("Unknown error signing in", TOAST_OPTIONS.error);
       }
 
       console.error("Error fetching quiz:", error);
