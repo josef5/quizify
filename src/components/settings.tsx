@@ -9,7 +9,7 @@ import { useProfileStore } from "@/store/profileStore";
 import { useStore } from "@/store/mainStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthError } from "@supabase/supabase-js";
-import { Moon, Sun, X } from "lucide-react";
+import { LoaderCircle, Moon, Sun, X } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,11 +32,10 @@ function Settings() {
   const updateProfile = useProfileStore((state) => state.updateProfile);
   const clearProfile = useProfileStore((state) => state.clearProfile);
   const apiKey = useProfileStore((state) => state.apiKey);
+  const profileLoading = useProfileStore((state) => state.loading);
   const user = useAuthStore((state) => state.user);
   const signOut = useAuthStore((state) => state.signOut);
   const clearUser = useAuthStore((state) => state.clearUser);
-
-  // TODO: Add spinner while profile is loading
 
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(SettingsFormSchema),
@@ -106,66 +105,75 @@ function Settings() {
         <FormProvider {...form}>
           <Form {...form}>
             <div className="flex flex-1 flex-row items-center gap-3 sm:gap-2">
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
-              >
-                <FormField
-                  control={control}
-                  name="apiKey"
-                  render={({ field }) => {
-                    return (
-                      <FormItem className="flex w-full flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
-                        <FormLabel className="flex-shrink-0 text-xs">
-                          OpenAI API Key
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="abc123..."
-                            {...field}
-                            onChange={(event) =>
-                              field.onChange(event.target.value)
-                            }
-                            className={cn(
-                              "dark:bg-input border-settings-accent/20 h-6 rounded-xs pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
-                              form.formState.errors.apiKey
-                                ? "ring-destructive ring-2 ring-offset-0"
-                                : "",
-                            )}
-                            autoComplete="off"
-                            autoCorrect="off"
-                            spellCheck="false"
-                          />
-                        </FormControl>
-                      </FormItem>
-                    );
-                  }}
+              {profileLoading ? (
+                <LoaderCircle
+                  size={18}
+                  className="text-settings-foreground animate-spin"
                 />
-                <div className="mb-0.25 flex w-full flex-row items-center gap-2 sm:mb-0 sm:w-auto">
-                  <SaveButton
-                    disabled={!isValid || !isDirty}
-                    data-action="save-api-key"
+              ) : (
+                <>
+                  <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
                   >
-                    Save
-                  </SaveButton>
-                </div>
-              </form>
-              <SaveButton onClick={handleSignOut}>Sign Out</SaveButton>
-              <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
-                <SettingsButton
-                  aria-label="Toggle dark mode"
-                  onClick={() => toggleDarkMode()}
-                >
-                  {isDarkMode ? <Sun /> : <Moon />}
-                </SettingsButton>
-                <SettingsButton
-                  aria-label="Close settings"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <X />
-                </SettingsButton>
-              </div>
+                    <FormField
+                      control={control}
+                      name="apiKey"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="flex w-full flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
+                            <FormLabel className="flex-shrink-0 text-xs">
+                              OpenAI API Key
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                placeholder="abc123..."
+                                {...field}
+                                onChange={(event) =>
+                                  field.onChange(event.target.value)
+                                }
+                                className={cn(
+                                  "dark:bg-input border-settings-accent/20 h-6 rounded-xs pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
+                                  form.formState.errors.apiKey
+                                    ? "ring-destructive ring-2 ring-offset-0"
+                                    : "",
+                                )}
+                                autoComplete="off"
+                                autoCorrect="off"
+                                spellCheck="false"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                    <div className="mb-0.25 flex w-full flex-row items-center gap-2 sm:mb-0 sm:w-auto">
+                      <SaveButton
+                        disabled={!isValid || !isDirty}
+                        data-action="save-api-key"
+                      >
+                        Save
+                      </SaveButton>
+                    </div>
+                  </form>
+                  <SaveButton onClick={handleSignOut}>Sign Out</SaveButton>
+                  <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
+                    <SettingsButton
+                      aria-label="Toggle dark mode"
+                      onClick={() => toggleDarkMode()}
+                    >
+                      {isDarkMode ? <Sun /> : <Moon />}
+                    </SettingsButton>
+                    <SettingsButton
+                      aria-label="Close settings"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <X />
+                    </SettingsButton>
+                  </div>
+                </>
+              )}
             </div>
           </Form>
         </FormProvider>
