@@ -171,17 +171,15 @@ function App() {
         <h1 className="text-primary mt-20 mb-15 text-2xl font-black">
           Quizify
         </h1>
-        {(gameState === "setup" || gameState === "loading") && (
+        {gameState === "setup" && (
           <MainForm
-            isLoading={gameState === "loading"}
             onSubmit={(data: MainFormValues) => {
               setIsSettingsOpen(false);
               handleFetchQuiz(data);
             }}
           />
         )}
-
-        {currentQuestion && gameState === "playing" && (
+        {(gameState === "playing" || gameState === "loading") && (
           <QuizQuestions onAnswer={handleAnswer} />
         )}
 
