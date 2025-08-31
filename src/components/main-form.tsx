@@ -16,6 +16,7 @@ import { Textarea } from "./ui/core/textarea";
 import PromptBadge from "./ui/prompt-badge";
 import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
+import { LoaderCircle } from "lucide-react";
 
 function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
   const form = useForm<MainFormValues>({
@@ -43,6 +44,7 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
   const user = useAuthStore((state) => state.user);
   const savedPrompts = useProfileStore((state) => state.prompts);
   const updateProfile = useProfileStore((state) => state.updateProfile);
+  const profileLoading = useProfileStore((state) => state.loading);
 
   async function updatePromptStore(prompt: string) {
     if (!user) return;
@@ -159,6 +161,11 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
             disabled={!isValid}
             aria-label="Start quiz"
           />
+          {profileLoading && (
+            <div className="my-8">
+              <LoaderCircle size={16} className="text-input animate-spin" />
+            </div>
+          )}
           {savedPrompts.length > 0 && (
             <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
