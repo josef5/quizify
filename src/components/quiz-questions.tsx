@@ -7,6 +7,7 @@ import { SplitText } from "gsap/SplitText";
 import { useMemo, useRef, useState } from "react";
 import AnswerButton from "./ui/answer-button";
 import { Progress } from "./ui/core/progress";
+import { LoaderCircle } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, SplitText);
 
@@ -14,6 +15,7 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const questionRef = useRef<HTMLHeadingElement>(null);
   const answersRef = useRef<HTMLUListElement>(null);
+  const gameState = useStore((state) => state.gameState);
   const currentQuestionIndex = useStore((state) => state.userAnswers.length);
   const currentQuestionNumber = currentQuestionIndex + 1;
   const currentScore = useStore((state) => state.currentScore);
@@ -97,10 +99,6 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
     );
   }, [currentQuestion]);
 
-  if (!currentQuestion) {
-    return;
-  }
-
   function getShuffledAnswers(
     correctAnswer: string,
     incorrectAnswers: string[],
@@ -123,60 +121,65 @@ function QuizQuestions({ onAnswer }: { onAnswer: (answer: string) => void }) {
         className="mb-8 h-1 w-full"
         aria-label="Quiz progress"
       />
-      <div ref={containerRef}>
-        <div className="mb-2 flex text-xs font-normal">
-          <p>Question {currentQuestionNumber}</p>
-          <p className="ml-auto" aria-label="Current score">
-            Score: {currentScore}
-          </p>
+      {gameState === "loading" && (
+        <LoaderCircle size={20} className="text-input animate-spin" />
+      )}
+      {currentQuestion && (
+        <div ref={containerRef}>
+          <div className="mb-2 flex text-xs font-normal">
+            <p>Question {currentQuestionNumber}</p>
+            <p className="ml-auto" aria-label="Current score">
+              Score: {currentScore}
+            </p>
+          </div>
+          <h2
+            className="my-2 mb-8 text-xl font-bold"
+            ref={questionRef}
+            data-testid="question"
+          >
+            {currentQuestion.text}
+          </h2>
+          <ul className="list-none pl-0" ref={answersRef}>
+            {shuffledAnswers.map((answer) => {
+              const isSelected = selectedAnswer === answer;
+              const isCorrect = answer === currentQuestion.correctAnswer;
+
+              return (
+                <li key={answer}>
+                  <AnswerButton
+                    isCorrect={isCorrect}
+                    isSelected={isSelected}
+                    disabled={selectedAnswer !== null}
+                    onClick={async () => {
+                      setSelectedAnswer(answer);
+                      setProgressCount((prev) => prev + 1);
+
+                      if (isCorrect) {
+                        incrementCurrentScore();
+                      }
+
+                      await sleep(ANSWER_HOLD_DELAY); // Wait for the animation to finish
+
+                      // Animate the container out
+                      gsap.timeline().to(containerRef.current, {
+                        opacity: 0,
+                        duration: 0.25,
+                        onComplete: () => {
+                          if (onAnswer) {
+                            onAnswer(answer);
+                          }
+                        },
+                      });
+                    }}
+                  >
+                    {answer}
+                  </AnswerButton>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-        <h2
-          className="my-2 mb-8 text-xl font-bold"
-          ref={questionRef}
-          data-testid="question"
-        >
-          {currentQuestion.text}
-        </h2>
-        <ul className="list-none pl-0" ref={answersRef}>
-          {shuffledAnswers.map((answer) => {
-            const isSelected = selectedAnswer === answer;
-            const isCorrect = answer === currentQuestion.correctAnswer;
-
-            return (
-              <li key={answer}>
-                <AnswerButton
-                  isCorrect={isCorrect}
-                  isSelected={isSelected}
-                  disabled={selectedAnswer !== null}
-                  onClick={async () => {
-                    setSelectedAnswer(answer);
-                    setProgressCount((prev) => prev + 1);
-
-                    if (isCorrect) {
-                      incrementCurrentScore();
-                    }
-
-                    await sleep(ANSWER_HOLD_DELAY); // Wait for the animation to finish
-
-                    // Animate the container out
-                    gsap.timeline().to(containerRef.current, {
-                      opacity: 0,
-                      duration: 0.25,
-                      onComplete: () => {
-                        if (onAnswer) {
-                          onAnswer(answer);
-                        }
-                      },
-                    });
-                  }}
-                >
-                  {answer}
-                </AnswerButton>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      )}
     </>
   );
 }
