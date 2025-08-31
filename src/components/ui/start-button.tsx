@@ -1,15 +1,11 @@
-import { LoaderCircle } from "lucide-react";
-import { Button } from "./core/button";
 import { cn } from "@/lib/utils";
+import { Button } from "./core/button";
 
 function StartButton({
   label,
-  isLoading,
   className,
   ...props
-}: { label: string; isLoading: boolean } & React.ComponentProps<
-  typeof Button
->) {
+}: { label: string } & React.ComponentProps<typeof Button>) {
   return (
     <Button
       type="submit"
@@ -19,11 +15,7 @@ function StartButton({
       )}
       {...props}
     >
-      <div className="w-4">{/* Balance spinner on other side of label */}</div>
       {label}
-      <div className="ml-1 w-4">
-        {isLoading && <LoaderCircle size={16} className="animate-spin" />}
-      </div>
     </Button>
   );
 }

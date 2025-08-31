@@ -17,13 +17,7 @@ import PromptBadge from "./ui/prompt-badge";
 import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
 
-function MainForm({
-  onSubmit,
-  isLoading,
-}: {
-  onSubmit: (data: MainFormValues) => void;
-  isLoading: boolean;
-}) {
+function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
   const form = useForm<MainFormValues>({
     resolver: zodResolver(MainFormSchema),
     defaultValues: {
@@ -162,12 +156,9 @@ function MainForm({
           </div>
           <StartButton
             label="Quizify"
-            isLoading={isLoading}
-            disabled={!isValid || isLoading}
+            disabled={!isValid}
             aria-label="Start quiz"
           />
-
-          {/* TODO: Add a spinner while profile loads */}
           {savedPrompts.length > 0 && (
             <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
