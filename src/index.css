@@ -161,7 +161,6 @@
   --badge-icon-hover: theme("colors.neutral.200");
   --correct: theme("colors.lime.400");
   --incorrect: theme("colors.red.500");
-  --toast-foreground: theme("colors.neutral.800");
 }
 
 /*
