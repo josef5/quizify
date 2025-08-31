@@ -121,7 +121,6 @@ function Auth() {
                             className={cn(
                               "dark:bg-input border-settings-accent/20 h-6 rounded-xs pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
                             )}
-                            autoComplete="off"
                             autoCorrect="off"
                             spellCheck="false"
                           />
@@ -150,7 +149,6 @@ function Auth() {
                             className={cn(
                               "dark:bg-input border-settings-accent/20 h-6 rounded-xs pr-0 pl-2 text-xs autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))] md:text-xs",
                             )}
-                            autoComplete="off"
                             autoCorrect="off"
                             spellCheck="false"
                           />
