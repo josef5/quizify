@@ -34,6 +34,7 @@ export const QUIZ_PROMPTS_LOCAL_STORAGE_KEY = "quizifyPrompts";
 export const DARK_MODE_LOCAL_STORAGE_KEY = "mode";
 export const ANSWER_HOLD_DELAY = 1000; // Delay before showing the next question after an answer is selected
 export const QUESTION_COUNT_EXTRA = 5; // Add 5 questions to the quiz for randomization
+export const MAX_PROMPT_LABEL_LENGTH = 35;
 
 export const TOAST_OPTIONS = {
   success: {

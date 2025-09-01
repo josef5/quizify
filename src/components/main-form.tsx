@@ -193,9 +193,11 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
                           });
                         }}
                         tabIndex={0}
+                        title={prompt}
                       >
-                        {/* TODO: Truncate long prompts */}
-                        {prompt}
+                        {prompt.length > MAX_PROMPT_LABEL_LENGTH
+                          ? `${prompt.slice(0, MAX_PROMPT_LABEL_LENGTH)}...`
+                          : prompt}
                       </PromptBadge>
                     </li>
                   ))}
