@@ -1,8 +1,9 @@
-import { DIFFICULTY_LABELS } from "@/lib/constants";
+import { DIFFICULTY_LABELS, MAX_PROMPT_LABEL_LENGTH } from "@/lib/constants";
 import { type MainFormValues, MainFormSchema } from "@/lib/schemas/form-schema";
 import { useAuthStore } from "@/store/authStore";
 import { useProfileStore } from "@/store/profileStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Form,
@@ -16,7 +17,6 @@ import { Textarea } from "./ui/core/textarea";
 import PromptBadge from "./ui/prompt-badge";
 import PromptSelect from "./ui/prompt-select";
 import StartButton from "./ui/start-button";
-import { LoaderCircle } from "lucide-react";
 
 function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
   const form = useForm<MainFormValues>({
@@ -60,6 +60,8 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
 
     onSubmit(data);
   }
+
+  const showSavedPrompts = profileLoading || savedPrompts.length > 0;
 
   return (
     <FormProvider {...form}>
@@ -161,15 +163,14 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
             disabled={!isValid}
             aria-label="Start quiz"
           />
-          {profileLoading && (
-            <div className="my-8">
-              <LoaderCircle size={16} className="text-input animate-spin" />
-            </div>
-          )}
-          {savedPrompts.length > 0 && (
+          {showSavedPrompts && (
             <div className="my-8">
               <h2 className="mb-2 text-xs font-normal">
-                Previous Quiz Subjects:
+                {profileLoading ? (
+                  <LoaderCircle size={16} className="text-input animate-spin" />
+                ) : (
+                  `Previous Quiz Subjects:`
+                )}
               </h2>
               <ul className="flex flex-wrap gap-2 pl-0">
                 {savedPrompts
@@ -182,7 +183,9 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
                       <PromptBadge
                         onClick={(event) => {
                           event.preventDefault(); // Prevent form submission
-                          setValue("prompt", prompt, { shouldValidate: true });
+                          setValue("prompt", prompt, {
+                            shouldValidate: true,
+                          });
                         }}
                         onDelete={(event) => {
                           event.preventDefault(); // Prevent form submission
