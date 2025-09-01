@@ -8,7 +8,7 @@ import QuizQuestions from "./components/quiz-questions";
 import Results from "./components/results";
 import Settings from "./components/settings";
 import OpenSettingsButton from "./components/ui/open-settings-button";
-import { useFetchQuiz } from "./hooks/useFetchQuizDev";
+import { useFetchQuiz } from "./hooks/useFetchQuiz";
 import { MainFormValues } from "./lib/schemas/form-schema";
 import { sleep } from "./lib/utils";
 import { useAuthStore } from "./store/authStore";
