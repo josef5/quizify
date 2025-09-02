@@ -48,10 +48,13 @@ function App() {
   function transitionTo(nextState: GameState) {
     switch (nextState) {
       case "setup":
-      case "loading":
         resetQuizData();
         resetCurrentScore();
         resetUserAnswers();
+
+        window.scrollTo({ top: 0, behavior: "instant" });
+        break;
+      case "loading":
         break;
       case "playing":
         break;
