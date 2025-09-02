@@ -172,6 +172,7 @@ function MainForm({ onSubmit }: { onSubmit: (data: MainFormValues) => void }) {
                   `Previous Quiz Subjects:`
                 )}
               </h2>
+              {/* TODO: Use skeleton for badges when loading */}
               <ul className="flex flex-wrap gap-2 pl-0">
                 {savedPrompts
                   .slice()
