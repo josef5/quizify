@@ -96,7 +96,7 @@ function Settings() {
     <aside
       className={cn(
         "bg-settings-background text-settings-foreground overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
-        isOpen ? "h-28 sm:h-10" : "h-0",
+        isOpen ? "h-38 sm:h-10" : "h-0",
       )}
       aria-expanded={isOpen}
       aria-label="Settings"
@@ -104,7 +104,7 @@ function Settings() {
       <div className="pt-4 sm:pt-2">
         <FormProvider {...form}>
           <Form {...form}>
-            <div className="flex flex-1 flex-row items-center gap-3 sm:gap-2">
+            <div className="flex flex-1 flex-col items-center gap-3 sm:flex-row sm:gap-2">
               {profileLoading ? (
                 <LoaderCircle
                   size={18}
@@ -114,7 +114,7 @@ function Settings() {
                 <>
                   <form
                     onSubmit={form.handleSubmit(handleSubmit)}
-                    className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
+                    className="flex w-full flex-1 flex-col items-center gap-3 sm:flex-row sm:gap-2"
                   >
                     <FormField
                       control={control}
@@ -157,20 +157,22 @@ function Settings() {
                       </SaveButton>
                     </div>
                   </form>
-                  <SaveButton onClick={handleSignOut}>Sign Out</SaveButton>
-                  <div className="flex flex-col-reverse justify-between gap-2 sm:flex-row">
-                    <SettingsButton
-                      aria-label="Toggle dark mode"
-                      onClick={() => toggleDarkMode()}
-                    >
-                      {isDarkMode ? <Sun /> : <Moon />}
-                    </SettingsButton>
-                    <SettingsButton
-                      aria-label="Close settings"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <X />
-                    </SettingsButton>
+                  <div className="flex w-full flex-row items-center justify-between gap-2 sm:w-auto">
+                    <SaveButton onClick={handleSignOut}>Sign Out</SaveButton>
+                    <div className="flex flex-row justify-between gap-2 sm:flex-row">
+                      <SettingsButton
+                        aria-label="Toggle dark mode"
+                        onClick={() => toggleDarkMode()}
+                      >
+                        {isDarkMode ? <Sun /> : <Moon />}
+                      </SettingsButton>
+                      <SettingsButton
+                        aria-label="Close settings"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <X />
+                      </SettingsButton>
+                    </div>
                   </div>
                 </>
               )}

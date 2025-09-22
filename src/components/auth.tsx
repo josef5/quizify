@@ -88,7 +88,7 @@ function Auth() {
     <aside
       className={cn(
         "bg-settings-background text-settings-foreground overflow-hidden px-5 shadow-[inset_0_-1px_5px_1px_rgba(0,0,0,0.25)] transition-all duration-300 ease-in-out",
-        isOpen ? "h-28 sm:h-10" : "h-0",
+        isOpen ? "h-42 sm:h-10" : "h-0",
       )}
       aria-expanded={isOpen}
       aria-label="Login or Sign Up"
@@ -99,14 +99,14 @@ function Auth() {
             <div className="flex flex-1 flex-row gap-3 sm:gap-2">
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-1 flex-col items-center gap-2 sm:flex-row"
+                className="flex flex-1 flex-col items-center gap-3 sm:flex-row sm:gap-2"
               >
                 <FormField
                   control={control}
                   name="email"
                   render={({ field }) => {
                     return (
-                      <FormItem className="flex w-full flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
+                      <FormItem className="flex w-full flex-1 flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
                         <FormLabel className="flex-shrink-0 text-xs">
                           Email
                         </FormLabel>
@@ -134,7 +134,7 @@ function Auth() {
                   name="password"
                   render={({ field }) => {
                     return (
-                      <FormItem className="flex w-full flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
+                      <FormItem className="flex w-full flex-1 flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
                         <FormLabel className="flex-shrink-0 text-xs">
                           Password
                         </FormLabel>
@@ -157,28 +157,30 @@ function Auth() {
                     );
                   }}
                 />
-                <SaveButton className="min-w-20" type="submit">
-                  {mode === "signIn" ? "Sign In" : "Sign Up"}
-                </SaveButton>
-                <div className="flex w-4 justify-center">
-                  <FormField
-                    control={control}
-                    name="loginMode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Switch
-                            checked={mode === "signIn"}
-                            onCheckedChange={(checked) => {
-                              setMode(checked ? "signIn" : "signUp");
-                              field.onChange(checked ? "signIn" : "signUp");
-                            }}
-                            className="dark:data-[state=unchecked]:bg-settings-primary dark:data-[state=checked]:bg-settings-primary data-[state=checked]:bg-settings-primary data-[state=unchecked]:bg-settings-primary dark:[&_span]:data-[state=checked]:bg-foreground relative my-0 scale-60 rotate-90"
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                <div className="flex w-full flex-row items-center gap-2 sm:w-auto">
+                  <SaveButton className="min-w-20" type="submit">
+                    {mode === "signIn" ? "Sign In" : "Sign Up"}
+                  </SaveButton>
+                  <div className="flex w-4 justify-center">
+                    <FormField
+                      control={control}
+                      name="loginMode"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Switch
+                              checked={mode === "signIn"}
+                              onCheckedChange={(checked) => {
+                                setMode(checked ? "signIn" : "signUp");
+                                field.onChange(checked ? "signIn" : "signUp");
+                              }}
+                              className="dark:data-[state=unchecked]:bg-settings-primary dark:data-[state=checked]:bg-settings-primary data-[state=checked]:bg-settings-primary data-[state=unchecked]:bg-settings-primary dark:[&_span]:data-[state=checked]:bg-foreground relative my-0 scale-60 rotate-90"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </div>
               </form>
             </div>
