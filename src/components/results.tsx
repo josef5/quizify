@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { useRef } from "react";
 import FinishButton from "./ui/finish-button";
 
+// TODO: Improve reveal animation
+
 const Results = ({
   userAnswers,
   onRestart,
