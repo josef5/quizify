@@ -123,6 +123,7 @@ function Auth() {
                             )}
                             autoCorrect="off"
                             spellCheck="false"
+                            autoCapitalize="none"
                           />
                         </FormControl>
                       </FormItem>
@@ -151,6 +152,7 @@ function Auth() {
                             )}
                             autoCorrect="off"
                             spellCheck="false"
+                            autoCapitalize="none"
                           />
                         </FormControl>
                       </FormItem>

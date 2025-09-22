@@ -142,6 +142,7 @@ function Settings() {
                                 autoComplete="off"
                                 autoCorrect="off"
                                 spellCheck="false"
+                                autoCapitalize="none"
                               />
                             </FormControl>
                           </FormItem>
